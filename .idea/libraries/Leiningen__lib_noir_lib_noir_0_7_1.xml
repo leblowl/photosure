@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="Leiningen: lib-noir:lib-noir:0.7.1">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/lib-noir/lib-noir/0.7.1/lib-noir-0.7.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

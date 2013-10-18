@@ -1,0 +1,68 @@
+body
+{
+    background-color: #3B3B3B;
+    text-align: center;
+}
+
+#header
+{
+    width: 100%;
+    height: 50px;
+
+    clear: both;
+
+    background-color: white;
+}
+
+#index
+{
+    width: 100px;
+    height: 500px;
+    padding: 10px;
+    margin: 20px;
+
+    float: left;
+
+    list-style: none;
+    text-align: center;
+    background-color: #000000;
+}
+
+.chapter
+{
+}
+
+a:link
+{
+    text-decoration: none;
+    color: #FFFFFF;
+}
+
+a:visited { color: #3B3B3B; }
+a:active { color: #3B3B3B; }
+a:hover { color: #FFFFFF; }
+
+
+#content
+{
+    width: 50%;
+    height: 500px;
+    margin: 20px;
+    padding: 10px;
+
+    float: left;
+
+    background-color: #000000;
+}
+
+#footer
+{
+    width: 100%;
+    height: 50px;
+
+    clear: both;
+
+    background-color: white;
+}
+
+

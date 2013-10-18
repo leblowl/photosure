@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="Leiningen: crate:crate:0.2.3">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/crate/crate/0.2.3/crate-0.2.3.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

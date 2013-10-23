@@ -11,46 +11,33 @@ body
 
     clear: both;
 
-    background-color: white;
+    background-color: #000000;
 }
 
 #index
 {
-    width: 100px;
-    height: 500px;
-    padding: 10px;
-    margin: 20px;
-
-    float: left;
-
     list-style: none;
     text-align: center;
-    background-color: #000000;
+    background-color: black;
 }
 
 .chapter
 {
+    display: inline;
+    margin: 0px 25px;
+    color: #3B3B3B;
 }
-
-a:link
-{
-    text-decoration: none;
-    color: #FFFFFF;
-}
-
-a:visited { color: #3B3B3B; }
-a:active { color: #3B3B3B; }
-a:hover { color: #FFFFFF; }
+.chapter:hover { color: #FFFFFF; }
 
 
 #content
 {
     width: 50%;
     height: 500px;
-    margin: 20px;
+    margin: 20px auto;
     padding: 10px;
 
-    float: left;
+    clear: both;
 
     background-color: #000000;
 }
@@ -62,7 +49,7 @@ a:hover { color: #FFFFFF; }
 
     clear: both;
 
-    background-color: white;
+    background-color: #000000;
 }
 
 

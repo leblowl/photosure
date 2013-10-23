@@ -1,27 +1,10 @@
 (ns photosure.main
-  (:require [ajax.core :refer [GET POST]] 
-            [domina :refer [value by-id destroy-children! append!]]
-            [domina.events :refer [listen!]]
-            [dommy.template :as template]))
+  (:require-macros [enfocus.macros :as em])
+  (:require [enfocus.core :as ef]
+            [photosure.views.templates.home :as home]))
 
-(defn render-message [{:keys [message user]}]
-  [:li [:p {:id user} message " - " user]])
+(em/defaction setContent [chapter]
+  "#content" (ef/html-content (home/renderAbout)))
 
-(defn render-messages [messages]
-  (let [messages-div (by-id "messages")]
-    (destroy-children! messages-div)
-    (->> messages
-         (map render-message)         
-         (into [:ul])       
-         template/node     
-         (append! messages-div))))
-
-(defn add-message [_]
-  (POST "/add-message" 
-        {:params {:message (value (by-id "message"))
-                  :user    (value (by-id "user"))}
-         :handler render-messages}))
-
-(defn ^:export init []
-  (GET "/messages" {:handler render-messages})
-  (listen! (by-id "send") :click add-message))
+(em/at "#chapterHome" (ev/listen :click
+                                 (setContent "Home")))

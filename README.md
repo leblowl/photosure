@@ -1,19 +1,15 @@
 # photosure
 
-FIXME
+cpleblow gallery site using clojurescript + om
 
-## Prerequisites
+## Usage
 
-You will need [Leiningen][1] 2.0 or above installed.
-
-[1]: https://github.com/technomancy/leiningen
-
-## Running
-
-To start a web server for the application, run:
-
-    lein ring server
+lein cljsbuild once
+firefox photosure.html
 
 ## License
 
-Copyright © 2013 FIXME
+Copyright © 2014 Lucas Leblow
+
+Distributed under the Eclipse Public License either version 1.0 or (at
+your option) any later version.

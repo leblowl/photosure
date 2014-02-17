@@ -5,10 +5,17 @@
 (def app-state (atom {:list ["Lion" "Zebra"]}))
 
 
+(defn gallery [state owner]
+  (reify
+    om/IRender
+    (render [this]
+      (dom/div #js {:id "backdrop"}
+               (dom/div nil "Beginning")
+               (dom/div nil "Middle")
+               (dom/div nil "End")))))
 
-(om/root (fn [app owner]
-           (apply dom/ul
-                  nil
-                  (map (fn [text] (dom/li nil text)) (:list app))))
-         app-state
-         {:target (. js/document (getElementById "app"))})
+
+(defn run [app]
+  (om/root app app-state {:target (. js/document (getElementById "app"))}))
+
+(run gallery)

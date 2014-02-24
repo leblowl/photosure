@@ -4,8 +4,19 @@
             [om.dom :as dom :include-macros true]
             [cljs.core.async :refer [put! chan <!]]))
 
-(def app-state (atom {:photos ["I" "LOVE" "YOU"]}))
+(def app-state (atom {:photos ["I" "LOVE" "YOU"]
+                      :index 0}))
 
+(defn inc-index [app-state]
+  (swap! app-state assoc :index (inc (:index @app-state))))
+
+(defn get-next-photo [app-state]
+  (inc-index app-state)
+  (get (:photos @app-state) (:index @app-state)))
+
+(:photos app-state)
+
+(get-next-photo app-state)
 (defn photo [photo owner]
   (reify
     om/IRender
@@ -16,16 +27,30 @@
   (reify
     om/IRenderState
     (render-state [this {:keys [next]}]
-      (dom/button #js {:id "next-btn" :onClick (fn [e] (put! next "You asked for it!"))} "Next"))))
+      (dom/button #js {:id "next-btn" :onClick (fn [e] (put! next "+1"))} "Next"))))
 
 (defn gallery [app-state owner]
   (reify
-    om/IRender
-    (render [this]
+
+    om/IInitState
+    (init-state [_]
+      {:next (chan)})
+
+    om/IWillMount
+    (will-mount [_]
+      (let [next (om/get-state owner :next)]
+        (go (loop []
+              (let [photo (<! next)]
+                (om/transact! app-state :photos
+                  (fn [xs] (conj xs photo)))
+                (recur))))))
+
+    om/IRenderState
+    (render-state [this {:keys [next]}]
       (dom/div #js {:id "photo-gallery-container"}
         (apply dom/div #js {:id "photo-gallery"}
           (om/build-all photo (:photos app-state)))
-         (om/build next-btn app-state)))))
+         (om/build next-btn app-state {:init-state {:next next}})))))
 
 (defn run [app app-state]
   (om/root app app-state {:target (. js/document (getElementById "app"))}))

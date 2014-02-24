@@ -27,12 +27,21 @@ body, html {
   to {margin-left: 0px;}
 }
 
+@-webkit-keyframes leave {
+  from {margin-right: 0px;}
+  to {margin-right: -900px;}
+}
+
 .photo {
     color: blue;
 }
 
 .enter {
     -webkit-animation: enter 3s;
+}
+
+.leave {
+    -webkit-animation: leave 3s;
 }
 
 #next-btn {

@@ -4,7 +4,10 @@
             [om.dom :as dom :include-macros true]
             [cljs.core.async :refer [put! chan <!]]))
 
-(def app-state (atom {:photos ["I" "LOVE" "YOU"]
+(def photos ["I" "LOVE" "YOU"])
+(def index (atom 0))
+
+(def app-state (atom {:photos []
                       :index 0}))
 
 (defn inc-index [app-state]
@@ -14,14 +17,11 @@
   (inc-index app-state)
   (get (:photos @app-state) (:index @app-state)))
 
-(:photos app-state)
-
-(get-next-photo app-state)
 (defn photo [photo owner]
   (reify
     om/IRender
     (render [this]
-      (dom/div nil photo))))
+      (dom/div #js {:id photo :className "photo enter"} photo))))
 
 (defn next-btn [app-state owner]
   (reify

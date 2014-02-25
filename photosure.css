@@ -16,33 +16,44 @@ body, html {
 }
 
 #photo-gallery {
-    margin: 0px auto;
-    width: 800px;
-    height: 500px;
+    width: 70%;
+    height: 100%;
     overflow: hidden;
+    display: inline-block;
+    vertical-align: middle;
+
 }
 
 @-webkit-keyframes enter {
-  from {margin-left: -900px;}
-  to {margin-left: 0px;}
+  from {-webkit-transform: translate(-1500px, 0px);}
+  to {-webkit-transform: translate(0px, 0px);}
 }
 
 @-webkit-keyframes leave {
-  from {margin-right: 0px;}
-  to {margin-right: -900px;}
+  from {-webkit-transform: translate(0px, 0px);}
+  to {-webkit-transform: translate(0px, -1500px);}
 }
 
 .photo {
-    color: blue;
+    width: 50%;
+    display: inline-block;
 }
 
 .enter {
-    -webkit-animation: enter 3s;
+    -webkit-backface-visibility: hidden;
+    -webkit-animation: enter 3s forwards;
 }
 
 .leave {
-    -webkit-animation: leave 3s;
+    -webkit-animation: leave 3s forwards;
 }
 
 #next-btn {
+  color: white;
+  background-color: black;
+  border: white;
+  border-style: solid;
+  border-width: 1px;
+  display: inline-block;
+  vertical-align: middle;
 }

@@ -2,12 +2,12 @@
   (:require-macros [cljs.core.async.macros :refer [go]])
   (:require [om.core :as om :include-macros true]
             [om.dom :as dom :include-macros true]
-            [cljs.core.async :refer [put! chan <!]]))
+            [cljs.core.async :refer [put! chan <! timeout]]))
 
 (def photos ["I" "LOVE" "YOU"])
 (def index (atom 0))
 
-(def app-state (atom {:photos []
+(def app-state (atom {:photos [{:photo "flower1.jpg" :state "enter"}]
                       :index 0}))
 
 (defn inc-index [app-state]
@@ -21,13 +21,13 @@
   (reify
     om/IRender
     (render [this]
-      (dom/div #js {:id photo :className "photo enter"} photo))))
+      (dom/img #js {:src (:photo photo) :className (str "photo " (:state photo))}))))
 
 (defn next-btn [app-state owner]
   (reify
     om/IRenderState
     (render-state [this {:keys [next]}]
-      (dom/button #js {:id "next-btn" :onClick (fn [e] (put! next "+1"))} "Next"))))
+      (dom/button #js {:id "next-btn" :onClick (fn [e] (put! next "flower1.jpg"))} ">"))))
 
 (defn gallery [app-state owner]
   (reify
@@ -42,7 +42,12 @@
         (go (loop []
               (let [photo (<! next)]
                 (om/transact! app-state :photos
-                  (fn [xs] (conj xs photo)))
+                  (fn [xs]
+                    (assoc-in xs [0 :state] "leave")))
+                (<! (timeout 3000))
+                (om/transact! app-state :photos
+                  (fn [xs]
+                    (assoc-in xs [0 :state] "enter")))
                 (recur))))))
 
     om/IRenderState

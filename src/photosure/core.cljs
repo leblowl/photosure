@@ -7,7 +7,7 @@
 (def photos ["I" "LOVE" "YOU"])
 (def index (atom 0))
 
-(def app-state (atom {:photos [{:photo "flower1.jpg" :state "enter"}]
+(def app-state (atom {:photos [{:photo "rsc/flower1.jpg" :state "center"} {:photo "rsc/puppy1.jpg" :state "enter"}]
                       :index 0}))
 
 (defn inc-index [app-state]
@@ -49,11 +49,13 @@
               (let [photo (<! next)]
                 (om/transact! app-state :photos
                   (fn [xs]
-                    (assoc-in xs [0 :state] "center")))
+                    (assoc-in xs [0 :state] "leave")
+                    (assoc-in xs [1 :state] "center")))
                 (<! (timeout 1500))
                 (om/transact! app-state :photos
                   (fn [xs]
-                    (assoc-in xs [0 :state] "leave")))
+                    [] ;pop first item off
+                    (assoc-in xs [(count xs)] {:photo "rsc/puppy1.jpg" :state "enter"}))) ;push to tail
                 (recur))))))
 
     om/IRenderState

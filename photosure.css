@@ -43,16 +43,20 @@ body, html {
   left: 0;
   right: 0;
   margin: auto;
-  -webkit-transition: -webkit-transform .2s ease-in-out;
+  -webkit-transition: -webkit-transform .5s ease-in-out;
   -webkit-backface-visibility: hidden;
 }
 
 .enter {
+  -webkit-transform: translate3d(-1000px, 0px, 0px);
+}
+
+.center {
   -webkit-transform: translate3d(0px, 0px, 0px);
 }
 
 .leave {
-  -webkit-transform: translate3d(0px, 0px, 0px);
+  -webkit-transform: translate3d(1000px, 0px, 0px);
 }
 
 /* creds to Kushagra Agarwal @ cssdeck */

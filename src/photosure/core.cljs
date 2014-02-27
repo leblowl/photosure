@@ -49,11 +49,11 @@
               (let [photo (<! next)]
                 (om/transact! app-state :photos
                   (fn [xs]
-                    (assoc-in xs [0 :state] "leave")))
-                (<! (timeout 3000))
+                    (assoc-in xs [0 :state] "center")))
+                (<! (timeout 1500))
                 (om/transact! app-state :photos
                   (fn [xs]
-                    (assoc-in xs [0 :state] "enter")))
+                    (assoc-in xs [0 :state] "leave")))
                 (recur))))))
 
     om/IRenderState

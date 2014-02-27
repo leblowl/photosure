@@ -23,11 +23,17 @@
     (render [this]
         (dom/img #js {:src (:photo photo) :className (str "photo " (:state photo))}))))
 
+(defn prev-btn [app-state owner]
+  (reify
+    om/IRenderState
+    (render-state [this {:keys [next]}]
+      (dom/div #js {:id "prev-btn" :className "btn" :onClick (fn [e] (put! next "flower1.jpg"))}))))
+
 (defn next-btn [app-state owner]
   (reify
     om/IRenderState
     (render-state [this {:keys [next]}]
-      (dom/div #js {:id "next-btn" :onClick (fn [e] (put! next "flower1.jpg"))}))))
+      (dom/div #js {:id "next-btn" :className "btn" :onClick (fn [e] (put! next "flower1.jpg"))}))))
 
 (defn gallery [app-state owner]
   (reify
@@ -53,9 +59,10 @@
     om/IRenderState
     (render-state [this {:keys [next]}]
       (dom/div #js {:id "photo-gallery-container"}
+        (dom/div #js {:id "left-pane"} (om/build prev-btn app-state {:init-state {:next next}}))
         (apply dom/div #js {:id "photo-gallery"}
           (om/build-all photo (:photos app-state)))
-         (om/build next-btn app-state {:init-state {:next next}})))))
+        (dom/div #js {:id "right-pane"} (om/build next-btn app-state {:init-state {:next next}}))))))
 
 (defn run [app app-state]
   (om/root app app-state {:target (. js/document (getElementById "app"))}))

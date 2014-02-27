@@ -21,13 +21,13 @@
   (reify
     om/IRender
     (render [this]
-      (dom/img #js {:src (:photo photo) :className (str "photo " (:state photo))}))))
+        (dom/img #js {:src (:photo photo) :className (str "photo " (:state photo))}))))
 
 (defn next-btn [app-state owner]
   (reify
     om/IRenderState
     (render-state [this {:keys [next]}]
-      (dom/button #js {:id "next-btn" :onClick (fn [e] (put! next "flower1.jpg"))} ">"))))
+      (dom/div #js {:id "next-btn" :onClick (fn [e] (put! next "flower1.jpg"))}))))
 
 (defn gallery [app-state owner]
   (reify

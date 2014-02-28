@@ -42,6 +42,9 @@ body, html {
   left: 0;
   right: 0;
   margin: auto;
+}
+
+.slide {
   -webkit-transition: -webkit-transform .5s ease-in-out;
   -webkit-backface-visibility: hidden;
 }
@@ -51,6 +54,7 @@ body, html {
 }
 
 .center {
+  z-index: 500;
   -webkit-transform: translate3d(0px, 0px, 0px);
 }
 

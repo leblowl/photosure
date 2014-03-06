@@ -11,7 +11,6 @@ body, html {
   width: 100%;
   height: 100%;
   background-color: #111;
-  text-align: center;
 }
 
 #left-pane {
@@ -23,43 +22,42 @@ body, html {
 #photo-gallery {
   width: 70%;
   height: 100%;
-  display: inline-block;
   position: relative;
   overflow: hidden;
+  float: left;
 }
 
 #right-pane {
   height: 100%;
   width: 15%;
-  float: right;
+  float: left;
 }
 
 .photo {
-  height: 90%;
+  outline: 0;
+  max-width: 100%;
+  max-height: 90%;
+  height: auto;
   position: absolute;
   top: 0;
   bottom: 0;
+  margin: 0 0;
+  width: 30%;
+}
+
+.atleft {
   left: 0;
   right: 0;
-  margin: auto;
 }
 
-.slide {
-  -webkit-transition: -webkit-transform .5s ease-in-out;
-  -webkit-backface-visibility: hidden;
+.atcenter {
+  left: 270px;
+  right: 0;
 }
 
-.enter {
-  -webkit-transform: translate3d(-1000px, 0px, 0px);
-}
-
-.center {
-  z-index: 500;
-  -webkit-transform: translate3d(0px, 0px, 0px);
-}
-
-.leave {
-  -webkit-transform: translate3d(1000px, 0px, 0px);
+.atright {
+  right: 0;
+  left: 550px;
 }
 
 /* creds to Kushagra Agarwal @ cssdeck */

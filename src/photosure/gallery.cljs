@@ -1,4 +1,4 @@
-(ns photosure.core
+(ns photosure.gallery
   (:require-macros [cljs.core.async.macros :refer [go]])
   (:require [om.core :as om :include-macros true]
             [om.dom :as dom :include-macros true]
@@ -58,4 +58,4 @@
           (om/build-all photo (:current-photos app)))
         (dom/div #js {:id "right-pane"} (om/build next-btn app {:init-state {:next next-chan}}))))))
 
-(om/root gallery app-state {:target (. js/document (getElementById "app"))})
+(defn run [] (om/root gallery app-state {:target (. js/document (getElementById "gallery"))}))

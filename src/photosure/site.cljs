@@ -1,5 +1,6 @@
 (ns photosure.site
-  (:require [dommy.utils :as utils]
+  (:require [photosure.gallery]
+            [dommy.utils :as utils]
             [dommy.core :as dommy])
   (:use-macros [dommy.macros :only [node deftemplate sel sel1]]))
 
@@ -20,7 +21,8 @@
   (activate :#blog-link)
   (dommy/replace-contents! (sel1 :#dynamic-content) (blog)))
 
-(deftemplate gallery [] [:div#gallery "GALLERIA!"])
+(deftemplate gallery [] [:div#gallery])
 (defn render-gallery []
   (activate :#gallery-link)
-  (dommy/replace-contents! (sel1 :#dynamic-content) (gallery)))
+  (dommy/replace-contents! (sel1 :#dynamic-content) (gallery))
+  (photosure.gallery.run))

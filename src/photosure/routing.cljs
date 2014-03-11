@@ -8,16 +8,16 @@
 (secretary/set-config! :prefix "#")
 
 (defroute home-path "/" []
-  (js/alert "home!"))
+  (site/render-blog))
 
 (defroute bio-path "/bio" []
   (site/render-bio))
 
 (defroute blog-path "/blog" []
-  (js/alert "blog"))
+  (site/render-blog))
 
 (defroute gallery-path "/gallery" []
-  (js/alert "gallery"))
+  (site/render-gallery))
 
 (let [h (History.)]
   (goog.events/listen h EventType.NAVIGATE #(secretary/dispatch! (.-token %)))

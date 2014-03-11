@@ -31,6 +31,10 @@ a:hover {
   color: #333;
 }
 
+a.active {
+  color: #333;
+}
+
 #dynamic-content {
   width: 100%;
   height: 85%;
@@ -54,5 +58,13 @@ a:hover {
 }
 #bio-content {
   margin: 0;
+  color: white;
+}
+
+#blog {
+  color: white;
+}
+
+#gallery {
   color: white;
 }

@@ -1,0 +1,38 @@
+body, html {
+  height: 100%;
+}
+
+#static-header {
+  width: 100%;
+  height: 15%;
+  background-color: #111;
+  position: relative;
+}
+
+#link-wrapper {
+  position: absolute;
+  top: auto;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  text-align: center;
+}
+
+a {
+  text-decoration: none;
+  font-family: 'Poiret One';
+  font-size: 200%;
+  color: white;
+  margin: 10px 25px;
+}
+
+a:hover {
+  color: #333;
+}
+
+#dynamic-content {
+  width: 100%;
+  height: 85%;
+  background-color: #111;
+}

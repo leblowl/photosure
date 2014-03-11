@@ -29,7 +29,7 @@
   (reify
     om/IRenderState
     (render-state [this {:keys [next]}]
-      (dom/div #js {:id "next-btn" :className "btn" :onClick (fn [e] (put! next "flower1.jpg"))}))))
+      (dom/div #js {:id "next-btn" :className "btn" :onClick (fn [e] (put! next "cpleblow1.jpg"))}))))
 
 (defn gallery [app owner]
   (reify

@@ -17,4 +17,4 @@ goog.addDependency("../cljs/core/async/impl/timers.js", ['cljs.core.async.impl.t
 goog.addDependency("../cljs/core/async.js", ['cljs.core.async'], ['cljs.core.async.impl.ioc_helpers', 'cljs.core.async.impl.buffers', 'cljs.core', 'cljs.core.async.impl.channels', 'cljs.core.async.impl.dispatch', 'cljs.core.async.impl.protocols', 'cljs.core.async.impl.timers']);
 goog.addDependency("../photosure/core.js", ['photosure.core'], ['cljs.core', 'om.core', 'om.dom', 'cljs.core.async']);
 goog.addDependency("../secretary/core.js", ['secretary.core'], ['cljs.core', 'clojure.string']);
-goog.addDependency("../photosure/routing.js", ['photosure.routing'], ['cljs.core', 'secretary.core']);
+goog.addDependency("../photosure/routing.js", ['photosure.routing'], ['goog.history.EventType', 'cljs.core', 'secretary.core', 'goog.History', 'photosure.site', 'goog.events']);

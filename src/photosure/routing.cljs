@@ -1,13 +1,25 @@
 (ns photosure.routing
-  (:require [secretary.core :as secretary :include-macros true :refer [defroute]]))
+  (:require [secretary.core :as secretary :include-macros true :refer [defroute]]
+            [goog.events :as events]
+            [photosure.site :as site])
+  (:import goog.History
+           goog.history.EventType))
 
 (secretary/set-config! :prefix "#")
 
-(defroute bio-path "#bio" []
-  (js/alert "bio"))
+(defroute home-path "/" []
+  (js/alert "home!"))
 
-(defroute blog-path "#blog" []
+(defroute bio-path "/bio" []
+  (site/render-bio))
+
+(defroute blog-path "/blog" []
   (js/alert "blog"))
 
-(defroute gallery-path "#gallery" []
+(defroute gallery-path "/gallery" []
   (js/alert "gallery"))
+
+(let [h (History.)]
+  (goog.events/listen h EventType.NAVIGATE #(secretary/dispatch! (.-token %)))
+  (doto h
+    (.setEnabled true)))

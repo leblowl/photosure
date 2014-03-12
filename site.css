@@ -72,7 +72,7 @@ a.active {
   margin: auto;
   color: white;
   float: left;
-  border-left: .5em solid #111;
+  border-left: .5em solid #464368;
   padding-left: .5em;
 }
 
@@ -88,6 +88,7 @@ a.active {
   float: left;
   margin: auto;
   border: .5em solid #333;
+  border-top: .5em solid #464368;
 }
 
 #blog {

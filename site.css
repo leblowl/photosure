@@ -47,18 +47,47 @@ a.active {
   position: relative;
 }
 
-#bio-content-wrapper {
+#bio-wrapper {
   position: absolute;
-  top: 50%;
+  width: 50%;
+  top: 10%;
   bottom: 0;
   left: 0;
   right: 0;
   margin: auto;
   text-align: center;
 }
+
+#bio-content-wrapper {
+  width: 40%;
+  float: left;
+  margin-left: 2%;
+  padding: .5em;
+  background-color: #333;
+}
+
 #bio-content {
-  margin: 0;
+  text-align: left;
+  font-family: 'Open Sans Condensed', sans-serif;
+  margin: auto;
   color: white;
+  float: left;
+  border-left: .5em solid #111;
+  padding-left: .5em;
+}
+
+#bio-content h3 {
+  -webkit-margin-before: 0;
+  font-family: 'Poiret One';
+  font-weight: normal;
+}
+
+#me {
+  max-width: 50%;
+  max-height: 90%;
+  float: left;
+  margin: auto;
+  border: .5em solid #333;
 }
 
 #blog {

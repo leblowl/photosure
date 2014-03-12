@@ -11,7 +11,11 @@
     (dommy/remove-class! link :active))
   (dommy/add-class! (sel1 nav-id) :active))
 
-(deftemplate bio [] [:div#bio [:div#bio-content-wrapper [:p#bio-content "This is a story all about how my website got flipp turned upside up"]]])
+(deftemplate bio [] [:div#bio
+                     [:div#bio-wrapper
+                      [:img#me {:src "rsc/me.jpg"}]
+                      [:div#bio-content-wrapper
+                       [:p#bio-content [:h3 "C.P.Leblow"] "This is a story all about how my website got flipp turned upside up"]]]])
 (defn render-bio []
   (activate :#bio-link)
   (dommy/replace-contents! (sel1 :#dynamic-content) (bio)))

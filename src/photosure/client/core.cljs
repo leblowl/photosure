@@ -1,5 +1,5 @@
-(ns photosure.site
-  (:require [photosure.gallery]
+(ns photosure.client.core
+  (:require [photosure.client.gallery]
             [dommy.utils :as utils]
             [dommy.core :as dommy])
   (:use-macros [dommy.macros :only [node deftemplate sel sel1]]))
@@ -13,7 +13,7 @@
 
 (deftemplate bio [] [:div#bio
                      [:div#bio-wrapper
-                      [:img#me {:src "rsc/me.jpg"}]
+                      [:img#me {:src "images/me.jpg"}]
                       [:div#bio-content-wrapper
                        [:p#bio-content [:h3 "C.P.Leblow"] "This is a story all about how my website got flipp turned upside up"]]]])
 (defn render-bio []
@@ -29,4 +29,4 @@
 (defn render-gallery []
   (activate :#gallery-link)
   (dommy/replace-contents! (sel1 :#dynamic-content) (gallery))
-  (photosure.gallery.run))
+  (photosure.client.gallery.run))

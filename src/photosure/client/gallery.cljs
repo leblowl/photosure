@@ -1,4 +1,4 @@
-(ns photosure.gallery
+(ns photosure.client.gallery
   (:require-macros [cljs.core.async.macros :refer [go]])
   (:require [om.core :as om :include-macros true]
             [om.dom :as dom :include-macros true]
@@ -9,9 +9,9 @@
 (def app-state
   (atom
    {:current-photos
-    [{:photo "rsc/cpleblow1.jpg" :state "atleft"}
-     {:photo "rsc/cpleblow2.jpg" :state "atcenter"}
-     {:photo "rsc/cpleblow3.jpg" :state "atright"}]}))
+    [{:photo "images/cpleblow1.jpg" :state "atleft"}
+     {:photo "images/cpleblow2.jpg" :state "atcenter"}
+     {:photo "images/cpleblow3.jpg" :state "atright"}]}))
 
 (defn photo [photo owner]
   (reify

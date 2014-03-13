@@ -34,27 +34,30 @@
   outline: 0;
   max-width: 100%;
   max-height: 90%;
-  height: auto;
   position: absolute;
   top: 0;
   bottom: 0;
-  margin: 0 0;
-  width: 30%;
+  margin: auto;
+}
+
+.transition {
+  -webkit-transition: left .5s, right .5s;
+  -webkit-transition-timing-function: ease-out;
 }
 
 .atleft {
-  left: 0;
+  left: -200%;
   right: 0;
 }
 
 .atcenter {
-  left: 270px;
+  left: 0;
   right: 0;
 }
 
 .atright {
+  left: 100%;
   right: 0;
-  left: 550px;
 }
 
 /* creds to Kushagra Agarwal @ cssdeck */

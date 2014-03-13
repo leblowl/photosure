@@ -3,7 +3,7 @@
             [cljs.nodejs :as nodejs]))
 
 (defn say-hello [request response next]
-  (let [name request.params.name
+  (let [name (.-name (.-params request))
         response-body (cljs/clj->js {:name name})]
     (do
       (.send response response-body)

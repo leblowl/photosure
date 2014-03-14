@@ -1,3 +1,5 @@
+/* orange: #ff8307 */
+
 body, html {
   height: 100%;
 }
@@ -25,6 +27,7 @@ a {
   font-size: 200%;
   color: white;
   margin: 10px 25px;
+  padding-bottom: .1em;
 }
 
 a:hover {
@@ -33,6 +36,7 @@ a:hover {
 
 a.active {
   color: #333;
+  border-bottom: .1em solid #464368;
 }
 
 #dynamic-content {

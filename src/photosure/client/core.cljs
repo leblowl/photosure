@@ -20,7 +20,7 @@
   (activate :#bio-link)
   (dommy/replace-contents! (sel1 :#dynamic-content) (bio)))
 
-(deftemplate blog [] [:div#blog "Welcome to my blog"])
+(deftemplate blog [] [:div#blog-wrapper [:div#blog "under construction..."]])
 (defn render-blog []
   (activate :#blog-link)
   (dommy/replace-contents! (sel1 :#dynamic-content) (blog)))

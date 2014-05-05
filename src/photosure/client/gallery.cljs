@@ -6,29 +6,29 @@
 
 "I LOVE YOU"
 
+(defn image [filepath] {:photo filepath})
+
 (def app-state
   (atom
-   {:next-photos    [{:photo "images/puppy1.jpg" :state "atleft"}]
-
-    :current-photos [{:photo "images/cpleblow1.jpg" :state "atleft"}
-                     {:photo "images/cpleblow2.jpg" :state "atcenter"}
-                     {:photo "images/cpleblow3.jpg" :state "atright"}]
-
-    :prev-photos    [{:photo "images/flower1.jpg" :state "atright"}]}))
+   {:photos [(image "images/puppy1.jpg")
+             (image "images/cpleblow1.jpg")
+             (image "images/cpleblow2.jpg")]}))
 
 (defn photo [photo owner]
   (reify
     om/IRender
     (render [this]
-        (dom/img #js {:src (:photo photo) :id (:id photo) :className (str "photo " (:state photo))}))))
+      (.log js/console photo)
+      (dom/img #js {:src (:photo photo) :className (str "photo")}))))
 
 (defn slide-prev [app]
   (om/update! app [:current-photos 1 :state] "transition atleft")
   (om/update! app [:current-photos 2 :state] "transition atcenter"))
 
 (defn slide-next [app]
-  (om/update! app [:current-photos 1 :state] "transition atright")
-  (om/update! app [:current-photos 0 :state] "transition atcenter"))
+  ; (om/update! app [:current-photos 1 :state] "transition atright")
+  ; (om/update! app [:current-photos 0 :state] "transition atcenter")
+  )
 
 (defn prev-btn [app owner]
   (reify
@@ -47,37 +47,40 @@
     om/IInitState
     (init-state [_]
       {:next-chan (chan)
-       :prev-chan (chan)})
+       :prev-chan (chan)
+       :curr (atom #{0 1 2})})
 
     om/IWillMount
     (will-mount [_]
       (let [next-photo (om/get-state owner :next-chan)
             prev-photo (om/get-state owner :prev-chan)]
         (go (loop []
-              (let [photo (<! next-photo)]
-                (slide-next app)
+              (let [photo (<! next-photo)
+                    len (count (:photos app))]
+                (om/update-state! owner :curr (fn [_] (map #(mod (inc %) len) _)))
                 (<! (timeout 500))
-                (om/update! app [:current-photos 0 :state] "atcenter")
-                (om/update! app [:current-photos 1 :state] "atright")
-                (om/transact! app :current-photos (fn [xs] (into [photo] (pop xs))))
-                (om/transact! app :next-photos (fn [xs] (pop xs)))
                 (recur))))
         (go (loop []
-              (let [photo (<! prev-photo)]
-                (slide-prev app)
+              (let [photo (<! prev-photo)
+                    len (count (:photos app))]
+                (om/update-state! owner :curr (fn [_] (map #(mod (dec %) len) _)))
                 (<! (timeout 500))
-                (om/update! app [:current-photos 1 :state] "atleft")
-                (om/update! app [:current-photos 2 :state] "atcenter")
-                (om/transact! app :current-photos (fn [xs] (conj (subvec xs 1) photo)))
-                (om/transact! app :prev-photos (fn [xs] (pop xs)))
                 (recur))))))
 
+
+;    (let [curr (om/get-state owner :curr)]
+ ;     (filter  #(curr (second %)) (map vector (:photos app) (range)))
+  ;    {:key :photo}
+   ;)
+
     om/IRenderState
-    (render-state [this {:keys [prev-chan next-chan]}]
+    (render-state [this {:keys [prev-chan next-chan curr]}]
       (dom/div #js {:id "photo-gallery-container"}
-        (dom/div #js {:id "left-pane"} (om/build prev-btn app {:init-state {:prev prev-chan}}))
-        (apply dom/div #js {:id "photo-gallery"}
-          (om/build-all photo (:current-photos app) {:key :photo}))
-        (dom/div #js {:id "right-pane"} (om/build next-btn app {:init-state {:next next-chan}}))))))
+               (dom/div #js {:id "left-pane"} (om/build prev-btn app {:init-state {:prev prev-chan}}))
+               (apply dom/div #js {:id "photo-gallery"}
+                      (om/build-all photo
+                                    (let [curr2 (om/get-state owner :curr)]
+                                      (map first (filter #(@curr (second %)) (map vector (:photos app) (range)))))))
+               (dom/div #js {:id "right-pane"} (om/build next-btn app {:init-state {:next next-chan}}))))))
 
 (defn run [] (om/root gallery app-state {:target (. js/document (getElementById "gallery"))}))

@@ -33,54 +33,39 @@
 (defn prev-btn [app owner]
   (reify
     om/IRenderState
-    (render-state [this {:keys [prev]}]
-      (dom/div #js {:id "prev-btn" :className "btn" :onClick (fn [e] (put! prev (peek (:prev-photos @app-state))))}))))
+    (render-state [this {:keys [slide-chan]}]
+      (dom/div #js {:id "prev-btn" :className "btn" :onClick (fn [e] (put! slide-chan "prev"))}))))
 
 (defn next-btn [app owner]
   (reify
     om/IRenderState
-    (render-state [this {:keys [next]}]
-      (dom/div #js {:id "next-btn" :className "btn" :onClick (fn [e] (put! next (peek (:next-photos @app-state))))}))))
+    (render-state [this {:keys [slide-chan]}]
+      (dom/div #js {:id "next-btn" :className "btn" :onClick (fn [e] (put! slide-chan "next"))}))))
 
 (defn gallery [app owner]
   (reify
     om/IInitState
     (init-state [_]
-      {:next-chan (chan)
-       :prev-chan (chan)
+      {:slide-chan (chan)
        :curr (atom #{0 1 2})})
 
     om/IWillMount
     (will-mount [_]
-      (let [next-photo (om/get-state owner :next-chan)
-            prev-photo (om/get-state owner :prev-chan)]
+      (let [slide-chan (om/get-state owner :slide-chan)]
         (go (loop []
-              (let [photo (<! next-photo)
-                    len (count (:photos app))]
-                (om/update-state! owner :curr (fn [_] (map #(mod (inc %) len) _)))
-                (<! (timeout 500))
-                (recur))))
-        (go (loop []
-              (let [photo (<! prev-photo)
-                    len (count (:photos app))]
-                (om/update-state! owner :curr (fn [_] (map #(mod (dec %) len) _)))
+              (let [len (count (:photos @app))]
+                (if (= (<! slide-chan) "next")
+                  (om/update-state! owner :curr (fn [_] (map #(mod (inc %) len) _)))
+                  (om/update-state! owner :curr (fn [_] (map #(mod (dec %) len) _))))
                 (<! (timeout 500))
                 (recur))))))
 
-
-;    (let [curr (om/get-state owner :curr)]
- ;     (filter  #(curr (second %)) (map vector (:photos app) (range)))
-  ;    {:key :photo}
-   ;)
-
     om/IRenderState
-    (render-state [this {:keys [prev-chan next-chan curr]}]
+    (render-state [this {:keys [slide-chan curr]}]
       (dom/div #js {:id "photo-gallery-container"}
-               (dom/div #js {:id "left-pane"} (om/build prev-btn app {:init-state {:prev prev-chan}}))
+               (dom/div #js {:id "left-pane"} (om/build prev-btn app {:init-state {:slide-chan slide-chan}}))
                (apply dom/div #js {:id "photo-gallery"}
-                      (om/build-all photo
-                                    (let [curr2 (om/get-state owner :curr)]
-                                      (map first (filter #(@curr (second %)) (map vector (:photos app) (range)))))))
-               (dom/div #js {:id "right-pane"} (om/build next-btn app {:init-state {:next next-chan}}))))))
+                      (om/build-all photo (map first (filter #(@curr (second %)) (map vector (:photos app) (range)))) {:key :photo}))
+               (dom/div #js {:id "right-pane"} (om/build next-btn app {:init-state {:slide-chan slide-chan}}))))))
 
 (defn run [] (om/root gallery app-state {:target (. js/document (getElementById "gallery"))}))

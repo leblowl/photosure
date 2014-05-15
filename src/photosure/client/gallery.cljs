@@ -6,6 +6,9 @@
 
 "I LOVE YOU"
 
+(defn filter-indexed [f coll]
+  (map second (filter (fn [[ndx item]] (f ndx item)) (map vector (range) coll))))
+
 (defn image [filepath] {:photo filepath})
 
 (def app-state
@@ -19,16 +22,7 @@
     om/IRender
     (render [this]
       (.log js/console photo)
-      (dom/img #js {:src (:photo photo) :className (str "photo")}))))
-
-(defn slide-prev [app]
-  (om/update! app [:current-photos 1 :state] "transition atleft")
-  (om/update! app [:current-photos 2 :state] "transition atcenter"))
-
-(defn slide-next [app]
-  ; (om/update! app [:current-photos 1 :state] "transition atright")
-  ; (om/update! app [:current-photos 0 :state] "transition atcenter")
-  )
+      (dom/img #js {:src (:photo photo) :className "photo"}))))
 
 (defn prev-btn [app owner]
   (reify
@@ -47,7 +41,7 @@
     om/IInitState
     (init-state [_]
       {:slide-chan (chan)
-       :curr (atom #{0 1 2})})
+       :curr #{0 1 2}})
 
     om/IWillMount
     (will-mount [_]
@@ -55,17 +49,18 @@
         (go (loop []
               (let [len (count (:photos @app))]
                 (if (= (<! slide-chan) "next")
-                  (om/update-state! owner :curr (fn [_] (map #(mod (inc %) len) _)))
-                  (om/update-state! owner :curr (fn [_] (map #(mod (dec %) len) _))))
+                  (om/update-state! owner :curr (fn [_] (apply hash-set (map #(mod (inc %) len) _))))
+                  (om/update-state! owner :curr (fn [_] (apply hash-set (map #(mod (dec %) len) _)))))
+                (.log js/console (om/get-state owner :curr))
                 (<! (timeout 500))
                 (recur))))))
 
     om/IRenderState
     (render-state [this {:keys [slide-chan curr]}]
       (dom/div #js {:id "photo-gallery-container"}
-               (dom/div #js {:id "left-pane"} (om/build prev-btn app {:init-state {:slide-chan slide-chan}}))
-               (apply dom/div #js {:id "photo-gallery"}
-                      (om/build-all photo (map first (filter #(@curr (second %)) (map vector (:photos app) (range)))) {:key :photo}))
-               (dom/div #js {:id "right-pane"} (om/build next-btn app {:init-state {:slide-chan slide-chan}}))))))
+        (dom/div #js {:id "left-pane"} (om/build prev-btn app {:init-state {:slide-chan slide-chan}}))
+        (apply dom/div #js {:id "photo-gallery"}
+               (om/build-all photo (filter-indexed (fn [ndx item] (curr ndx)) (:photos app))))
+        (dom/div #js {:id "right-pane"} (om/build next-btn app {:init-state {:slide-chan slide-chan}}))))))
 
 (defn run [] (om/root gallery app-state {:target (. js/document (getElementById "gallery"))}))

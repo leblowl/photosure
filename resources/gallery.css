@@ -41,12 +41,12 @@
 }
 
 .left-center {
-    animation: left-center .5s;
+    animation: left-center 1s;
     animation-fill-mode: forwards;
 }
 
 .center-right {
-    animation: center-right .5s;
+    animation: center-right 1s;
     animation-fill-mode: forwards;
 }
 
@@ -75,12 +75,12 @@
 }
 
 .right-center {
-    animation: right-center .5s;
+    animation: right-center 1s;
     animation-fill-mode: forwards;
 }
 
 .center-left {
-    animation: center-left .5s;
+    animation: center-left 1s;
     animation-fill-mode: forwards;
 }
 

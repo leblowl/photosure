@@ -41,9 +41,9 @@
 }
 
 .transition {
-  transition: left .5s right .5s;
+  transition: left .5s, right .5s;
   transition-timing-function: ease-out;
-  -webkit-transition: left .5s right .5s;
+  -webkit-transition: left .5s, right .5s;
   -webkit-transition-timing-function: ease-out;
 }
 
@@ -52,14 +52,14 @@
   right: 0;
 }
 
-.right {
-  left: 100%;
-  right: 0;
-}
-
 .center {
   left: 0;
   right: 0;
+}
+
+.right {
+  left: 0;
+  right: -200%;
 }
 
 /* creds to Kushagra Agarwal @ cssdeck */

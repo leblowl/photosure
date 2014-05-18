@@ -29,14 +29,14 @@
 (defn prev-btn [app owner]
   (reify
     om/IRenderState
-    (render-state [this {:keys [slide-chan]}]
-      (dom/div #js {:id "prev-btn" :className "btn" :onClick (fn [e] (put! slide-chan "prev"))}))))
+    (render-state [this {:keys [slide-chan disabled]}]
+      (dom/div #js {:id "prev-btn" :className (str "btn" (when disabled " disabled")) :onClick (fn [e] (put! slide-chan "prev"))}))))
 
 (defn next-btn [app owner]
   (reify
     om/IRenderState
-    (render-state [this {:keys [slide-chan]}]
-      (dom/div #js {:id "next-btn" :className "btn" :onClick (fn [e] (put! slide-chan "next"))}))))
+    (render-state [this {:keys [slide-chan disabled]}]
+      (dom/div #js {:id "next-btn" :className (str "btn" (when disabled " disabled")) :onClick (fn [e] (put! slide-chan "next"))}))))
 
 (defn originate [app ndx from]
   (om/update! app [:photos ndx :pos] [from]))
@@ -48,7 +48,8 @@
   (reify
     om/IInitState
     (init-state [_]
-      {:slide-chan (chan)})
+      {:slide-chan (chan)
+       :anim-in-progress false})
 
     om/IWillMount
     (will-mount [_]
@@ -59,28 +60,32 @@
                 (if (= (<! slide-chan) "next")
                   (do
                     (om/transact! app :curr (fn [_] (apply vector (map #(mod (dec %) len) _))))
+                    (om/set-state! owner :anim-in-progress true)
                     (originate  app (get (:curr @app) 0) "left")
                     (transition app (get (:curr @app) 1) "center")
                     (transition app (get (:curr @app) 2) "right")
                     (<! (timeout 1000))
+                    (om/set-state! owner :anim-in-progress false)
                     (originate app (get (:curr @app) 1) "center")
                     (originate app (get (:curr @app) 2) "right"))
                   (do
                     (om/transact! app :curr (fn [_] (apply vector (map #(mod (inc %) len) _))))
+                    (om/set-state! owner :anim-in-progress true)
                     (transition app (get (:curr @app) 0) "left")
                     (transition app (get (:curr @app) 1) "center")
                     (originate  app (get (:curr @app) 2) "right")
                     (<! (timeout 1000))
+                    (om/set-state! owner :anim-in-progress false)
                     (originate app (get (:curr @app) 0) "left")
                     (originate app (get (:curr @app) 1) "center")))
                 (recur))))))
 
     om/IRenderState
-    (render-state [this {:keys [slide-chan curr]}]
+    (render-state [this {:keys [slide-chan anim-in-progress]}]
       (dom/div #js {:id "photo-gallery-container"}
-        (dom/div #js {:id "left-pane"} (om/build prev-btn app {:init-state {:slide-chan slide-chan}}))
+        (dom/div #js {:id "left-pane"} (om/build prev-btn app {:init-state {:slide-chan slide-chan} :state {:disabled anim-in-progress}}))
         (apply dom/div #js {:id "photo-gallery"}
                (om/build-all photo-view (:photos app) {:key :photo}))
-        (dom/div #js {:id "right-pane"} (om/build next-btn app {:init-state {:slide-chan slide-chan}}))))))
+        (dom/div #js {:id "right-pane"} (om/build next-btn app {:init-state {:slide-chan slide-chan} :state {:disabled anim-in-progress}}))))))
 
 (defn run [] (om/root gallery app-state {:target (. js/document (getElementById "gallery"))}))

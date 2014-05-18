@@ -142,6 +142,10 @@
     margin: 8px 0 0 5px;
 }
 
+.disabled {
+    pointer-events: none;
+}
+
 #prev-btn:hover {
   border: solid #FFF;
   border-width: 6px 6px 0 0;

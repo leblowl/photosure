@@ -23,7 +23,7 @@
     om/IRender
     (render [this]
       (.log js/console photo)
-      (dom/img #js {:src (:photo photo) :className (str "photo " (str/join " " (:pos photo)))}))))
+      (dom/img #js {:src (:photo photo) :className (str "photo " (str/join "-" (take-last 2 (:pos photo))))}))))
 
 (defn prev-btn [app owner]
   (reify
@@ -41,7 +41,7 @@
   (om/update! app [:photos ndx :pos] [from]))
 
 (defn transition [app ndx to]
-  (om/transact! app [:photos ndx :pos] #(conj % (str "transition " to))))
+  (om/transact! app [:photos ndx :pos] #(conj % to)))
 
 (defn gallery [app owner]
   (reify

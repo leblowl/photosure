@@ -47,17 +47,17 @@
   -webkit-transition-timing-function: ease-out;
 }
 
-.atleft {
+.left {
   left: -200%;
   right: 0;
 }
 
-.atright {
+.right {
   left: 100%;
   right: 0;
 }
 
-.atcenter {
+.center {
   left: 0;
   right: 0;
 }

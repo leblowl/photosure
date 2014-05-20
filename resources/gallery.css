@@ -43,22 +43,43 @@
 .left-center {
     animation: left-center 1s;
     animation-fill-mode: forwards;
+    -webkit-animation: left-center 1s;
+    -webkit-animation-fill-mode: forwards;
 }
 
 .center-right {
     animation: center-right 1s;
     animation-fill-mode: forwards;
+    -webkit-animation: center-right 1s;
+    -webkit-animation-fill-mode: forwards;
 }
 
 @keyframes left-center {
   from {
     left: -200%;
     right: 0;
+    opacity: 0;
   }
 
   to {
     left: 0;
     right: 0;
+    opacity: 1;
+  }
+}
+
+
+@-webkit-keyframes left-center {
+  from {
+    left: -200%;
+    right: 0;
+    opacity: 0;
+  }
+
+  to {
+    left: 0;
+    right: 0;
+    opacity: 1;
   }
 }
 
@@ -66,17 +87,36 @@
     from {
         left: 0;
         right: 0;
+        opacity: 1;
     }
 
     to {
         left: 0;
         right: -200%;
+        opacity: 0;
     }
 }
+
+@-webkit-keyframes center-right {
+    from {
+        left: 0;
+        right: 0;
+        opacity: 1;
+    }
+
+    to {
+        left: 0;
+        right: -200%;
+        opacity: 0;
+    }
+}
+
 
 .right-center {
     animation: right-center 1s;
     animation-fill-mode: forwards;
+    -webkit-animation: right-center 1s;
+    -webkit-animation-fill-mode: forwards;
 }
 
 .center-left {
@@ -88,11 +128,13 @@
     from {
         left: 0;
         right: -200%;
+        opacity: 0;
     }
 
     to {
         left: 0;
         right: 0;
+        opacity: 1;
     }
 }
 
@@ -100,11 +142,13 @@
     from {
         left: 0;
         right: 0;
+        opacity: 1;
     }
 
     to {
         left: -200%;
         right: 0;
+        opacity: 0;
     }
 }
 

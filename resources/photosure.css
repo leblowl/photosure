@@ -1,5 +1,9 @@
 /* orange: #ff8307 */
 
+a {
+    outline: none;
+}
+
 body, html {
   height: 100%;
 }

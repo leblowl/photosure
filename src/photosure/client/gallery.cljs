@@ -14,16 +14,18 @@
 
 (def app-state
   (atom
-   {:photos [(photo "images/puppy1.jpg" ["left"])
-             (photo "images/cpleblow1.jpg" ["center"])
-             (photo "images/cpleblow2.jpg" ["right"])]
+   {:photos [(photo "images/cpleblow1.jpg" ["left"])
+             (photo "images/cpleblow2.jpg" ["center"])
+             (photo "images/cpleblow3.jpg" ["right"])
+             (photo "images/cpleblow4.jpg" [])
+             (photo "images/cpleblow5.jpg" [])
+             (photo "images/cpleblow6.jpg" [])]
     :curr [0 1 2]}))
 
 (defn photo-view [photo owner]
   (reify
     om/IRender
     (render [this]
-      (.log js/console photo)
       (dom/img #js {:src (:photo photo) :className (str "photo " (str/join "-" (take-last 2 (:pos photo))))}))))
 
 (defn prev-btn [app owner]
@@ -44,6 +46,12 @@
 (defn transition [app ndx to]
   (om/transact! app [:photos ndx :pos] #(conj % to)))
 
+(defn disappear [app ndx]
+  (om/update! app [:photos ndx :pos] []))
+
+(defn get-curr-photo [app ndx]
+  (:photo (get (:photos @app) (get (:curr @app) 0))))
+
 (defn gallery [app owner]
   (reify
     om/IInitState
@@ -56,9 +64,9 @@
       (let [slide-chan (om/get-state owner :slide-chan)]
         (go (loop []
               (let [len (count (:photos @app))]
-                (.log js/console (get (:curr @app) 0))
                 (if (= (<! slide-chan) "next")
                   (do
+                    (disappear app (get (:curr @app) 2))
                     (om/transact! app :curr (fn [_] (apply vector (map #(mod (dec %) len) _))))
                     (om/set-state! owner :anim-in-progress true)
                     (originate  app (get (:curr @app) 0) "left")
@@ -69,6 +77,7 @@
                     (originate app (get (:curr @app) 1) "center")
                     (originate app (get (:curr @app) 2) "right"))
                   (do
+                    (disappear app (get (:curr @app) 0))
                     (om/transact! app :curr (fn [_] (apply vector (map #(mod (inc %) len) _))))
                     (om/set-state! owner :anim-in-progress true)
                     (transition app (get (:curr @app) 0) "left")
@@ -85,7 +94,7 @@
       (dom/div #js {:id "photo-gallery-container"}
         (dom/div #js {:id "left-pane"} (om/build prev-btn app {:init-state {:slide-chan slide-chan} :state {:disabled anim-in-progress}}))
         (apply dom/div #js {:id "photo-gallery"}
-               (om/build-all photo-view (:photos app) {:key :photo}))
+               (om/build-all photo-view (filter (fn [photo] (not (empty? (:pos photo)))) (:photos app)) {:key :photo}))
         (dom/div #js {:id "right-pane"} (om/build next-btn app {:init-state {:slide-chan slide-chan} :state {:disabled anim-in-progress}}))))))
 
 (defn run [] (om/root gallery app-state {:target (. js/document (getElementById "gallery"))}))

@@ -5,9 +5,10 @@ var session = require('express-session');
 var logfmt = require('logfmt');
 var passport = require('passport');
 var TumblrStrategy = require('passport-tumblr').Strategy;
+var tumblr = require('tumblr');
 
-var consumerKey = 'nArQ3AMh7kkiU72PjowZxx1eYZ0PxIFpHFojpxtsoqnjvEJ6CC';
-var consumerSecret = 'f3UwUKOEugWVbszKWUDfH4r2KcqP8hf67tzv0X5H7HVSAWrAig';
+var consumerKey = 'Tg1KPogMJGHntn64LnRYkTK0pAdlt5VdihWiDNEuNjrYH7TB20';
+var consumerSecret = 'DWkALXsUpaGntJjl7v3ZUbslcBIY2W3B5LIuHfAFoZug37UII4';
 var oauthToken;
 var oauthTokenSecret;
 
@@ -23,8 +24,8 @@ passport.deserializeUser(function(user, done) {
 
 passport.use(new TumblrStrategy(
     {
-        consumerKey: 'nArQ3AMh7kkiU72PjowZxx1eYZ0PxIFpHFojpxtsoqnjvEJ6CC',
-        consumerSecret: 'f3UwUKOEugWVbszKWUDfH4r2KcqP8hf67tzv0X5H7HVSAWrAig',
+        consumerKey: consumerKey,
+        consumerSecret: consumerSecret,
         callbackURL: 'http://127.0.0.1:5000/auth/tumblr/callback'
     },
     function(token, tokenSecret, profile, done) {
@@ -62,7 +63,14 @@ app.get('/tumblr',
         function(req, res) {
             console.log(oauthToken);
             console.log(oauthTokenSecret);
-            res.send('tumblr data!');
+            var blog = new tumblr.Blog('cpleblow.tumblr.com', { consumer_key: consumerKey,
+                                                                consumer_secret: consumerSecret,
+                                                                token: oauthToken,
+                                                                token_secret: oauthTokenSecret });
+            blog.text({}, function(err, res2) {
+
+                res.send(JSON.stringify(res2.posts, null, 4));
+            });
         });
 
 var port = Number(process.env.PORT || 5000);

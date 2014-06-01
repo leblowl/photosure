@@ -49,9 +49,6 @@
 (defn disappear [app ndx]
   (om/update! app [:photos ndx :pos] []))
 
-(defn get-curr-photo [app ndx]
-  (:photo (get (:photos @app) (get (:curr @app) 0))))
-
 (defn gallery [app owner]
   (reify
     om/IInitState

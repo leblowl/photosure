@@ -10,15 +10,24 @@
       (next))))
 
 (defn fetch-posts [request response next]
-  (let [tumblr (nodejs/require "tumblr.js")
-        client (.createClient tumblr cljs/clj->js {:consumer_key "nArQ3AMh7kkiU72PjowZxx1eYZ0PxIFpHFojpxtsoqnjvEJ6CC"
-                                                   :consumer_secret "f3UwUKOEugWVbszKWUDfH4r2KcqP8hf67tzv0X5H7HVSAWrAig"
-                                                   :token "fdlkjsa"
-                                                   :token_secret "fdkljsalfds"})
-        response-body (cljs/clj->js {:eh "maybe?"})]
+  (let [consumer_key "nArQ3AMh7kkiU72PjowZxx1eYZ0PxIFpHFojpxtsoqnjvEJ6CC"
+        consumer_secret "f3UwUKOEugWVbszKWUDfH4r2KcqP8hf67tzv0X5H7HVSAWrAig"
+        tumblr (nodejs/require "tumblr.js")
+        client (.createClient tumblr cljs/clj->js {:consumer_key consumer_key
+                                                   :consumer_secret consumer_secret})
+        response-body (cljs/clj->js {:eh "dude??"})
+        passport (nodejs/require "passport")
+        tumblr_strategy (.-Strategy (nodejs/require "passport-tumblr"))
+        strategy (tumblr_strategy cljs/clj->js {:consumerKey consumer_key
+                                                :consumerSecret consumer_secret})]
     (do
-      (.userInfo client (fn [err data] (.log js/console err) (.log js/console (.-blogs data))))
       (.send response response-body)
+      (next))))
+
+(defn recv [request response next]
+  (let [response-body (cljs/clj->js {:yo "whoah"})]
+    (do
+      (.redirect response "greeting/luke")
       (next))))
 
 (defn create-server []
@@ -30,6 +39,7 @@
     (do
       (.get server "/greeting/:name" say-hello)
       (.get server "/tumblr" fetch-posts)
+      (.get server "/auth/tumblr/callback" recv)
       (.get server static-file-regexp static-file-server))
     server))
 

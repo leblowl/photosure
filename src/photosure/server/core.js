@@ -1,0 +1,55 @@
+var express = require('express');
+var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
+var session = require('express-session');
+var logfmt = require('logfmt');
+var passport = require('passport');
+var TumblrStrategy = require('passport-tumblr').Strategy;
+
+passport.serializeUser(function(user, done) {
+    //complete tumblr profile is serialize here
+    //todo: only serialize ids with simple map lookup/storage
+    done(null, user);
+});
+
+passport.deserializeUser(function(user, done) {
+    done(null, obj);
+});
+
+passport.use(new TumblrStrategy(
+    {
+        consumerKey: 'nArQ3AMh7kkiU72PjowZxx1eYZ0PxIFpHFojpxtsoqnjvEJ6CC',
+        consumerSecret: 'f3UwUKOEugWVbszKWUDfH4r2KcqP8hf67tzv0X5H7HVSAWrAig',
+        callbackURL: 'http://127.0.0.1:5000/auth/tumblr/callback'
+    },
+    function(token, tokenSecret, profile, done) {
+        console.log("HERE!");
+        return done(null, profile);
+    }
+));
+
+var app = express();
+app.use(logfmt.requestLogger());
+app.use(cookieParser());
+app.use(bodyParser());
+app.use(session({ secret: 'keyboard cat' }));
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.get('/', function(req, res) {
+    res.send('Hello World!');
+});
+
+app.get('/auth/tumblr',
+        passport.authenticate('tumblr'),
+        function(req, res) {
+        });
+
+app.get('/auth/tumblr/callback', function(req, res) {
+    res.send('Call me back ;)!');
+});
+
+var port = Number(process.env.PORT || 5000);
+app.listen(port, function() {
+    console.log("Listening on " + port);
+});

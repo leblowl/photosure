@@ -6,6 +6,11 @@ var logfmt = require('logfmt');
 var passport = require('passport');
 var TumblrStrategy = require('passport-tumblr').Strategy;
 
+var consumerKey = 'nArQ3AMh7kkiU72PjowZxx1eYZ0PxIFpHFojpxtsoqnjvEJ6CC';
+var consumerSecret = 'f3UwUKOEugWVbszKWUDfH4r2KcqP8hf67tzv0X5H7HVSAWrAig';
+var oauthToken;
+var oauthTokenSecret;
+
 passport.serializeUser(function(user, done) {
     //complete tumblr profile is serialize here
     //todo: only serialize ids with simple map lookup/storage
@@ -13,7 +18,7 @@ passport.serializeUser(function(user, done) {
 });
 
 passport.deserializeUser(function(user, done) {
-    done(null, obj);
+    done(null, user);
 });
 
 passport.use(new TumblrStrategy(
@@ -23,8 +28,9 @@ passport.use(new TumblrStrategy(
         callbackURL: 'http://127.0.0.1:5000/auth/tumblr/callback'
     },
     function(token, tokenSecret, profile, done) {
-        console.log("HERE!");
-        return done(null, profile);
+        oauthToken = token;
+        oauthTokenSecret = tokenSecret;
+        return done(null,  profile);
     }
 ));
 
@@ -45,11 +51,28 @@ app.get('/auth/tumblr',
         function(req, res) {
         });
 
-app.get('/auth/tumblr/callback', function(req, res) {
-    res.send('Call me back ;)!');
-});
+app.get('/auth/tumblr/callback',
+        passport.authenticate('tumblr'),
+        function(req, res) {
+            res.redirect('/tumblr');
+        });
+
+app.get('/tumblr',
+        ensureAuthenticated,
+        function(req, res) {
+            console.log(oauthToken);
+            console.log(oauthTokenSecret);
+            res.send('tumblr data!');
+        });
 
 var port = Number(process.env.PORT || 5000);
 app.listen(port, function() {
     console.log("Listening on " + port);
 });
+
+function ensureAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) {
+        return next();
+    }
+    res.redirect('/auth/tumblr');
+}

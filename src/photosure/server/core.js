@@ -67,9 +67,11 @@ app.get('/tumblr',
                                                                 consumer_secret: consumerSecret,
                                                                 token: oauthToken,
                                                                 token_secret: oauthTokenSecret });
-            blog.text({}, function(err, res2) {
 
-                res.send(JSON.stringify(res2.posts, null, 4));
+            blog.posts({ offset: 0 }, function(err, res2) {
+
+                console.log(res2.posts.length);
+                res.send(JSON.stringify(res2, null, 4));
             });
         });
 

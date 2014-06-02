@@ -9,7 +9,8 @@
                  [org.clojure/core.async "0.1.267.0-0d7780-alpha"]
                  [om "0.6.2"]
                  [prismatic/dommy "0.1.2"]
-                 [secretary "1.0.2"]]
+                 [secretary "1.0.2"]
+                 [http-kit "2.1.18"]]
 
   :plugins [[lein-resource "0.3.6"]
             [lein-cljsbuild "1.0.2"]]

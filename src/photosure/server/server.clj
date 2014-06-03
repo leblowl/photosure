@@ -2,12 +2,23 @@
   (:require [org.httpkit.server :as srv])
   (:use [compojure.route :only [files not-found]]
         [compojure.handler :only [site]]
-        [compojure.core :only [defroutes GET POST DELETE ANY context]]))
+        [compojure.core :only [defroutes GET POST DELETE ANY context]]
+        [net.cgrand.enlive-html]))
+
+(def data {:blog_name "cpleblow"
+           :id 87345566689
+           :caption "found inside an open boxcar on a side track"
+           :photos [{:caption ""
+                     :alt_sizes [{:width 1280 :height 848 :url "http://37.media.tumblr.com/2abfbbc134982eac569dff1c5a1e26b5/tumblr_n6exohCKdZ1r7pi7mo1_500.jpg"}]}]})
+
+(deftemplate post "post.html" [id image caption]
+  [:div] (set-attr :id id)
+  [:div :div.photo :img] (set-attr :src image)
+  [:div :div.caption] (content caption))
 
 (defn show-blog [req]
   ;;enlive here
-  "<html><body><div>dude</div></body></html>"
-  )
+  (apply str (post (:id data) (get-in data [:photos 0 :alt_sizes 0 :url]) (:caption data))))
 
 (defroutes all-routes
   (GET "/blog" [] show-blog)

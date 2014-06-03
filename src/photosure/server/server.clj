@@ -1,6 +1,6 @@
 (ns photosure.server.server
   (:require [org.httpkit.server :as srv])
-  (:use [compojure.route :only [files not-found]]
+  (:use [compojure.route :only [files not-found resources]]
         [compojure.handler :only [site]]
         [compojure.core :only [defroutes GET POST DELETE ANY context]]
         [net.cgrand.enlive-html]))
@@ -22,7 +22,7 @@
 
 (defroutes all-routes
   (GET "/blog" [] show-blog)
-  (files "resources")
+  (resources "/")
   (not-found "<p>Page not found.</p>"))
 
 (defonce server (atom nil))

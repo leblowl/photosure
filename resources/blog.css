@@ -3,6 +3,7 @@ html {
 }
 
 .post {
-    background-color: #F5F5DC
+    background-color: #F5F5DC;
     border-radius: 15px;
+    width: 50%;
 }

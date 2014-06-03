@@ -16,22 +16,16 @@
                  [enlive "1.1.5"]
                  [clj-http "0.9.2"]]
 
-  :plugins [[lein-resource "0.3.6"]
-            [lein-cljsbuild "1.0.2"]]
+  :plugins [[lein-cljsbuild "1.0.2"]]
 
-  :cljsbuild {:builds [{:id "client"
-                        :source-paths ["src/photosure/client"]
-                        :compiler {:output-to "target/app/resources/public/js/client.js"
-                                   :output-dir "target/app/resources/public/js"
-                                   :optimizations :none}}
-                       {:id "server"
-                        :source-paths ["src/photosure/server"]
-                        :compiler {:output-to "target/app/server.js"
-                                   :optimizations :simple
-                                   :target :nodejs}}]}
+  :source-paths ["src/photosure/client" "src/photosure/server"]
+  :resource-paths ["resources"]
+  
+  :cljsbuild {:builds [{:id "dev"
+                        :source-paths ["src/photosure/client" "src/photosure/server"]
+                        :compiler {:output-to "resources/public/js/client.js"
+                                   :output-dir "resources/public/js"
+                                   :optimizations :none
+				   :source-map true}}]}
 
-  :resource {:resource-paths ["resources/public"]
-             :target-path "target/app/resources/public"
-             :skip-stencil [ #"resources/public/images/.*" ]}
-
-  :hooks [leiningen.cljsbuild leiningen.resource])
+  :hooks [leiningen.cljsbuild])

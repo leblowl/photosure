@@ -22,6 +22,7 @@
 
 (defroutes all-routes
   (GET "/blog" [] show-blog)
+  (files "resources")
   (not-found "<p>Page not found.</p>"))
 
 (defonce server (atom nil))

@@ -7,6 +7,8 @@ html {
     border-radius: 5px;
     margin-left: auto;
     margin-right: auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
     width: 50%;
     padding: 1em;
 }
@@ -19,4 +21,5 @@ html {
     display: block;
     margin-left: auto;
     margin-right: auto;
+    width: 90%;
 }

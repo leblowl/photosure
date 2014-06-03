@@ -10,7 +10,9 @@
                  [om "0.6.2"]
                  [prismatic/dommy "0.1.2"]
                  [secretary "1.0.2"]
-                 [http-kit "2.1.18"]]
+                 [http-kit "2.1.18"]
+		 [compojure "1.1.8"]
+                 [ring "1.3.0"]]
 
   :plugins [[lein-resource "0.3.6"]
             [lein-cljsbuild "1.0.2"]]

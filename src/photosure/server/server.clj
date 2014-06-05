@@ -24,20 +24,28 @@
   [:div :div.photo :img] (set-attr :src image)
   [:div :div.caption] (html-content caption))
 
-(deftemplate post-list "public/html/post.html" [posts]
+(deftemplate post-list-template "public/html/post.html" [posts]
   [:body] (content (map (fn [post] (post-list-item (:id post)
                                                   (get-in post [:photos 0 :alt_sizes 0 :url])
                                                   (:caption post)))
                         posts)))
 
+(deftemplate bio-template "public/html/bio.html" [image text]
+  [:img] (set-attr :src image)
+  [:p] (content text))
+
 (defn app [req]
   (file-response "public/html/photosure.html" {:root "resources"}))
 
+(defn bio [req]
+  (apply str (bio-template "public/images/me.jpg" "Hey it's me and this is my site. Check it out! But wait there is more...now for a limited time only you can harness the complete power of my site XL. Super large for a SUPER small price. Now check it!")))
+
 (defn blog [req]
-  (apply str (post-list posts)))
+  (apply str (post-list-template posts)))
 
 (defroutes all-routes
-  (GET "/" [] app)
+  (GET "/app" [] app)
+  (GET "/bio" [] bio)
   (GET "/blog" [] blog)
   (resources "/")
   (not-found "<p>Page not found.</p>"))

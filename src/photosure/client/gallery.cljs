@@ -94,4 +94,4 @@
                (om/build-all photo-view (filter (fn [photo] (not (empty? (:pos photo)))) (:photos app)) {:key :photo}))
         (dom/div #js {:id "right-pane"} (om/build next-btn app {:init-state {:slide-chan slide-chan} :state {:disabled anim-in-progress}}))))))
 
-(defn run [] (om/root gallery app-state {:target (. js/document (getElementById "gallery"))}))
+(defn render [] (om/root gallery app-state {:target (. js/document (getElementById "dynamic-content"))}))

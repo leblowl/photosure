@@ -8,7 +8,7 @@
                  [org.clojure/clojurescript "0.0-2173"]
                  [org.clojure/core.async "0.1.267.0-0d7780-alpha"]
                  [om "0.6.2"]
-                 [prismatic/dommy "0.1.2"]
+                 [enfocus "2.0.2"]
                  [secretary "1.0.2"]
                  [http-kit "2.1.18"]
 		 [compojure "1.1.8"]
@@ -20,7 +20,7 @@
 
   :source-paths ["src/photosure/client" "src/photosure/server"]
   :resource-paths ["resources"]
-  
+
   :cljsbuild {:builds [{:id "dev"
                         :source-paths ["src/photosure/client" "src/photosure/server"]
                         :compiler {:output-to "resources/public/js/client.js"

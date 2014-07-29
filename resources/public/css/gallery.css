@@ -167,6 +167,10 @@
   right: -200%;
 }
 
+.hidden {
+  display: none;
+}
+
 /* creds to Kushagra Agarwal @ cssdeck */
 #prev-btn {
     display: inline-block;

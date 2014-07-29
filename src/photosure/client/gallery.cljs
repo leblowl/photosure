@@ -26,7 +26,10 @@
   (reify
     om/IRender
     (render [this]
-      (dom/img #js {:src (:photo photo) :className (str "photo " (str/join "-" (take-last 2 (:pos photo))))}))))
+      (dom/img #js {:src (:photo photo)
+                    :className (str "photo " (if (empty? (:pos photo))
+                                               "hidden"
+                                               (str/join "-" (take-last 2 (:pos photo)))))}))))
 
 (defn prev-btn [app owner]
   (reify
@@ -89,9 +92,13 @@
     om/IRenderState
     (render-state [this {:keys [slide-chan anim-in-progress]}]
       (dom/div #js {:id "photo-gallery-container"}
-        (dom/div #js {:id "left-pane"} (om/build prev-btn app {:init-state {:slide-chan slide-chan} :state {:disabled anim-in-progress}}))
+        (dom/div #js {:id "left-pane"}
+          (om/build prev-btn app {:init-state {:slide-chan slide-chan}
+                                  :state {:disabled anim-in-progress}}))
         (apply dom/div #js {:id "photo-gallery"}
-               (om/build-all photo-view (filter (fn [photo] (not (empty? (:pos photo)))) (:photos app)) {:key :photo}))
-        (dom/div #js {:id "right-pane"} (om/build next-btn app {:init-state {:slide-chan slide-chan} :state {:disabled anim-in-progress}}))))))
+               (om/build-all photo-view (:photos app) {:key :photo}))
+        (dom/div #js {:id "right-pane"}
+          (om/build next-btn app {:init-state {:slide-chan slide-chan}
+                                  :state {:disabled anim-in-progress}}))))))
 
 (defn render [] (om/root gallery app-state {:target (. js/document (getElementById "dynamic-content"))}))

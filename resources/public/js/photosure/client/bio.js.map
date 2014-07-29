@@ -1,7 +1,16 @@
 {"version":3,
  "file":
- "/home/lucas/Scripture/GitHub/leblowl/photosure/resources/public/js/photosure/client/bio.js",
+ "/home/lucas/Scripture/leblowl/photosure/resources/public/js/photosure/client/bio.js",
  "sources":["bio.cljs"],
- "lineCount":5,
- "mappings":";AAAA",
- "names":[]}
+ "lineCount":47,
+ "mappings":
+ ";AAAA;;;;;;AAIA,2BAAA,cAAAA,gBAAA,AAAA,IAAAC,aAAAD,aAAAC,iBAAA,EAAA,AAAAC,+BAAAD,aAAA,AAAAE,0BAAAC,mBAAAH,YAAAA,sBAAA,AAAAI,wBAAAJ,eAAA,8DAAA,AAAAI,wBAAAJ,eAAA,oDAAA,raAAMK,oUAAaE,rGAAIC,7KAAMC,mXAC3B,AAAA,GAAA,OAAAC;CAAA;CAAA,AAAA,AAAA;;;;;;;;;;;;;;;AAAA,AAAA,AAAAA,6CAAA;AAAA,AAAA,AAAAA,gDAAA;AAAA,AAAA,AAAAA,qDAAA,WAAAC,mBAAAC,qBAAAC,mBAAA,AAAA,OAAAC,2BAAAF,qBAAA;;AAAA,AAAA,AAAA,AAAA,AAAAF,yDAAA;AAAA,AAAA,AAAA,AAAAA,uEAAA,WAEWQ;AAFX,AAAA,gBAAA,KAAA,jBAEWA,iBACP,OAAAC,cAAA,OAAA,OACE,AAAAA,cAAA,OAAA,oBACE,AAAAC,cAAA,0BAAA,lBAAgCb,8BAClC,AAAAc,YAAA,OAAA,SAAyBb;;AAN/B,AAAA,AAAA,AAAAE,sEAAA,WAAAK;AAAA,AAAA,IAAAA,aAAA,KAAA,AAAAC;;AAAA,AAAA,AAAA,AAAAN,+EAAA,WAAAK,OAAAC;mIADIV,rEAAaC,WAAIC,6BAAMC,tGAC3B,AAAA,IAAAM,aAAA,KAAA,AAAA,YAAAL,kDAAAV,+BAAAD,2BAAAiB;;+GADIV,iHAAAA,vKAAaC,iHAAAA,zGAAIC,iHAAAA,1FAAMC,iHAAAA,zMAC3B,AAAAQ,mCAAA,sCAAAjB,yBAAAD,qBAAAiB,WAAA,AAAA,YAAAN,4CAAAV,yBAAAD,qBAAAiB;;AAAAN;8EADIJ,tCAAaC,IAAIC,mBAAMC,/DAC3B,YAAAC,oCAAAV,qBAAAD,aAAA;;AAQF,8BAAA,mBAAA,jDAAMuB,iDAAU,uDAAA,2CAAA,mDAAA,MAAA,mDAAA,cAAA,2CAAA,hQAACC,uBAAQlB,kSAES,wBAAA,xBAAGmB",
+ "names":
+ ["p__10215", "map__10220", "cljs.core/seq?", "cljs.core/apply",
+  "cljs.core/hash-map", "cljs.core/get", "photosure.client.bio/bio",
+  "bio", "img", "txt", "owner", "photosure.client.bio/t10221",
+  "this__4010__auto__", "writer__4011__auto__", "opt__4012__auto__",
+  "cljs.core/-write", "_10223", "meta10222",
+  "photosure.client.bio/->t10221", "this", "js/React.DOM.div",
+  "js/React.DOM.img", "js/React.DOM.p", "photosure.client.bio/render",
+  "om.core/root", "js/document"]}

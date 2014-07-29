@@ -1,5 +1,6 @@
 (ns photosure.client.navigation
   (:require [photosure.client.gallery :as gallery]
+            [photosure.client.bio :as bio]
             [enfocus.core :as ef]
             [enfocus.events :as ef-events]
             [enfocus.effects :as ef-effects]
@@ -19,7 +20,7 @@
          {:id "tab2" :name "gallery" :path "/gallery"}]))
 
 (defroute "/bio" []
-  (js/console.log "bio"))
+  (bio/render))
 
 (defroute "/blog" []
   (js/console.log "blog"))

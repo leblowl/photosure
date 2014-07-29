@@ -1,6 +1,6 @@
 {"version":3,
  "file":
- "/home/lucas/Scripture/GitHub/leblowl/photosure/resources/public/js/cljs/core/async/impl/dispatch.js",
+ "/home/lucas/Scripture/leblowl/photosure/resources/public/js/cljs/core/async/impl/dispatch.js",
  "sources":["dispatch.cljs"],
  "lineCount":71,
  "mappings":

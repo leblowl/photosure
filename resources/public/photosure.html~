@@ -20,7 +20,6 @@
       <script type="text/javascript">
           goog.require("photosure.client.navigation");
           goog.require("photosure.client.gallery");
-          goog.require("photosure.client.bio");
       </script>
   </body>
 </html>

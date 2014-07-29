@@ -1,6 +1,6 @@
 {"version":3,
  "file":
- "/home/lucas/Scripture/GitHub/leblowl/photosure/resources/public/js/cljs/core/async/impl/buffers.js",
+ "/home/lucas/Scripture/leblowl/photosure/resources/public/js/cljs/core/async/impl/buffers.js",
  "sources":["buffers.cljs"],
  "lineCount":215,
  "mappings":

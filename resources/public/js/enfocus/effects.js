@@ -33,45 +33,45 @@ if(cljs.core.truth_(chain))
 {return null;
 }
 });})(pnod_col,cnt))
-;var seq__18076 = cljs.core.seq.call(null,pnod_col);var chunk__18077 = null;var count__18078 = 0;var i__18079 = 0;while(true){
-if((i__18079 < count__18078))
-{var pnod = cljs.core._nth.call(null,chunk__18077,i__18079);func.call(null,pnod,partial_cback);
+;var seq__15346 = cljs.core.seq.call(null,pnod_col);var chunk__15347 = null;var count__15348 = 0;var i__15349 = 0;while(true){
+if((i__15349 < count__15348))
+{var pnod = cljs.core._nth.call(null,chunk__15347,i__15349);func.call(null,pnod,partial_cback);
 {
-var G__18083 = seq__18076;
-var G__18084 = chunk__18077;
-var G__18085 = count__18078;
-var G__18086 = (i__18079 + 1);
-seq__18076 = G__18083;
-chunk__18077 = G__18084;
-count__18078 = G__18085;
-i__18079 = G__18086;
+var G__15353 = seq__15346;
+var G__15354 = chunk__15347;
+var G__15355 = count__15348;
+var G__15356 = (i__15349 + 1);
+seq__15346 = G__15353;
+chunk__15347 = G__15354;
+count__15348 = G__15355;
+i__15349 = G__15356;
 continue;
 }
 } else
-{var temp__4092__auto__ = cljs.core.seq.call(null,seq__18076);if(temp__4092__auto__)
-{var seq__18076__$1 = temp__4092__auto__;if(cljs.core.chunked_seq_QMARK_.call(null,seq__18076__$1))
-{var c__4191__auto__ = cljs.core.chunk_first.call(null,seq__18076__$1);{
-var G__18087 = cljs.core.chunk_rest.call(null,seq__18076__$1);
-var G__18088 = c__4191__auto__;
-var G__18089 = cljs.core.count.call(null,c__4191__auto__);
-var G__18090 = 0;
-seq__18076 = G__18087;
-chunk__18077 = G__18088;
-count__18078 = G__18089;
-i__18079 = G__18090;
+{var temp__4092__auto__ = cljs.core.seq.call(null,seq__15346);if(temp__4092__auto__)
+{var seq__15346__$1 = temp__4092__auto__;if(cljs.core.chunked_seq_QMARK_.call(null,seq__15346__$1))
+{var c__4191__auto__ = cljs.core.chunk_first.call(null,seq__15346__$1);{
+var G__15357 = cljs.core.chunk_rest.call(null,seq__15346__$1);
+var G__15358 = c__4191__auto__;
+var G__15359 = cljs.core.count.call(null,c__4191__auto__);
+var G__15360 = 0;
+seq__15346 = G__15357;
+chunk__15347 = G__15358;
+count__15348 = G__15359;
+i__15349 = G__15360;
 continue;
 }
 } else
-{var pnod = cljs.core.first.call(null,seq__18076__$1);func.call(null,pnod,partial_cback);
+{var pnod = cljs.core.first.call(null,seq__15346__$1);func.call(null,pnod,partial_cback);
 {
-var G__18091 = cljs.core.next.call(null,seq__18076__$1);
-var G__18092 = null;
-var G__18093 = 0;
-var G__18094 = 0;
-seq__18076 = G__18091;
-chunk__18077 = G__18092;
-count__18078 = G__18093;
-i__18079 = G__18094;
+var G__15361 = cljs.core.next.call(null,seq__15346__$1);
+var G__15362 = null;
+var G__15363 = 0;
+var G__15364 = 0;
+seq__15346 = G__15361;
+chunk__15347 = G__15362;
+count__15348 = G__15363;
+i__15349 = G__15364;
 continue;
 }
 }
@@ -81,42 +81,42 @@ continue;
 }
 break;
 }
-});if(typeof enfocus.effects.t18080 !== 'undefined')
+});if(typeof enfocus.effects.t15350 !== 'undefined')
 {} else
 {
 /**
 * @constructor
 */
-enfocus.effects.t18080 = (function (trans,callback,func,chainable_effect,meta18081){
+enfocus.effects.t15350 = (function (trans,callback,func,chainable_effect,meta15351){
 this.trans = trans;
 this.callback = callback;
 this.func = func;
 this.chainable_effect = chainable_effect;
-this.meta18081 = meta18081;
+this.meta15351 = meta15351;
 this.cljs$lang$protocol_mask$partition1$ = 0;
 this.cljs$lang$protocol_mask$partition0$ = 393216;
 })
-enfocus.effects.t18080.cljs$lang$type = true;
-enfocus.effects.t18080.cljs$lang$ctorStr = "enfocus.effects/t18080";
-enfocus.effects.t18080.cljs$lang$ctorPrWriter = (function (this__4010__auto__,writer__4011__auto__,opt__4012__auto__){return cljs.core._write.call(null,writer__4011__auto__,"enfocus.effects/t18080");
+enfocus.effects.t15350.cljs$lang$type = true;
+enfocus.effects.t15350.cljs$lang$ctorStr = "enfocus.effects/t15350";
+enfocus.effects.t15350.cljs$lang$ctorPrWriter = (function (this__4010__auto__,writer__4011__auto__,opt__4012__auto__){return cljs.core._write.call(null,writer__4011__auto__,"enfocus.effects/t15350");
 });
-enfocus.effects.t18080.prototype.enfocus$core$ITransform$ = true;
-enfocus.effects.t18080.prototype.enfocus$core$ITransform$apply_transform$arity$2 = (function (_,nodes){var self__ = this;
+enfocus.effects.t15350.prototype.enfocus$core$ITransform$ = true;
+enfocus.effects.t15350.prototype.enfocus$core$ITransform$apply_transform$arity$2 = (function (_,nodes){var self__ = this;
 var ___$1 = this;return self__.trans.call(null,nodes,null);
 });
-enfocus.effects.t18080.prototype.enfocus$core$ITransform$apply_transform$arity$3 = (function (_,nodes,chain){var self__ = this;
+enfocus.effects.t15350.prototype.enfocus$core$ITransform$apply_transform$arity$3 = (function (_,nodes,chain){var self__ = this;
 var ___$1 = this;return self__.trans.call(null,nodes,chain);
 });
-enfocus.effects.t18080.prototype.cljs$core$IMeta$_meta$arity$1 = (function (_18082){var self__ = this;
-var _18082__$1 = this;return self__.meta18081;
+enfocus.effects.t15350.prototype.cljs$core$IMeta$_meta$arity$1 = (function (_15352){var self__ = this;
+var _15352__$1 = this;return self__.meta15351;
 });
-enfocus.effects.t18080.prototype.cljs$core$IWithMeta$_with_meta$arity$2 = (function (_18082,meta18081__$1){var self__ = this;
-var _18082__$1 = this;return (new enfocus.effects.t18080(self__.trans,self__.callback,self__.func,self__.chainable_effect,meta18081__$1));
+enfocus.effects.t15350.prototype.cljs$core$IWithMeta$_with_meta$arity$2 = (function (_15352,meta15351__$1){var self__ = this;
+var _15352__$1 = this;return (new enfocus.effects.t15350(self__.trans,self__.callback,self__.func,self__.chainable_effect,meta15351__$1));
 });
-enfocus.effects.__GT_t18080 = (function __GT_t18080(trans__$1,callback__$1,func__$1,chainable_effect__$1,meta18081){return (new enfocus.effects.t18080(trans__$1,callback__$1,func__$1,chainable_effect__$1,meta18081));
+enfocus.effects.__GT_t15350 = (function __GT_t15350(trans__$1,callback__$1,func__$1,chainable_effect__$1,meta15351){return (new enfocus.effects.t15350(trans__$1,callback__$1,func__$1,chainable_effect__$1,meta15351));
 });
 }
-return (new enfocus.effects.t18080(trans,callback,func,chainable_effect,null));
+return (new enfocus.effects.t15350(trans,callback,func,chainable_effect,null));
 });
 /**
 * chains a series of effects and trasforms in sequences
@@ -136,9 +136,9 @@ var chains = null;if (arguments.length > 1) {
   chains = cljs.core.array_seq(Array.prototype.slice.call(arguments, 1),0);} 
 return chain__delegate.call(this,func,chains);};
 chain.cljs$lang$maxFixedArity = 1;
-chain.cljs$lang$applyTo = (function (arglist__18095){
-var func = cljs.core.first(arglist__18095);
-var chains = cljs.core.rest(arglist__18095);
+chain.cljs$lang$applyTo = (function (arglist__15365){
+var func = cljs.core.first(arglist__15365);
+var chains = cljs.core.rest(arglist__15365);
 return chain__delegate(func,chains);
 });
 chain.cljs$core$IFn$_invoke$arity$variadic = chain__delegate;

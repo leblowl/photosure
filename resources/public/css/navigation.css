@@ -10,6 +10,7 @@
 .banner {
     font-family: 'Poiret One';
     font-size: 200%;
+    color: white;
     margin: 0;
 }
 
@@ -31,6 +32,7 @@ a {
   text-decoration: none;
   font-family: 'Poiret One';
   font-size: 200%;
+  color:  #464368;
   margin: 10px 25px;
 }
 
@@ -47,11 +49,11 @@ a {
 }
 
 #tab0.active {
-    border-bottom: .2em solid #00a544;
+    border-bottom: .2em solid #464368;
 }
 
 #tab1.active {
-    border-bottom: .2em solid #ff5307;
+    border-bottom: .2em solid #464368;
 }
 
 #tab2.active {

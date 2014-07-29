@@ -1,6 +1,7 @@
 (ns photosure.client.navigation
   (:require [photosure.client.gallery :as gallery]
             [photosure.client.bio :as bio]
+            [photosure.client.blog :as blog]
             [secretary.core :as secretary :include-macros true :refer [defroute]]
             [goog.events :as events]
             [om.core :as om :include-macros true]
@@ -19,7 +20,7 @@
   (bio/render))
 
 (defroute "/blog" []
-  (js/console.log "blog"))
+  (blog/render))
 
 (defroute "/gallery" []
   (gallery/render))

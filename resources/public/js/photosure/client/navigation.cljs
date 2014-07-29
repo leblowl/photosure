@@ -1,14 +1,10 @@
 (ns photosure.client.navigation
   (:require [photosure.client.gallery :as gallery]
             [photosure.client.bio :as bio]
-            [enfocus.core :as ef]
-            [enfocus.events :as ef-events]
-            [enfocus.effects :as ef-effects]
             [secretary.core :as secretary :include-macros true :refer [defroute]]
             [goog.events :as events]
             [om.core :as om :include-macros true]
             [om.dom :as dom :include-macros true])
-  (:require-macros [enfocus.macros :as em])
   (:import goog.History
            goog.History.EventType))
 

@@ -1,13 +1,6 @@
 goog.addDependency("base.js", ['goog'], []);
 goog.addDependency("../cljs/core.js", ['cljs.core'], ['goog.string', 'goog.array', 'goog.object', 'goog.string.StringBuffer']);
-goog.addDependency("../enfocus/enlive/syntax.js", ['enfocus.enlive.syntax'], ['cljs.core']);
 goog.addDependency("../clojure/string.js", ['clojure.string'], ['cljs.core', 'goog.string', 'goog.string.StringBuffer']);
-goog.addDependency("../domina/support.js", ['domina.support'], ['cljs.core', 'goog.dom', 'goog.events']);
-goog.addDependency("../domina.js", ['domina'], ['goog.dom.classes', 'cljs.core', 'goog.string', 'goog.dom', 'clojure.string', 'goog.dom.xml', 'goog.style', 'goog.dom.forms', 'domina.support', 'goog.events']);
-goog.addDependency("../domina/xpath.js", ['domina.xpath'], ['cljs.core', 'goog.dom', 'domina']);
-goog.addDependency("../domina/css.js", ['domina.css'], ['cljs.core', 'goog.dom', 'domina', 'goog.dom.query']);
-goog.addDependency("../enfocus/core.js", ['enfocus.core'], ['goog.dom.classes', 'goog.Timer', 'cljs.core', 'enfocus.enlive.syntax', 'goog.dom.ViewportSizeMonitor', 'goog.async.Delay', 'goog.dom', 'domina.xpath', 'clojure.string', 'domina', 'goog.net.XhrIo', 'goog.style', 'goog.dom.query', 'domina.css', 'goog.events']);
-goog.addDependency("../enfocus/events.js", ['enfocus.events'], ['cljs.core', 'goog.dom', 'enfocus.core', 'goog.events']);
 goog.addDependency("../secretary/core.js", ['secretary.core'], ['cljs.core', 'clojure.string']);
 goog.addDependency("../om/dom.js", ['om.dom'], ['cljs.core']);
 goog.addDependency("../om/core.js", ['om.core'], ['cljs.core', 'om.dom', 'goog.ui.IdGenerator']);
@@ -19,6 +12,6 @@ goog.addDependency("../cljs/core/async/impl/channels.js", ['cljs.core.async.impl
 goog.addDependency("../cljs/core/async/impl/timers.js", ['cljs.core.async.impl.timers'], ['cljs.core', 'cljs.core.async.impl.channels', 'cljs.core.async.impl.dispatch', 'cljs.core.async.impl.protocols']);
 goog.addDependency("../cljs/core/async.js", ['cljs.core.async'], ['cljs.core.async.impl.ioc_helpers', 'cljs.core.async.impl.buffers', 'cljs.core', 'cljs.core.async.impl.channels', 'cljs.core.async.impl.dispatch', 'cljs.core.async.impl.protocols', 'cljs.core.async.impl.timers']);
 goog.addDependency("../photosure/client/gallery.js", ['photosure.client.gallery'], ['cljs.core', 'om.core', 'clojure.string', 'om.dom', 'cljs.core.async']);
-goog.addDependency("../enfocus/effects.js", ['enfocus.effects'], ['cljs.core', 'goog.fx', 'goog.fx.dom', 'enfocus.core', 'goog.style', 'goog.dom.query', 'goog.events']);
 goog.addDependency("../photosure/client/bio.js", ['photosure.client.bio'], ['cljs.core', 'om.core', 'om.dom']);
-goog.addDependency("../photosure/client/navigation.js", ['photosure.client.navigation'], ['cljs.core', 'enfocus.events', 'goog.History.EventType', 'secretary.core', 'om.core', 'goog.History', 'enfocus.core', 'photosure.client.gallery', 'enfocus.effects', 'om.dom', 'photosure.client.bio', 'goog.events']);
+goog.addDependency("../photosure/client/navigation.js", ['photosure.client.navigation'], ['cljs.core', 'goog.History.EventType', 'secretary.core', 'om.core', 'goog.History', 'photosure.client.gallery', 'om.dom', 'photosure.client.bio', 'goog.events']);
+goog.addDependency("../photosure/client/blog.js", ['photosure.client.blog'], ['cljs.core', 'om.core', 'om.dom']);

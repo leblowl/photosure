@@ -1,24 +1,24 @@
 .navigation-container {
-    width: 50%;
+    width: 100%;
     height: 100%;
-    margin-left: auto;
-    margin-right: auto;
     text-align: center;
-    padding: 1em;
 }
 
 .banner {
     font-family: 'Poiret One';
     font-size: 200%;
     color: white;
-    margin: 0;
+    margin: 10px;
+    margin-left: 20px;
+    float: left;
 }
 
 .nav {
     list-style-type: none;
-    margin: 0;
-    display: inline-block;
+    float: right;
     vertical-align: middle;
+    margin: 10px;
+    margin-right: 20px;
 }
 
 .nav li {

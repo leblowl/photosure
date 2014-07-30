@@ -175,7 +175,7 @@
 #prev-btn {
     display: inline-block;
     position: absolute;
-    top: 50%;
+    top: 45%;
     margin: auto;
 
     width: 10px;
@@ -203,7 +203,7 @@
 #next-btn {
     display: inline-block;
     position: absolute;
-    top: 50%;
+    top: 45%;
     margin: auto;
 
     width: 10px;

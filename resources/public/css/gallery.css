@@ -31,14 +31,15 @@
 }
 
 .frame {
-    width: 100%;
-    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
     position: absolute;
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;
     margin: auto;
+    padding: 1em;
 
     transition: transform 1s;
     -webkit-transition: -webkit-transform 1s;
@@ -80,47 +81,41 @@
 /* creds to Kushagra Agarwal @ cssdeck */
 #prev-btn {
     display: inline-block;
-    position: absolute;
-    top: 45%;
+    position: relative;
     margin: auto;
-
-    width: 10px;
-    height: 10px;
-    border: solid #333;
-    border-width: 6px 6px 0 0;
-    -webkit-transform: rotate(-135deg);
-    -moz-transform: rotate(-135deg);
-    -ms-transform: rotate(-135deg);
-    -o-transform: rotate(-135deg);
-    transform: rotate(-135deg);
-    margin: 8px 0 0 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    cursor: pointer;
 }
 
-#prev-btn:hover {
-  border: solid #FFF;
-  border-width: 6px 6px 0 0;
+#prev-arrow {
+    margin: 0;
+    font-size: 500%;
+    color: #333;
+}
+
+#prev-arrow:hover {
+  color: #FFF;
 }
 
 /* creds to Kushagra Agarwal @ cssdeck */
 #next-btn {
     display: inline-block;
-    position: absolute;
-    top: 45%;
+    position: relative;
     margin: auto;
-
-    width: 10px;
-    height: 10px;
-    border: solid #333;
-    border-width: 6px 6px 0 0;
-    -webkit-transform: rotate(45deg);
-    -moz-transform: rotate(45deg);
-    -ms-transform: rotate(45deg);
-    -o-transform: rotate(45deg);
-    transform: rotate(45deg);
-    margin: 8px 0 0 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    cursor: pointer;
 }
 
-#next-btn:hover {
-  border: solid #FFF;
-  border-width: 6px 6px 0 0;
+#next-arrow {
+    margin: 0;
+    font-size: 500%;
+    color: #333;
+}
+
+#next-arrow:hover {
+  color: #FFF;
 }

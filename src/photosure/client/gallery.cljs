@@ -3,7 +3,8 @@
   (:require [om.core :as om :include-macros true]
             [om.dom :as dom :include-macros true]
             [cljs.core.async :refer [put! chan <! timeout]]
-            [clojure.string :as str]))
+            [clojure.string :as str]
+            [goog.string :as gstr]))
 
 "I LOVE YOU"
 
@@ -35,7 +36,8 @@
     (render-state [this {:keys [slide-chan disabled]}]
       (dom/div #js {:id "prev-btn"
                     :className (str "btn" (when disabled " disabled"))
-                    :onClick (fn [e] (put! slide-chan "prev"))}))))
+                    :onClick (fn [e] (put! slide-chan "prev"))}
+        (dom/p #js {:id "prev-arrow"} (gstr/unescapeEntities "&#10092;"))))))
 
 (defn next-btn [app owner]
   (reify
@@ -43,7 +45,8 @@
     (render-state [this {:keys [slide-chan disabled]}]
       (dom/div #js {:id "next-btn"
                     :className (str "btn" (when disabled " disabled"))
-                    :onClick (fn [e] (put! slide-chan "next"))}))))
+                    :onClick (fn [e] (put! slide-chan "next"))}
+        (dom/p #js {:id "next-arrow"} (gstr/unescapeEntities "&#10093;"))))))
 
 (defn gallery [app owner]
   (reify

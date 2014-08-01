@@ -26,10 +26,11 @@
   (reify
     om/IRender
     (render [this]
-      (dom/img #js {:src (:photo photo)
-                    :className (str "photo " (if (empty? (:pos photo))
-                                               "hidden"
-                                               (str/join "-" (take-last 2 (:pos photo)))))}))))
+      (dom/div #js {:className (str "frame " (if (empty? (:pos photo))
+                                                "hidden"
+                                                (str/join "-" (take-last 2 (:pos photo)))))}
+       (dom/img #js {:src (:photo photo)
+                     :className "photo"})))))
 
 (defn prev-btn [app owner]
   (reify

@@ -1,7 +1,8 @@
 (ns photosure.client.blog
   (:require [om.core :as om :include-macros true]
             [om.dom :as dom :include-macros true]
-            [photosure.client.util :as util]))
+            [photosure.client.util :as util]
+            [goog.string :as gstr]))
 
 (enable-console-print!)
 
@@ -12,17 +13,17 @@
            :photos [{:caption ""
                      :alt_sizes [{:width 1280 :height 848 :url "http://37.media.tumblr.com/2abfbbc134982eac569dff1c5a1e26b5/tumblr_n6exohCKdZ1r7pi7mo1_500.jpg"}]}]})
 
-(def posts
+(def app-data
   (atom {:posts []}))
 
-(defn post-view [{:keys [post-id img-src caption]} owner]
+(defn post-view [{id :id [{{url :url} :original_size}] :photos caption :caption} owner]
   (reify
     om/IRender
     (render [this]
-      (dom/div #js {:id post-id :class "post"}
-        (dom/div #js {:class "photo"}
-          (dom/img #js {:src img-src}))
-        (dom/div #js {:class "caption"} caption)))))
+      (dom/div #js {:id id :className "post"}
+        (dom/div #js {:className "blog-photo"}
+          (dom/img #js {:src url}))
+        (dom/div #js {:className "caption"} caption)))))
 
 (defn posts-view [app owner]
   (reify
@@ -34,9 +35,10 @@
         :on-complete #(om/update! app :posts %)}))
     om/IRender
     (render [this]
-      (dom/div #js {:id "post-list"} (:posts app)))))
+      (apply dom/div #js {:id "post-list"}
+        (om/build-all post-view (:posts app))))))
 
 (defn render [] (om/root posts-view
-                         {}
+                         app-data
                          {:target (. js/document
                                      (getElementById "dynamic-content"))}))

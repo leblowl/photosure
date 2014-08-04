@@ -13,6 +13,7 @@
                  [http-kit "2.1.18"]
 		 [compojure "1.1.8"]
                  [ring "1.3.0"]
+                 [ring-edn "0.1.0"]
                  [enlive "1.1.5"]
                  [clj-http "0.9.2"]]
 

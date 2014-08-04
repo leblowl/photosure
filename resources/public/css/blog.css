@@ -19,3 +19,7 @@ html {
     margin-right: auto;
     width: 90%;
 }
+
+#post-list {
+    color: white;
+}

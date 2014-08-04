@@ -12,7 +12,7 @@
 
 (defn edn-xhr [{:keys [method url data on-complete]}]
   (let [xhr (XhrIo.)]
-    (events/listen xhr EventType.COMPLETE
+    (events/listen xhr goog.net.EventType.COMPLETE
                    (fn [e]
                      (on-complete (reader/read-string (.getResponseText xhr)))))
     (. xhr

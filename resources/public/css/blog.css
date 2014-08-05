@@ -1,5 +1,28 @@
-html {
-    background-color: black;
+#blog-gallery-container {
+  width: 100%;
+  height: 100%;
+  background-color: #111;
+  text-align: center;
+}
+
+#left-pane {
+  height: 100%;
+  width: 15%;
+  float: left;
+}
+
+#blog-gallery {
+  width: 70%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  float: left;
+}
+
+#right-pane {
+  height: 100%;
+  width: 15%;
+  float: left;
 }
 
 .post {
@@ -9,7 +32,6 @@ html {
     margin-right: auto;
     margin-top: 20px;
     margin-bottom: 20px;
-    width: 50%;
     padding: 1em;
 }
 
@@ -20,4 +42,9 @@ html {
 
 #post-list {
     color: black;
+    width: 100%;
+    height: 100%;
+    overflow-y: scroll;
 }
+
+.scroll {

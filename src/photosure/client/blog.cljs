@@ -3,7 +3,8 @@
             [om.dom :as dom :include-macros true]
             [photosure.client.util :as util]
             [goog.string :as gstr]
-            [hickory.core :as hikry]))
+            [hickory.core :as hikry]
+            [cljs.core.async :refer [put! chan <! timeout]]))
 
 (enable-console-print!)
 
@@ -49,9 +50,46 @@
     om/IRender
     (render [this]
       (apply dom/div #js {:id "post-list"}
-        (om/build-all post-view (:posts app))))))
+             (om/build-all post-view (:posts app))))))
 
-(defn render [] (om/root posts-view
+(defn prev-btn [app owner]
+  (reify
+    om/IRenderState
+    (render-state [this {:keys [slide-chan disabled]}]
+      (dom/div #js {:id "prev-btn"
+                    :className (str "btn" (when disabled " disabled"))
+                    :onClick (fn [e] (put! slide-chan "prev"))}
+        (dom/p #js {:id "prev-arrow"} (gstr/unescapeEntities "&#10092;"))))))
+
+(defn next-btn [app owner]
+  (reify
+    om/IRenderState
+    (render-state [this {:keys [slide-chan disabled]}]
+      (dom/div #js {:id "next-btn"
+                    :className (str "btn" (when disabled " disabled"))
+                    :onClick (fn [e] (put! slide-chan "next"))}
+        (dom/p #js {:id "next-arrow"} (gstr/unescapeEntities "&#10093;"))))))
+
+(defn blog [app owner]
+  (reify
+    om/IInitState
+    (init-state [_]
+      {:slide-chan (chan)
+       :anim-in-progress false})
+
+    om/IRenderState
+    (render-state [this {:keys [slide-chan anim-in-progress]}]
+      (dom/div #js {:id "blog-gallery-container"}
+        (dom/div #js {:id "left-pane"}
+          (om/build prev-btn app {:init-state {:slide-chan slide-chan}
+                                  :state {:disabled anim-in-progress}}))
+        (dom/div #js {:id "blog-gallery"}
+          (om/build posts-view app))
+        (dom/div #js {:id "right-pane"}
+          (om/build next-btn app {:init-state {:slide-chan slide-chan}
+                                  :state {:disabled anim-in-progress}}))))))
+
+(defn render [] (om/root blog
                          app-data
                          {:target (. js/document
                                      (getElementById "dynamic-content"))}))

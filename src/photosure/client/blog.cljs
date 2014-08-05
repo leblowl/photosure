@@ -2,28 +2,41 @@
   (:require [om.core :as om :include-macros true]
             [om.dom :as dom :include-macros true]
             [photosure.client.util :as util]
-            [goog.string :as gstr]))
+            [goog.string :as gstr]
+            [hickory.core :as hikry]))
 
 (enable-console-print!)
-
-(def post-example-data
-          {:blog_name "cpleblow"
-           :id 87345566689
-           :caption "found inside an open boxcar on a side track"
-           :photos [{:caption ""
-                     :alt_sizes [{:width 1280 :height 848 :url "http://37.media.tumblr.com/2abfbbc134982eac569dff1c5a1e26b5/tumblr_n6exohCKdZ1r7pi7mo1_500.jpg"}]}]})
 
 (def app-data
   (atom {:posts []}))
 
-(defn post-view [{id :id [{{url :url} :original_size}] :photos caption :caption} owner]
+(defn parse-caption [caption]
+  (map hikry/as-hiccup (hikry/parse-fragment caption)))
+
+(defn caption-line-view [caption-line owner]
+  (reify
+    om/IRender
+    (render [this]
+      (dom/p #js {} caption-line))))
+
+(defn caption-view [caption owner]
+  (reify
+    om/IRender
+    (render [this]
+      (apply dom/div #js {:className "caption"}
+        (om/build-all caption-line-view
+                      (map #(get % 2) (parse-caption caption)))))))
+
+(defn post-view [{id :id
+                  [{{url :url} :original_size}] :photos
+                  caption :caption} owner]
   (reify
     om/IRender
     (render [this]
       (dom/div #js {:id id :className "post"}
         (dom/div #js {:className "blog-photo"}
           (dom/img #js {:src url}))
-        (dom/div #js {:className "caption"} caption)))))
+        (om/build caption-view caption)))))
 
 (defn posts-view [app owner]
   (reify

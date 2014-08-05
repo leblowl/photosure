@@ -15,7 +15,8 @@
                  [ring "1.3.0"]
                  [ring-edn "0.1.0"]
                  [enlive "1.1.5"]
-                 [clj-http "0.9.2"]]
+                 [clj-http "0.9.2"]
+                 [hickory "0.5.3"]]
 
   :plugins [[lein-cljsbuild "1.0.2"]]
 

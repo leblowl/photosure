@@ -8,7 +8,7 @@
         [ring.middleware.edn :refer [wrap-edn-params]]
         [net.cgrand.enlive-html]))
 
-(def api "http://api.tumblr.com/v2/blog/cpleblow.tumblr.com/posts?api_key=Tg1KPogMJGHntn64LnRYkTK0pAdlt5VdihWiDNEuNjrYH7TB20&limit=2")
+(def api "http://api.tumblr.com/v2/blog/cpleblow.tumblr.com/posts?api_key=Tg1KPogMJGHntn64LnRYkTK0pAdlt5VdihWiDNEuNjrYH7TB20")
 (def post-data (get-in (client/get api {:as :json}) [:body :response :posts]))
 
 (defn generate-response [data & [status]]

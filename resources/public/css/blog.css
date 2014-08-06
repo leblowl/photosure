@@ -11,7 +11,6 @@
   height: 100%;
   position: relative;
   overflow: hidden;
-  border: 1px solid green;
   margin-left: auto;
   margin-right: auto;
 }
@@ -22,15 +21,18 @@
     overflow: auto;
     position: relative;
     padding-right: 20px;
+    padding-top: 1em;
     transform: translate3d(8px, 0, 0);
 }
 
 .post {
-    background-color: #F5F5DC;
-    color: black;
+    color: #666;
+    background-color: #0B0B0B;
     border-radius: 5px;
+    border: 2px solid black;
     margin-bottom: 20px;
     padding: 1em;
+    text-align: left;
 }
 
 .post .blog-photo img {

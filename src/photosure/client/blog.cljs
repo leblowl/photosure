@@ -81,7 +81,9 @@
     (render-state [this {:keys [slide-chan anim-in-progress]}]
       (dom/div #js {:id "blog-gallery-container"}
                (dom/div #js {:id "blog-gallery"}
-                        (om/build posts-view app))))))
+                        (dom/div #js {:className "scroll-header"})
+                        (om/build posts-view app)
+                        (dom/div #js {:className "scroll-footer"}))))))
 
 (defn render [] (om/root blog
                          app-data

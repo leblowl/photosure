@@ -8,6 +8,9 @@
   height: 100%;
   background-color: #111;
   text-align: center;
+  box-sizing: border-box;
+  padding-top: 1em;
+  padding-bottom: .5em;
 }
 
 #left-pane {
@@ -22,6 +25,12 @@
   position: relative;
   overflow: hidden;
   float: left;
+
+  background-color:  #0B0B0B;
+  box-sizing: border-box;
+  border: 2px solid black;
+  border-radius: 5px;
+
 }
 
 #right-pane {

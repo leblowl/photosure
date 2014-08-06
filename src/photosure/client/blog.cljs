@@ -80,14 +80,8 @@
     om/IRenderState
     (render-state [this {:keys [slide-chan anim-in-progress]}]
       (dom/div #js {:id "blog-gallery-container"}
-        (dom/div #js {:id "left-pane"}
-          (om/build prev-btn app {:init-state {:slide-chan slide-chan}
-                                  :state {:disabled anim-in-progress}}))
-        (dom/div #js {:id "blog-gallery"}
-          (om/build posts-view app))
-        (dom/div #js {:id "right-pane"}
-          (om/build next-btn app {:init-state {:slide-chan slide-chan}
-                                  :state {:disabled anim-in-progress}}))))))
+               (dom/div #js {:id "blog-gallery"}
+                        (om/build posts-view app))))))
 
 (defn render [] (om/root blog
                          app-data

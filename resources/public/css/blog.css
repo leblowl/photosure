@@ -3,34 +3,32 @@
   height: 100%;
   background-color: #111;
   text-align: center;
-}
-
-#left-pane {
-  height: 100%;
-  width: 15%;
-  float: left;
+  overflow: hidden;
 }
 
 #blog-gallery {
-  width: 70%;
+  width: 50%;
   height: 100%;
   position: relative;
   overflow: hidden;
-  float: left;
+  border: 1px solid green;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-#right-pane {
-  height: 100%;
-  width: 15%;
-  float: left;
+#post-list {
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    position: relative;
+    padding-right: 20px;
+    transform: translate3d(8px, 0, 0);
 }
 
 .post {
     background-color: #F5F5DC;
+    color: black;
     border-radius: 5px;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 20px;
     margin-bottom: 20px;
     padding: 1em;
 }
@@ -39,12 +37,3 @@
     max-width: 100%;
     max-height: 100%;
 }
-
-#post-list {
-    color: black;
-    width: 100%;
-    height: 100%;
-    overflow-y: scroll;
-}
-
-.scroll {

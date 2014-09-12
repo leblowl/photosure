@@ -18,7 +18,7 @@
                  [clj-http "0.9.2"]
                  [hickory "0.5.3"]]
   :main photosure.server
-
+  :min-lein-version "2.0.0"
   :plugins [[lein-cljsbuild "1.0.2"]]
 
   :source-paths ["src/clj"]

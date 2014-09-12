@@ -4,6 +4,7 @@ goog.addDependency("asserts/asserts.js", ['goog.asserts', 'goog.asserts.Assertio
 goog.addDependency("array/array.js", ['goog.array', 'goog.array.ArrayLike'], ['goog.asserts']);
 goog.addDependency("object/object.js", ['goog.object'], []);
 goog.addDependency("string/stringbuffer.js", ['goog.string.StringBuffer'], []);
+goog.addDependency("ui/idgenerator.js", ['goog.ui.IdGenerator'], []);
 goog.addDependency("disposable/idisposable.js", ['goog.disposable.IDisposable'], []);
 goog.addDependency("disposable/disposable.js", ['goog.Disposable', 'goog.dispose'], ['goog.disposable.IDisposable']);
 goog.addDependency("debug/entrypointregistry.js", ['goog.debug.EntryPointMonitor', 'goog.debug.entryPointRegistry'], ['goog.asserts']);
@@ -31,7 +32,6 @@ goog.addDependency("events/eventhandler.js", ['goog.events.EventHandler'], ['goo
 goog.addDependency("history/eventtype.js", ['goog.history.EventType'], []);
 goog.addDependency("history/event.js", ['goog.history.Event'], ['goog.events.Event', 'goog.history.EventType']);
 goog.addDependency("history/history.js", ['goog.History', 'goog.History.Event', 'goog.History.EventType'], ['goog.Timer', 'goog.dom', 'goog.events', 'goog.events.BrowserEvent', 'goog.events.Event', 'goog.events.EventHandler', 'goog.events.EventTarget', 'goog.events.EventType', 'goog.history.Event', 'goog.history.EventType', 'goog.string', 'goog.userAgent']);
-goog.addDependency("ui/idgenerator.js", ['goog.ui.IdGenerator'], []);
 goog.addDependency("structs/structs.js", ['goog.structs'], ['goog.array', 'goog.object']);
 goog.addDependency("structs/collection.js", ['goog.structs.Collection'], []);
 goog.addDependency("iter/iter.js", ['goog.iter', 'goog.iter.Iterator', 'goog.iter.StopIteration'], ['goog.array', 'goog.asserts']);

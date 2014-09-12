@@ -35,17 +35,17 @@
 
 (defonce server (atom nil))
 
-(defn start []
-  (reset! server (srv/run-server #'sapp {:port 3000})))
+(defn start [port]
+  (reset! server (srv/run-server #'sapp {:port port})))
 
 (defn stop []
   (when-not (nil? @server)
     (@server :timeout 100)
     (reset! server nil)))
 
-(defn restart []
+(defn restart [port]
   (stop)
-  (start))
+  (start port))
 
-(defn -main []
-  (start))
+(defn -main [& args]
+  (start (Integer. (first args))))

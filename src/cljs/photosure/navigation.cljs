@@ -1,4 +1,4 @@
-(ns photosure.client.navigation
+(ns photosure.navigation
   (:require [photosure.client.gallery :as gallery]
             [photosure.client.bio :as bio]
             [photosure.client.blog :as blog]

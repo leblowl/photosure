@@ -17,17 +17,16 @@
                  [enlive "1.1.5"]
                  [clj-http "0.9.2"]
                  [hickory "0.5.3"]]
+  :main photosure.server
 
   :plugins [[lein-cljsbuild "1.0.2"]]
 
-  :source-paths ["src/photosure/client" "src/photosure/server"]
+  :source-paths ["src/clj"]
   :resource-paths ["resources"]
 
   :cljsbuild {:builds [{:id "dev"
-                        :source-paths ["src/photosure/client" "src/photosure/server"]
+                        :source-paths ["src/cljs"]
                         :compiler {:output-to "resources/public/js/client.js"
                                    :output-dir "resources/public/js"
                                    :optimizations :none
-				   :source-map true}}]}
-
-  :hooks [leiningen.cljsbuild])
+				   :source-map true}}]})

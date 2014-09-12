@@ -1,4 +1,5 @@
-(ns photosure.server.server
+(ns photosure.server
+  (:gen-class :main true)
   (:require [org.httpkit.server :as srv]
             [clj-http.client :as client])
   (:use [compojure.route :only [files not-found resources]]
@@ -23,7 +24,7 @@
   (file-response "public/photosure.html" {:root "resources"}))
 
 (defroutes routes
-  (GET "/app" [] app)
+  (GET "/" [] app)
   (GET "/api/posts" [] posts)
   (resources "/")
   (not-found "<p>Page not found.</p>"))
@@ -46,5 +47,5 @@
   (stop)
   (start))
 
-(defn -main [&args]
+(defn -main []
   (start))

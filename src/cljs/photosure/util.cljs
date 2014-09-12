@@ -1,4 +1,4 @@
-(ns photosure.client.util
+(ns photosure.util
   (:require [cljs.reader :as reader]
             [goog.events :as events])
   (:import [goog.net XhrIo]

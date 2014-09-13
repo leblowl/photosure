@@ -11,6 +11,7 @@
 
 #bio {
     width: 70%;
+    max-width: 999px;
     height: 33%;
 
     position: absolute;

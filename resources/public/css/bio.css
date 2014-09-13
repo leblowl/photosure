@@ -44,7 +44,7 @@
 #selfie {
     outline: 0;
     max-height: 100%;
-    max-width: 100%;
+    max-width: 50%;
     position: relative;
     float: left;
 }

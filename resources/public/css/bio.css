@@ -27,8 +27,6 @@
 
     box-sizing: border-box;
     -webkit-box-sizing: border-box;
-
-    overflow: hidden;
 }
 
 #bio-liner {
@@ -58,11 +56,20 @@
 #about-container {
     box-sizing: border-box;
     -webkit-box-sizing: border-box;
+    height: 50%;
+    overflow: hidden;
+
+    display: table;
+    table-layout: fixed;
 }
 
 #about {
     margin: 0;
     font-family: 'Lato', sans-serif;
+
+    display: table-cell;
+    height: 100%;
+    vertical-align: middle;
 }
 
 @font-face {
@@ -79,10 +86,15 @@
 }
 
 .share-container {
+    height: 50%;
     font-family: 'Entypo', 'Entypo Social';
     font-size: 400%;
     color:  #464368;
     padding-top: .1em;
+
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+
 }
 
 .share-bar {

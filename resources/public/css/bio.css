@@ -11,7 +11,7 @@
 
 #bio {
     width: 70%;
-    height: 20%;
+    height: 30%;
 
     position: absolute;
     top: 0;
@@ -29,22 +29,6 @@
     -webkit-box-sizing: border-box;
 
     overflow: hidden;
-}
-
-#selfie-container {
-    height: 100%;
-    width: 0;
-    padding-left: 100%;
-    position: relative;
-
-
-    box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-
-    float: left;
-
-    //border-left: .5em solid #464368;
-    //padding-left: .5em;
 }
 
 #bio-liner {
@@ -65,9 +49,15 @@
     float: left;
 }
 
-#about-container {
+#info-container {
     height: 100%;
     padding-left: .5em;
+    overflow: hidden;
+}
+
+#about-container {
+    height: 50%;
+
     box-sizing: border-box;
     -webkit-box-sizing: border-box;
 
@@ -76,4 +66,36 @@
 
 #about {
     margin: 0;
+    font-family: 'Lato', sans-serif;
+}
+
+@font-face {
+    font-family: 'Entypo';
+    src: url('/fonts/entypo/entypo.woff'); format('woff'),
+         url('/fonts/entypo/entypo.tff'); format('truetype');
+}
+
+
+@font-face {
+    font-family: 'Entypo Social';
+    src: url('/fonts/entypo_social/entypo-social.woff'); format('woff'),
+         url('/fonts/entypo_social/entypo-social.tff'); format('truetype');
+}
+
+.share-container {
+    height: 50%;
+    font-family: 'Entypo', 'Entypo Social';
+    font-size: 400%;
+    color:  #464368;
+}
+
+.share-bar {
+    display: table;
+    table-layout: fixed;
+    height: 100%;
+}
+
+.share {
+    display: table-cell;
+    border: 1px solid  #464368;
 }

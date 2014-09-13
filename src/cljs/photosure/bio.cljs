@@ -21,6 +21,6 @@
                               (dom/div #js {:className "share"} (dom/div #js {:className "share-inner"} (gstr/unescapeEntities "&#9993;"))))))))))))
 
 (defn render [] (om/root bio
-                         {:img "images/me.jpg" :txt "Hey my name is Charles Leblow, I like to take photos and this is my site. Welcome! Since we have some time to talk alone now, I will tell you all about my deepest darkest secrets of interal fire and ice alchemy of the sacred heart!"}
+                         {:img "images/me.jpg" :txt "Hey my name is Charles Leblow, I like to take photos and this is my site. Welcome! Since we have some time to talk alone now, I will tell you all about my deepest darkest secrets of interal fire and ice alchemy of the sacred heart! Now here are the secrets: they are an array of 9 secrets, subdivided into 3 quadrants of 5 elliptical meshes, infinitely, outertwined into the fabric of life. One love, One life, One unity"}
                          {:target (. js/document
                                      (getElementById "dynamic-content"))}))

@@ -11,7 +11,7 @@
 
 #bio {
     width: 70%;
-    height: 30%;
+    height: 33%;
 
     position: absolute;
     top: 0;
@@ -44,7 +44,7 @@
 #selfie {
     outline: 0;
     max-height: 100%;
-    max-width: 50%;
+    max-width: 100%;
     position: relative;
     float: left;
 }
@@ -56,12 +56,8 @@
 }
 
 #about-container {
-    height: 50%;
-
     box-sizing: border-box;
     -webkit-box-sizing: border-box;
-
-    overflow:hidden;
 }
 
 #about {
@@ -83,19 +79,28 @@
 }
 
 .share-container {
-    height: 50%;
     font-family: 'Entypo', 'Entypo Social';
     font-size: 400%;
     color:  #464368;
+    padding-top: .1em;
 }
 
 .share-bar {
     display: table;
     table-layout: fixed;
-    height: 100%;
 }
 
 .share {
     display: table-cell;
-    border: 1px solid  #464368;
+    //border: 1px solid  #464368;
+    width: 20%;
+    height: 0;
+    padding-right: 10px;
+    padding-bottom: 20%;
+    margin-right: 2px;
+}
+
+.share-inner {
+    border: 1px solid #464368;
+    text-align: center;
 }

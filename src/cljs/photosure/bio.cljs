@@ -16,8 +16,9 @@
                              (dom/p #js {:id "about"} txt))
                     (dom/div #js {:className "share-container"}
                              (dom/div #js {:className "share-bar"}
-                              (dom/div #js {:className "share"} (gstr/unescapeEntities "&#62220;"))
-                              (dom/div #js {:className "share"} (gstr/unescapeEntities "&#62229;")))))))))))
+                              (dom/div #js {:className "share"} (dom/div #js {:className "share-inner"} (gstr/unescapeEntities "&#62220;")))
+                              (dom/div #js {:className "share"} (dom/div #js {:className "share-inner"} (gstr/unescapeEntities "&#62229;")))
+                              (dom/div #js {:className "share"} (dom/div #js {:className "share-inner"} (gstr/unescapeEntities "&#9993;"))))))))))))
 
 (defn render [] (om/root bio
                          {:img "images/me.jpg" :txt "Hey my name is Charles Leblow, I like to take photos and this is my site. Welcome! Since we have some time to talk alone now, I will tell you all about my deepest darkest secrets of interal fire and ice alchemy of the sacred heart!"}

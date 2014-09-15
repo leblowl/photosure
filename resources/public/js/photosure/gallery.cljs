@@ -12,12 +12,12 @@
 
 (def app-state
   (atom
-   {:photos [(photo "images/cpleblow1.jpg" ["left"])
-             (photo "images/cpleblow2.jpg" ["center"])
-             (photo "images/cpleblow3.jpg" ["right"])
+   {:photos [(photo "images/cpleblow1.jpg" ["center"])
+             (photo "images/cpleblow2.jpg" ["right"])
+             (photo "images/cpleblow3.jpg" [])
              (photo "images/cpleblow4.jpg" [])
              (photo "images/cpleblow5.jpg" [])
-             (photo "images/cpleblow6.jpg" [])]
+             (photo "images/cpleblow6.jpg" ["left"])]
     :curr [0 1 2]}))
 
 (defn photo-view [photo owner]

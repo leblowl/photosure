@@ -14,12 +14,12 @@
 
 (def app-state
   (atom
-    {:photos [(photo "images/cpleblow1.jpg" ["center"])
-              (photo "images/cpleblow2.jpg" ["right"])
-              (photo "images/cpleblow3.jpg" [])
+    {:photos [(photo "images/cpleblow2.jpg" ["left"])
+              (photo "images/cpleblow1.jpg" ["center"])
+              (photo "images/cpleblow3.jpg" ["right"])
               (photo "images/cpleblow4.jpg" [])
               (photo "images/cpleblow5.jpg" [])
-              (photo "images/cpleblow6.jpg" ["left"])]
+              (photo "images/cpleblow6.jpg" [])]
     :curr [0 1 2]}))
 
 (defn img-loaded [photo]

@@ -1,13 +1,13 @@
 (ns photosure.navigation
-  (:require [photosure.gallery :as gallery]
-            [photosure.bio :as bio]
+  (:require [photosure.bio :as bio]
             [photosure.blog :as blog]
+            [photosure.gallery :as gallery]
             [secretary.core :as secretary :include-macros true :refer [defroute]]
             [goog.events :as events]
+            [goog.history.EventType :as EventType]
             [om.core :as om :include-macros true]
             [om.dom :as dom :include-macros true])
-  (:import goog.History
-           goog.History.EventType))
+  (:import goog.History))
 
 (def history (History.))
 
@@ -36,7 +36,7 @@
 
 (defn on-navigate [event]
   (refresh-navigation)
-  (secretary/dispatch! (.-token event)))
+  (secretary/dispatch! (if (nil? (.-token event)) "/" (.-token event))))
 
 (doto history
   (events/listen EventType/NAVIGATE on-navigate)

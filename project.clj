@@ -4,23 +4,23 @@
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
 
-  :dependencies [[org.clojure/clojure "1.5.1"]
-                 [org.clojure/clojurescript "0.0-2173"]
+  :dependencies [[org.clojure/clojure "1.6.0"]
+                 [org.clojure/clojurescript "0.0-2322"]
                  [org.clojure/core.async "0.1.267.0-0d7780-alpha"]
-                 [om "0.6.5"]
-                 [enfocus "2.0.2"]
-                 [secretary "1.0.2"]
+                 [om "0.7.3"]
+                 [secretary "1.2.1"]
+                 [hickory "0.5.4"]
                  [http-kit "2.1.18"]
-		 [compojure "1.1.8"]
+                 [compojure "1.1.9"]
                  [ring "1.3.0"]
                  [ring-edn "0.1.0"]
-                 [enlive "1.1.5"]
-                 [clj-http "0.9.2"]
-                 [hickory "0.5.3"]]
+                 [clj-http "0.9.2"]]
   :main photosure.server
   :min-lein-version "2.0.0"
-  :plugins [[lein-cljsbuild "1.0.2"]]
+  :plugins [[lein-cljsbuild "1.0.3"]
+            [lein-pdo "0.1.1"]]
 
+  :aliases {"up" ["pdo" "cljsbuild" "auto," "run" "3399"]}
   :source-paths ["src/clj"]
   :resource-paths ["resources"]
 

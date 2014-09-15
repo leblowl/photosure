@@ -63,11 +63,7 @@
   (reify
     om/IRenderState
     (render-state [this {:keys [scroll-top scroll-height track-height]}]
-      (println (str "top " scroll-top))
-      (println (str "height " scroll-height))
-      (println (str "track height " track-height))
-      (println (str (Math/round
-                     (* 100 (/ scroll-top scroll-height)))))
+
       (dom/div #js {:className "scroll-bar"
                     :style #js {:top
                                 (str (Math/round
@@ -112,7 +108,9 @@
                                                    :scroll-height scroll-height
                                                    :track-height track-height}}))))))
 
-(defn render [] (om/root blog
-                         app-data
-                         {:target (. js/document
-                                     (getElementById "dynamic-content"))}))
+(defn render []
+  (println "YAY!")
+  (om/root blog
+    app-data
+    {:target (. js/document
+               (getElementById "dynamic-content"))}))

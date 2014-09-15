@@ -1,5 +1,5 @@
 (ns om.core
-  (:require-macros [om.core :refer [check allow-reads tag]])
+  (:require-macros [om.core :refer [check allow-reads]])
   (:require [om.dom :as dom :include-macros true])
   (:import [goog.ui IdGenerator]))
 
@@ -59,7 +59,7 @@
   (-get-render-state [this] [this ks]))
 
 (defprotocol ISetState
-  (-set-state! [this val] [this ks val]))
+  (-set-state! [this val render] [this ks val render]))
 
 ;; private render queue, for components that use local state
 ;; and independently addressable components
@@ -129,14 +129,6 @@
            (if-not (nil? tag)
              (notify* cursor (assoc tx-data :tag tag))
              (notify* cursor tx-data)))))))
-
-;; =============================================================================
-;; A Truly Pure Component
-;;
-;; This React class takes an immutable value as its props and an instance that
-;; must at a minimum implement IRender(State) as its children.
-;;
-;; (Pure. {:foo "bar"} irender-instance)
 
 (defn cursor? [x]
   (satisfies? ICursor x))
@@ -217,9 +209,10 @@
              id     (::id istate)
              ret    #js {:__om_id (or id (.getNextUniqueId (.getInstance IdGenerator)))
                          :__om_state
-                         (merge (dissoc istate ::id)
+                         (merge
                            (when (satisfies? IInitState c)
-                             (allow-reads (init-state c))))}]
+                             (allow-reads (init-state c)))
+                           (dissoc istate ::id))}]
          (aset props "__om_init_state" nil)
          ret)))
    :shouldComponentUpdate
@@ -235,18 +228,23 @@
              (should-update c
                (get-props #js {:props next-props})
                (-get-state this))
-             (cond
-               (not= (-value (aget props "__om_cursor"))
-                     (-value (aget next-props "__om_cursor")))
-               true
+             (let [cursor      (aget props "__om_cursor")
+                   next-cursor (aget next-props "__om_cursor")]
+              (cond
+                (not= (-value cursor) (-value next-cursor))
+                true
 
-               (not (nil? (aget state "__om_pending_state")))
-               true
+                (and (cursor? cursor) (cursor? next-cursor)
+                     (not= (-path cursor) (-path next-cursor )))
+                true
+               
+                (not (nil? (aget state "__om_pending_state")))
+                true
 
-               (not (== (aget props "__om_index") (aget next-props "__om_index")))
-               true
+                (not (== (aget props "__om_index") (aget next-props "__om_index")))
+                true
 
-               :else false))))))
+                :else false)))))))
    :componentWillMount
    (fn []
      (this-as this
@@ -322,21 +320,21 @@
   (specify! obj
     ISetState
     (-set-state!
-      ([this val]
+      ([this val render]
          (allow-reads
            (let [props     (.-props this)
                  app-state (aget props "__om_app_state")]
              (aset (.-state this) "__om_pending_state" val)
-             (when-not (nil? app-state)
+             (when (and (not (nil? app-state)) render)
                (-queue-render! app-state this)))))
-      ([this ks val]
+      ([this ks val render]
          (allow-reads
            (let [props     (.-props this)
                  state     (.-state this)
                  pstate    (-get-state this)
                  app-state (aget props "__om_app_state")]
              (aset state "__om_pending_state" (assoc-in pstate ks val))
-             (when-not (nil? app-state)
+             (when (and (not (nil? app-state)) render)
                (-queue-render! app-state this))))))
     IGetRenderState
     (-get-render-state
@@ -353,10 +351,8 @@
       ([this ks]
          (get-in (-get-state this) ks)))))
 
-(def ^:private Pure
-  (js/React.createClass (specify-state-methods! (clj->js pure-methods))))
-
-(defn pure [obj] (Pure. obj))
+(def pure-descriptor
+  (specify-state-methods! (clj->js pure-methods)))
 
 ;; =============================================================================
 ;; Cursors
@@ -390,6 +386,11 @@
   ICollection
   (-conj [_ o]
     (check (MapCursor. (-conj value o) state path)))
+  ;; EXPERIMENTAL
+  IEmptyableCollection
+  (-empty [_]
+    (check
+      (MapCursor. (empty value) state path)))
   ILookup
   (-lookup [this k]
     (-lookup this k nil))
@@ -423,6 +424,9 @@
       (if (cursor? other)
         (= value (-value other))
         (= value other))))
+  IHash
+  (-hash [_]
+    (check (hash value)))
   IPrintWithWriter
   (-pr-writer [_ writer opts]
     (check (-pr-writer value writer opts))))
@@ -457,6 +461,10 @@
   ICollection
   (-conj [_ o]
     (check (IndexedCursor. (-conj value o) state path)))
+  ;; EXPERIMENTAL
+  IEmptyableCollection
+  (-empty [_]
+    (check (IndexedCursor. (empty value) state path)))
   ILookup
   (-lookup [this n]
     (check (-nth this n nil)))
@@ -496,6 +504,9 @@
       (if (cursor? other)
         (= value (-value other))
         (= value other))))
+  IHash
+  (-hash [_]
+    (check (hash value)))
   IPrintWithWriter
   (-pr-writer [_ writer opts]
     (check (-pr-writer value writer opts))))
@@ -548,13 +559,28 @@
 
 (def ^:private roots (atom {}))
 
+(defn ^:private valid-component? [x f]
+  (assert
+    (or (satisfies? IRender x)
+        (satisfies? IRenderState x))
+    (str "Invalid Om component fn, " (.-name f)
+         " does not return valid instance")))
+
 (defn ^:private valid? [m]
   (every? #{:key :react-key :fn :init-state :state
-            :opts :shared ::index :instrument :ctor}
+            :opts :shared ::index :instrument :descriptor}
     (keys m)))
 
 (defn id [owner]
   (aget (.-state owner) "__om_id"))
+
+(defn get-descriptor
+  ([f] (get-descriptor f nil))
+  ([f descriptor]
+     (when (nil? (aget f "om$descriptor"))
+       (aset f "om$descriptor"
+         (js/React.createClass (or descriptor pure-descriptor))))
+     (aget f "om$descriptor")))
 
 (defn build*
   ([f cursor] (build* f cursor nil))
@@ -565,17 +591,18 @@
          (interpose ", " (keys m))))
      (cond
        (nil? m)
-       (let [shared (or (:shared m) (get-shared *parent*))
-             ctor   (or (:ctor m) pure)]
-         (tag
-           (ctor #js {:__om_cursor cursor
-                      :__om_shared shared
-                      :__om_app_state *state*
-                      :__om_instrument *instrument*
-                      :children
-                      (fn [this]
-                        (allow-reads (f cursor this)))})
-           f))
+       (let [shared (get-shared *parent*)
+             ctor   (get-descriptor f)]
+         (ctor #js {:__om_cursor cursor
+                    :__om_shared shared
+                    :__om_app_state *state*
+                    :__om_instrument *instrument*
+                    :children
+            (fn [this]
+              (allow-reads
+                (let [ret (f cursor this)]
+                  (valid-component? ret f)
+                  ret)))}))
 
        :else
        (let [{:keys [key state init-state opts]} m
@@ -589,23 +616,27 @@
                        (get cursor' key)
                        (get m :react-key))
              shared  (or (:shared m) (get-shared *parent*))
-             ctor    (or (:ctor m) pure)]
-         (tag
-           (ctor #js {:__om_cursor cursor'
-                      :__om_index (::index m)
-                      :__om_init_state init-state
-                      :__om_state state
-                      :__om_shared shared
-                      :__om_app_state *state*
-                      :__om_instrument *instrument*
-                      :key rkey
-                      :children
-                      (if (nil? opts)
-                        (fn [this]
-                          (allow-reads (f cursor' this)))
-                        (fn [this]
-                          (allow-reads (f cursor' this opts))))})
-           f)))))
+             ctor    (get-descriptor f (:descriptor m))]
+         (ctor #js {:__om_cursor cursor'
+                    :__om_index (::index m)
+                    :__om_init_state init-state
+                    :__om_state state
+                    :__om_shared shared
+                    :__om_app_state *state*
+                    :__om_instrument *instrument*
+                    :key rkey
+                    :children
+            (if (nil? opts)
+              (fn [this]
+                (allow-reads
+                  (let [ret (f cursor' this)]
+                    (valid-component? ret f)
+                    ret)))
+              (fn [this]
+                (allow-reads
+                  (let [ret (f cursor' this opts)]
+                    (valid-component? ret f)
+                    ret))))})))))
 
 (defn build
   "Builds an Om component. Takes an IRender/IRenderState instance
@@ -631,8 +662,9 @@
      :state      - a map of state to pass to the component, will be merged in.
      :opts       - a map of values. Can be used to pass side information down
                    the render tree.
-     :ctor       - a function that invokes a React component constructor
-                   that will back the Om component, defaults to pure.
+     :descriptor - a JS object of React methods, will be used to
+                   construct a React class per Om component function
+                   encountered. defaults to pure-descriptor.
 
    Example:
 
@@ -673,9 +705,8 @@
           (swap! listeners dissoc key)
           this)
         (-notify! [this tx-data root-cursor]
-          (when-not (nil? tx-listen)
-            (doseq [[_ f] @listeners]
-              (f tx-data root-cursor)))
+          (doseq [[_ f] @listeners]
+            (f tx-data root-cursor))
           this)
         IRenderQueue
         (-get-queue [this] @render-queue)
@@ -773,6 +804,12 @@
           (js/React.unmountComponentAtNode target)))
       (rootf))))
 
+(defn detach-root
+  "Given a DOM target remove its render loop if one exists."
+  [target]
+  (when-let [f (get @roots target)]
+    (f)))
+
 (defn transact!
   "Given a tag, a cursor, an optional list of keys ks, mutate the tree
    at the path specified by the cursor + the optional keys by applying
@@ -813,10 +850,18 @@
    sets the state of the component. Conceptually analagous to React
    setState. Will schedule an Om re-render."
   ([owner v]
-     (-set-state! owner v))
+     (-set-state! owner v true))
   ([owner korks v]
      (let [ks (if (sequential? korks) korks [korks])]
-       (-set-state! owner ks v))))
+       (-set-state! owner ks v true))))
+
+(defn set-state-nr!
+  "EXPERIMENTAL: Same as set-state! but does not trigger re-render."
+  ([owner v]
+     (-set-state! owner v false))
+  ([owner korks v]
+     (let [ks (if (sequential? korks) korks [korks])]
+       (-set-state! owner ks v false))))
 
 (defn update-state!
   "Takes a pure owning component, a sequential list of keys and a
@@ -826,6 +871,13 @@
      (set-state! owner (f (get-state owner))))
   ([owner korks f]
      (set-state! owner korks (f (get-state owner korks)))))
+
+(defn update-state-nr!
+  "EXPERIMENTAL: Same as update-state! but does not trigger re-render."
+  ([owner f]
+     (set-state-nr! owner (f (get-state owner))))
+  ([owner korks f]
+     (set-state-nr! owner korks (f (get-state owner korks)))))
 
 (defn refresh!
   "Utility to re-render an owner."
@@ -847,3 +899,4 @@
   "Returns true if in the React render phase."
   []
   (true? *read-enabled*))
+

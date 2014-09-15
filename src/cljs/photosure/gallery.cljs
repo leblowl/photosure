@@ -8,17 +8,27 @@
 
 "I LOVE YOU"
 
-(defn photo [filepath pos] {:photo filepath :pos pos})
+(defn photo [filepath pos] {:photo filepath
+                            :pos pos
+                            :loaded false})
 
 (def app-state
   (atom
-   {:photos [(photo "images/cpleblow1.jpg" ["center"])
-             (photo "images/cpleblow2.jpg" ["right"])
-             (photo "images/cpleblow3.jpg" [])
-             (photo "images/cpleblow4.jpg" [])
-             (photo "images/cpleblow5.jpg" [])
-             (photo "images/cpleblow6.jpg" ["left"])]
+    {:photos [(photo "images/cpleblow1.jpg" ["center"])
+              (photo "images/cpleblow2.jpg" ["right"])
+              (photo "images/cpleblow3.jpg" [])
+              (photo "images/cpleblow4.jpg" [])
+              (photo "images/cpleblow5.jpg" [])
+              (photo "images/cpleblow6.jpg" ["left"])]
     :curr [0 1 2]}))
+
+(defn img-loaded [photo]
+  (om/update! photo [:loaded] true))
+
+(defn all-loaded? []
+  (let [total (count (:photos @app-state))
+        loaded (count (get (group-by :loaded (:photos @app-state)) true))]
+    (= 1 (/ total loaded))))
 
 (defn photo-view [photo owner]
   (reify
@@ -27,8 +37,9 @@
       (dom/div #js {:className (str "frame " (if (empty? (:pos photo))
                                                 "hidden"
                                                 (get (:pos photo) 0)))}
-       (dom/img #js {:src (:photo photo)
-                     :className "photo"})))))
+        (dom/img #js {:className (str "photo" (when (:loaded photo) " loaded"))
+                      :src (:photo photo)
+                      :onLoad #(img-loaded photo)})))))
 
 (defn prev-btn [app owner]
   (reify
@@ -84,7 +95,7 @@
         (dom/div #js {:id "left-pane"}
           (om/build prev-btn app {:init-state {:slide-chan slide-chan}
                                   :state {:disabled anim-in-progress}}))
-        (apply dom/div #js {:id "photo-gallery"}
+        (apply dom/div #js {:id "photo-gallery" :className (when (all-loaded?) "loaded")}
                (om/build-all photo-view (:photos app) {:key :photo}))
         (dom/div #js {:id "right-pane"}
           (om/build next-btn app {:init-state {:slide-chan slide-chan}

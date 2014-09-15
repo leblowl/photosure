@@ -30,7 +30,16 @@
   box-sizing: border-box;
   border: 2px solid black;
   border-radius: 5px;
+}
 
+#photo-gallery div img {
+    opacity: 0;
+    transition: opacity 1s;
+    -webkit-transition: opacity: 1s;
+}
+
+#photo-gallery.loaded div img {
+    opacity: 1;
 }
 
 #right-pane {

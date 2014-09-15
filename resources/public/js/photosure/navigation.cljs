@@ -59,3 +59,5 @@
 (om/root navigation-view
          navigation-state
          {:target (. js/document (getElementById "static-header"))})
+
+(.setToken history "/bio")

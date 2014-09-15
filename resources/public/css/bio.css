@@ -1,3 +1,8 @@
+div {
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+
 #bio-container {
     width: 100%;
     height: 100%;
@@ -34,6 +39,7 @@
     width: 100%;
     height: 100%;
     border-left: .5em solid #464368;
+    border-radius: 5px;
     padding: .5em;
 
     box-sizing: border-box;
@@ -86,25 +92,23 @@
          url('/fonts/entypo_social/entypo-social.tff'); format('truetype');
 }
 
-.share-container {
+.shares-container {
     height: 50%;
-    font-family: 'Entypo', 'Entypo Social';
-    font-size: 400%;
-    color:  #464368;
     padding-top: .1em;
-
-    box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-
 }
 
-.share-bar {
-    display: table;
-    table-layout: fixed;
+.shares {
+    list-style-type: none;
+
+    display: flex;
+    flex-direction: row;
+    margin: 0;
+    width: 100%;
+    height: 100%;
 }
 
 .share {
-    display: table-cell;
+
     //border: 1px solid  #464368;
     width: 20%;
     height: 0;
@@ -113,7 +117,15 @@
     margin-right: 2px;
 }
 
-.share-inner {
+.share-link {
+    display: block;
+    margin: 0;
+}
+
+.share-icon {
     border: 1px solid #464368;
     text-align: center;
+
+    font-family: 'Entypo', 'Entypo Social';
+    color:  #464368;
 }

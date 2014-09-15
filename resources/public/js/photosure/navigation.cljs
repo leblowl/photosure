@@ -16,6 +16,9 @@
          {:id "tab1" :name "blog" :path "/blog"}
          {:id "tab2" :name "gallery" :path "/gallery"}]))
 
+(defroute "/" []
+  (set! (.-location js/window) "/#/bio"))
+
 (defroute "/bio" []
   (bio/render))
 
@@ -59,5 +62,3 @@
 (om/root navigation-view
          navigation-state
          {:target (. js/document (getElementById "static-header"))})
-
-(.setToken history "/bio")

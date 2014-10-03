@@ -15,30 +15,45 @@
 (defn parse-caption [caption]
   (map hikry/as-hiccup (hikry/parse-fragment caption)))
 
-(defn caption-line-view [caption-line owner]
+(defn text-line-view [caption-line owner]
   (reify
     om/IRender
     (render [this]
       (dom/p #js {} caption-line))))
 
-(defn caption-view [caption owner]
+(defn text-view [caption owner]
   (reify
     om/IRender
     (render [this]
       (apply dom/div #js {:className "caption"}
-        (om/build-all caption-line-view
-                      (map #(get % 2) (parse-caption caption)))))))
+        (om/build-all text-line-view
+          (map #(get % 2) (parse-caption caption)))))))
 
-(defn post-view [{id :id
-                  [{{url :url} :original_size}] :photos
-                  caption :caption} owner]
+(defn text-post-view [{id :id
+                       title :title
+                       body :body} owner]
+  (om/component
+    (dom/div #js {:id id :className "post"}
+      (dom/h2 #js {:className "blog-title"}
+        title)
+      (om/build text-view body))))
+
+(defn photo-post-view [{id :id
+                        [{{url :url} :original_size}] :photos
+                        caption :caption} owner]
+  (om/component
+    (dom/div #js {:id id :className "post"}
+      (dom/div #js {:className "blog-photo"}
+        (dom/img #js {:src url}))
+      (om/build text-view caption))))
+
+(defn post-view [{:keys [type] :as post} owner]
   (reify
     om/IRender
     (render [this]
-      (dom/div #js {:id id :className "post"}
-        (dom/div #js {:className "blog-photo"}
-          (dom/img #js {:src url}))
-        (om/build caption-view caption)))))
+      (if (= type "photo")
+        (om/build photo-post-view post)
+        (om/build text-post-view post)))))
 
 (defn posts-view [app owner]
   (reify
@@ -47,7 +62,8 @@
       (util/edn-xhr
        {:method :get
         :url "api/posts"
-        :on-complete #(om/update! app :posts %)}))
+        :on-complete (fn [_]
+                       (om/update! app :posts _))}))
 
     om/IRenderState
     (render-state [this {:keys [scroll-chan]}]
@@ -109,7 +125,7 @@
                                                    :track-height track-height}}))))))
 
 (defn render []
-  (println "YAY!")
+  (println "yo")
   (om/root blog
     app-data
     {:target (. js/document

@@ -118,13 +118,12 @@ div {
     height: 100%;
     display: flex;
 
-    background-color: #111;
-    border: 1px solid black;
+    border: 1px solid #464368;
 }
 
 .share-link:hover {
     background-color: #111;
-    border: 1px solid #464368;
+    border: 1px solid black;
 }
 
 .share-icon {

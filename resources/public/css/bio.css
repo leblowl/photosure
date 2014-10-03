@@ -118,7 +118,8 @@ div {
     height: 100%;
     display: flex;
 
-    border: 1px solid #464368;
+    background-color: #111;
+    border: 1px solid black;
 }
 
 .share-link:hover {

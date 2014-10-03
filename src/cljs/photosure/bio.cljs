@@ -8,17 +8,20 @@
                       :shares
                       [{:name "facebook"
                         :entity "&#62220;"
+                        :svg "images/facebook.svg"
                         :href "https://www.facebook.com/cpleblow"}
 
                        {:name "tumblr"
                         :entity "&#62229;"
+                        :svg "images/tumblr.svg"
                         :href "http://cpleblow.tumblr.com/"}
 
                        {:name "email"
                         :entity "&#9993;"
+                        :svg "images/envelope.svg"
                         :href "mailto:tableof_5@comcast.net?Subject=One%20Love"}]}))
 
-(defn share-view [{:keys [name entity href]} owner]
+(defn share-view [{:keys [name entity svg href]} owner]
   (reify
     om/IRender
     (render [this]
@@ -26,8 +29,9 @@
         (dom/a #js {:className "share-link"
                     :name name
                     :href href}
-          (dom/span #js {:className "share-icon"}
-            (gstr/unescapeEntities entity)))))))
+          (dom/img #js {:className "share-icon"
+                        :src svg}
+            nil))))))
 
 (defn shares-view [shares owner]
   (om/component

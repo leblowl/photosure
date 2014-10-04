@@ -15,19 +15,11 @@
 (defn parse-caption [caption]
   (map hikry/as-hiccup (hikry/parse-fragment caption)))
 
-(defn text-line-view [caption-line owner]
-  (reify
-    om/IRender
-    (render [this]
-      (dom/p #js {} caption-line))))
-
 (defn text-view [caption owner]
-  (reify
-    om/IRender
-    (render [this]
-      (apply dom/div #js {:className "caption"}
-        (om/build-all text-line-view
-          (map #(get % 2) (parse-caption caption)))))))
+  (om/component
+    (dom/div #js {:className "caption"
+                 :dangerouslySetInnerHTML #js {:__html caption}}
+     nil)))
 
 (defn text-post-view [{id :id
                        title :title

@@ -37,7 +37,7 @@
     border-radius: 4px;
 }
 
-a {
+.nav a {
   text-decoration: none;
   font-family: 'Poiret One';
   font-size: 200%;

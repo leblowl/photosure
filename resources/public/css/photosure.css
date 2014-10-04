@@ -2,7 +2,14 @@
 
 a {
     outline: none;
+    text-decoration: none;
+    color:  #464368;
 }
+
+a:hover {
+  color: #333333;
+}
+
 
 body, html {
   margin: 0;

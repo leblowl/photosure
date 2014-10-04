@@ -62,8 +62,10 @@
     om/IRenderState
     (render-state [this {:keys [scroll-chan]}]
       (apply dom/div #js {:id "post-list"
-                          :onScroll #(put! scroll-chan {:scroll-top (.-scrollTop (om/get-node owner))
-                                                        :height (+ 1 (.-scrollHeight (om/get-node owner)))})}
+                          :onScroll #(let [elem (om/get-node owner)]
+                                       (put! scroll-chan {:scroll-top (.-scrollTop elem)
+                                                          :total-scroll-height (- (.-scrollHeight elem)
+                                                                                  (.-clientHeight elem))}))}
              (om/build-all post-view (:posts app))))))
 
 (defn translate [x y]
@@ -73,32 +75,9 @@
   (reify
     om/IInitState
     (init-state [_]
-      {:track-height 0
-       :bar-height 0})
-
-    om/IDidMount
-    (did-mount [_]
-      (om/set-state! owner :track-height (.-clientHeight (om/get-node owner)))
-      (om/set-state! owner :bar-height (.-offsetHeight (.-firstChild (om/get-node owner)))))
-
-    om/IRenderState
-    (render-state [this {:keys [scroll-top scroll-height client-height track-height bar-height]}]
-      (dom/div #js {:className "scroll-track"}
-       (dom/div #js {:className "scroll-bar"
-                     :style #js {:top
-                                 (str (Math/round
-                                        (* (- track-height bar-height) (/ scroll-top (- scroll-height
-                                                                                       client-height))))
-                                   "px")}})))))
-
-(defn blog [app owner]
-  (reify
-    om/IInitState
-    (init-state [_]
-      {:scroll-chan (chan)
+      {:total-track-height 0
        :scroll-top 0
-       :scroll-height 1
-       :client-height 0})
+       :total-scroll-height 1})
 
     om/IWillMount
     (will-mount [_]
@@ -107,31 +86,40 @@
               (let [infos (<! scroll-chan)]
                 (do
                   (om/set-state! owner :scroll-top (:scroll-top infos))
-                  (om/set-state! owner :scroll-height (:height infos)))
+                  (om/set-state! owner :total-scroll-height (:total-scroll-height infos)))
                 (recur))))))
 
     om/IDidMount
     (did-mount [_]
-      (om/set-state! owner :client-height (.-clientHeight (om/get-node owner))))
+      (om/set-state! owner :total-track-height (- (.-clientHeight (om/get-node owner))
+                                                 (.-offsetHeight (.-firstChild (om/get-node owner))))))
 
     om/IRenderState
-    (render-state [this {:keys [scroll-chan scroll-top scroll-height client-height track-height]}]
+    (render-state [this {:keys [total-track-height scroll-top total-scroll-height]}]
+      (dom/div #js {:className "scroll-track"}
+       (dom/div #js {:className "scroll-bar"
+                     :style #js {:top
+                                 (str (Math/round
+                                        (* total-track-height (/ scroll-top total-scroll-height)))
+                                   "px")}})))))
+
+(defn blog [app owner]
+  (reify
+    om/IInitState
+    (init-state [_]
+      {:scroll-chan (chan)})
+
+    om/IRenderState
+    (render-state [this {:keys [scroll-chan]}]
       (dom/div #js {:id "blog-gallery-container"}
                (dom/div #js {:id "blog-gallery"}
                  (dom/div #js {:id "overflow-wrapper"}
                           (dom/div #js {:className "scroll-header"})
                           (om/build posts-view app {:init-state {:scroll-chan scroll-chan}})
                           (dom/div #js {:className "scroll-footer"}))
-                 (om/build scroll-bar app {:init-state {:scroll-top scroll-top
-                                                        :scroll-height scroll-height
-                                                        :client-height client-height}
-                                           :state {:scroll-top scroll-top
-                                                   :scroll-height scroll-height
-                                                   :client-height client-height}}))))))
+                 (om/build scroll-bar app {:init-state {:scroll-chan scroll-chan}}))))))
 
 (defn render []
-  (println "yo")
   (om/root blog
     app-data
-    {:target (. js/document
-               (getElementById "dynamic-content"))}))
+    {:target (.getElementById js/document "dynamic-content")}))

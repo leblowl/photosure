@@ -31,12 +31,14 @@
       (om/build text-view body))))
 
 (defn photo-post-view [{id :id
-                        [{{url :url} :original_size}] :photos
+                        photos :photos
                         caption :caption} owner]
   (om/component
     (dom/div #js {:id id :className "post"}
-      (dom/div #js {:className "blog-photo"}
-        (dom/img #js {:src url}))
+      (apply dom/div #js {:className "blog-photo"}
+        (map (fn [photo]
+               (dom/img #js {:src (:url (:original_size photo))}))
+          photos))
       (om/build text-view caption))))
 
 (defn post-view [{:keys [type] :as post} owner]

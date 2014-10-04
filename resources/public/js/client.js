@@ -17,7 +17,8 @@ goog.addDependency("../photosure/util.js", ['photosure.util'], ['goog.net.XhrIo'
 goog.addDependency("../clojure/zip.js", ['clojure.zip'], ['cljs.core']);
 goog.addDependency("../hickory/utils.js", ['hickory.utils'], ['goog.string', 'cljs.core', 'clojure.string']);
 goog.addDependency("../hickory/core.js", ['hickory.core'], ['clojure.zip', 'goog.string', 'cljs.core', 'hickory.utils']);
-goog.addDependency("../photosure/blog.js", ['photosure.blog'], ['goog.string', 'cljs.core', 'om.dom', 'cljs.core.async', 'photosure.util', 'om.core', 'hickory.core']);
+goog.addDependency("../photosure/scrolldiv.js", ['photosure.scrolldiv'], ['cljs.core', 'om.dom', 'cljs.core.async', 'om.core']);
+goog.addDependency("../photosure/blog.js", ['photosure.blog'], ['goog.string', 'cljs.core', 'om.dom', 'photosure.util', 'om.core', 'hickory.core', 'photosure.scrolldiv']);
 goog.addDependency("../clojure/walk.js", ['clojure.walk'], ['cljs.core']);
 goog.addDependency("../secretary/core.js", ['secretary.core'], ['cljs.core', 'clojure.string', 'clojure.walk']);
 goog.addDependency("../photosure/navigation.js", ['photosure.navigation'], ['photosure.gallery', 'photosure.bio', 'photosure.blog', 'cljs.core', 'om.dom', 'goog.history.EventType', 'goog.History', 'om.core', 'secretary.core', 'goog.events']);

@@ -6,12 +6,22 @@
   overflow: hidden;
 }
 
-#blog-gallery {
+.blog-gallery {
   width: 50%;
   height: 100%;
-  position: relative;
   margin-left: auto;
   margin-right: auto;
+}
+
+.scroll-div {
+    position: relative;
+}
+
+.overflow-wrapper {
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    height: 100%;
 }
 
 #overflow-wrapper {
@@ -60,15 +70,19 @@
     right: -20px;
 }
 
-#post-list {
+.scroll-content {
     width: 100%;
     height: 100%;
     overflow-y: auto;
     overflow-x: hidden;
     position: relative;
     padding-right: 20px;
-    padding-top: 1em;
     transform: translate3d(20px, 0, 0);
+}
+
+
+#post-list {
+    padding-top: 1em;
 }
 
 .post {

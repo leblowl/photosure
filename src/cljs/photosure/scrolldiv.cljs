@@ -4,6 +4,8 @@
             [om.dom :as dom :include-macros true]
             [cljs.core.async :refer [put! chan <! timeout]]))
 
+(enable-console-print!)
+
 (defn scroll-bar [app owner]
   (reify
     om/IInitState
@@ -24,9 +26,17 @@
 
     om/IDidMount
     (did-mount [_]
-      (om/set-state! owner :total-track-height (- (.-clientHeight (om/get-node owner))
+      (let [elem (om/get-node owner)]
+        (om/set-state! owner :handle-resize #(om/set-state! owner :total-track-height
+                                               (- (.-clientHeight elem)
                                                   (.-offsetHeight
-                                                    (.-firstChild (om/get-node owner))))))
+                                                    (.-firstChild elem)))))
+        ((om/get-state owner :handle-resize))
+        (.addEventListener js/window "resize" (om/get-state owner :handle-resize))))
+
+    om/IWillUnmount
+    (will-unmount [this]
+      (.removeEventListener js/window "resize" (om/get-state owner :handle-resize)))
 
     om/IRenderState
     (render-state [this {:keys [total-track-height scroll-top total-scroll-height]}]
@@ -41,14 +51,25 @@
 (defn scroll-content [content]
   (fn [app owner]
     (reify
+      om/IDidMount
+      (did-mount [this]
+        (let [elem (om/get-node owner)
+              scroll-chan (om/get-state owner :scroll-chan)]
+          (om/set-state! owner :handle-resize
+            #(put! scroll-chan
+               {:scroll-top (.-scrollTop elem)
+                :total-scroll-height (- (.-scrollHeight elem)
+                                       (.-clientHeight elem))})))
+        (.addEventListener js/window "resize" (om/get-state owner :handle-resize)))
+
+      om/IWillUnmount
+      (will-unmount [_]
+        (.removeEventListener js/window "resize" (om/get-state owner :handle-resize)))
+
       om/IRenderState
       (render-state [this {:keys [scroll-chan]}]
         (dom/div #js {:className "scroll-content"
-                      :onScroll #(let [elem (om/get-node owner)]
-                                   (put! scroll-chan
-                                     {:scroll-top (.-scrollTop elem)
-                                      :total-scroll-height (- (.-scrollHeight elem)
-                                                              (.-clientHeight elem))}))}
+                      :onScroll (om/get-state owner :handle-resize)}
           content)))))
 
 (defn scroll-div [content]

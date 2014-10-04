@@ -41,16 +41,23 @@
 
 .scroll-bar {
     background-color: #333;
-    position: absolute;
-    top: 20px;
-    right: -20px;
-    z-index: 2;
+    position: relative;
+
     width: 7px;
     height: 20%;
 }
 
 .scroll-track {
     height: 90%;
+    width: 7px;
+
+    background-color: green;
+    position: absolute;
+    z-index: 2;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+    right: -20px;
 }
 
 #post-list {

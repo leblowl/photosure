@@ -71,14 +71,25 @@
 
 (defn scroll-bar [app owner]
   (reify
-    om/IRenderState
-    (render-state [this {:keys [scroll-top scroll-height track-height]}]
+    om/IInitState
+    (init-state [_]
+      {:track-height 0
+       :bar-height 0})
 
-      (dom/div #js {:className "scroll-bar"
-                    :style #js {:top
-                                (str (Math/round
-                                      (* track-height (/ scroll-top scroll-height)))
-                                     "px")}}))))
+    om/IDidMount
+    (did-mount [_]
+      (om/set-state! owner :track-height (.-clientHeight (om/get-node owner)))
+      (om/set-state! owner :bar-height (.-offsetHeight (.-firstChild (om/get-node owner)))))
+
+    om/IRenderState
+    (render-state [this {:keys [scroll-top scroll-height client-height track-height bar-height]}]
+      (dom/div #js {:className "scroll-track"}
+       (dom/div #js {:className "scroll-bar"
+                     :style #js {:top
+                                 (str (Math/round
+                                        (* (- track-height bar-height) (/ scroll-top (- scroll-height
+                                                                                       client-height))))
+                                   "px")}})))))
 
 (defn blog [app owner]
   (reify
@@ -87,7 +98,7 @@
       {:scroll-chan (chan)
        :scroll-top 0
        :scroll-height 1
-       :track-height 0})
+       :client-height 0})
 
     om/IWillMount
     (will-mount [_]
@@ -101,10 +112,10 @@
 
     om/IDidMount
     (did-mount [_]
-      (om/set-state! owner :track-height (.-clientHeight (om/get-node owner))))
+      (om/set-state! owner :client-height (.-clientHeight (om/get-node owner))))
 
     om/IRenderState
-    (render-state [this {:keys [scroll-chan scroll-top scroll-height track-height]}]
+    (render-state [this {:keys [scroll-chan scroll-top scroll-height client-height track-height]}]
       (dom/div #js {:id "blog-gallery-container"}
                (dom/div #js {:id "blog-gallery"}
                  (dom/div #js {:id "overflow-wrapper"}
@@ -113,10 +124,10 @@
                           (dom/div #js {:className "scroll-footer"}))
                  (om/build scroll-bar app {:init-state {:scroll-top scroll-top
                                                         :scroll-height scroll-height
-                                                        :track-height track-height}
+                                                        :client-height client-height}
                                            :state {:scroll-top scroll-top
                                                    :scroll-height scroll-height
-                                                   :track-height track-height}}))))))
+                                                   :client-height client-height}}))))))
 
 (defn render []
   (println "yo")

@@ -32,14 +32,14 @@
     position: relative;
 
     width: 7px;
-    height: 20%;
+    height: 10%;
+    border-radius: 2px;
 }
 
 .scroll-track {
-    height: 90%;
+    height: 95%;
     width: 7px;
 
-    background-color: green;
     position: absolute;
     z-index: 2;
     margin: auto;

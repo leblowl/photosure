@@ -1,7 +1,8 @@
 (ns photosure.bio
   (:require [om.core :as om :include-macros true]
             [om.dom :as dom :include-macros true]
-            [goog.string :as gstr]))
+            [goog.string :as gstr]
+            [photosure.scrolldiv :refer [scroll-div]]))
 
 (def app-state (atom {:selfie-src "images/me.jpg"
                       :about "Hey my name is Charles Leblow, I like to take photos and this is my site. Welcome! Since we have some time to talk alone now, I will tell you all about my deepest darkest secrets of interal fire and ice alchemy of the sacred heart! Now here are the secrets: they are an array of 9 secrets, subdivided into 3 quadrants of 5 elliptical meshes, infinitely, outertwined into the fabric of life. One love, One life, One unity"

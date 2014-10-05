@@ -11,13 +11,13 @@ goog.addDependency("../cljs/core/async.js", ['cljs.core.async'], ['cljs.core.asy
 goog.addDependency("../om/core.js", ['om.core'], ['cljs.core', 'om.dom', 'goog.ui.IdGenerator']);
 goog.addDependency("../clojure/string.js", ['clojure.string'], ['goog.string', 'cljs.core', 'goog.string.StringBuffer']);
 goog.addDependency("../photosure/gallery.js", ['photosure.gallery'], ['goog.string', 'cljs.core', 'om.dom', 'cljs.core.async', 'om.core', 'clojure.string']);
-goog.addDependency("../photosure/bio.js", ['photosure.bio'], ['goog.string', 'cljs.core', 'om.dom', 'om.core']);
+goog.addDependency("../photosure/scrolldiv.js", ['photosure.scrolldiv'], ['cljs.core', 'om.dom', 'cljs.core.async', 'om.core']);
+goog.addDependency("../photosure/bio.js", ['photosure.bio'], ['goog.string', 'cljs.core', 'om.dom', 'om.core', 'photosure.scrolldiv']);
 goog.addDependency("../cljs/reader.js", ['cljs.reader'], ['goog.string', 'cljs.core', 'goog.string.StringBuffer']);
 goog.addDependency("../photosure/util.js", ['photosure.util'], ['goog.net.XhrIo', 'cljs.core', 'goog.events.EventType', 'cljs.reader', 'goog.events']);
 goog.addDependency("../clojure/zip.js", ['clojure.zip'], ['cljs.core']);
 goog.addDependency("../hickory/utils.js", ['hickory.utils'], ['goog.string', 'cljs.core', 'clojure.string']);
 goog.addDependency("../hickory/core.js", ['hickory.core'], ['clojure.zip', 'goog.string', 'cljs.core', 'hickory.utils']);
-goog.addDependency("../photosure/scrolldiv.js", ['photosure.scrolldiv'], ['cljs.core', 'om.dom', 'cljs.core.async', 'om.core']);
 goog.addDependency("../photosure/blog.js", ['photosure.blog'], ['goog.string', 'cljs.core', 'om.dom', 'photosure.util', 'om.core', 'hickory.core', 'photosure.scrolldiv']);
 goog.addDependency("../clojure/walk.js", ['clojure.walk'], ['cljs.core']);
 goog.addDependency("../secretary/core.js", ['secretary.core'], ['cljs.core', 'clojure.string', 'clojure.walk']);

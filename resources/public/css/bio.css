@@ -60,18 +60,41 @@ div {
     overflow: hidden;
 }
 
-#about-container {
+.about-container {
     height: 50%;
-    overflow: hidden;
+    padding-right: 20px;
+}
+
+.about-container .scroll-content {
+    transform: translate3d(20px, 0px, 0px);
+}
+
+.about-container .scroll-track {
+    right: 5px;
+    padding-top: .3em;
+    padding-bottom: 0;
+}
+
+.about-container .scroll-bar {
+    height: 20%;
+}
+
+.about-container .scroll-header {
+    background: none;
+    height: 0;
+}
+
+.about-container .scroll-footer {
+    background: none;
+    height: 0;
 }
 
 #about {
     margin: 0;
     font-family: 'Lato', sans-serif;
 
-    display: table-cell;
     height: 100%;
-    vertical-align: middle;
+    width: 100%;
 }
 
 @font-face {

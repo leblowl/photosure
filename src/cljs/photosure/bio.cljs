@@ -39,7 +39,7 @@
     (apply dom/ul #js {:className "shares"}
       (om/build-all share-view shares))))
 
-(defn bio [{:keys [selfie-src about shares]} owner]
+(defn bio [{:keys [selfie-src about shares] :as app} owner]
   (reify
     om/IRender
     (render [this]
@@ -48,8 +48,11 @@
          (dom/div #js {:id "bio-liner"}
            (dom/img #js {:id "selfie" :src selfie-src})
            (dom/div #js {:id "info-container"}
-             (dom/div #js {:id "about-container"}
-               (dom/p #js {:id "about"} about))
+             (om/build
+               (scroll-div
+                 (dom/p #js {:id "about"} about))
+               app
+               {:opts {:className "about-container"}})
              (dom/div #js {:className "shares-container"}
                (om/build shares-view shares)))))))))
 

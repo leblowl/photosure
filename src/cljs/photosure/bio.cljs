@@ -48,11 +48,10 @@
          (dom/div #js {:id "bio-liner"}
            (dom/img #js {:id "selfie" :src selfie-src})
            (dom/div #js {:id "info-container"}
-             (om/build
-               (scroll-div
-                 (dom/p #js {:id "about"} about))
-               app
-               {:opts {:className "about-container"}})
+             (om/build scroll-div
+                       app
+                       {:opts {:className "about-container"
+                               :children [(dom/p #js {:id "about"} about)]}})
              (dom/div #js {:className "shares-container"}
                (om/build shares-view shares)))))))))
 

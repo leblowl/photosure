@@ -4,8 +4,6 @@
             [om.dom :as dom :include-macros true]
             [cljs.core.async :refer [put! chan <! timeout]]))
 
-(enable-console-print!)
-
 (defn scroll-bar [app owner]
   (reify
     om/IInitState
@@ -31,7 +29,6 @@
                           (.getPropertyValue (.getComputedStyle js/window elem) "padding-top"))
             padding-bottom (js/parseInt
                              (.getPropertyValue (.getComputedStyle js/window elem) "padding-bottom"))]
-        (println (str padding-top " " padding-bottom))
         (om/set-state! owner :handle-resize #(om/set-state! owner :total-track-height
                                                (- (.-clientHeight elem)
                                                   padding-top
@@ -45,7 +42,7 @@
     (will-unmount [this]
       (.removeEventListener js/window "resize" (om/get-state owner :handle-resize)))
 
-    om/IRenderState
+react make component that accepts children    om/IRenderState
     (render-state [this {:keys [total-track-height scroll-top total-scroll-height]}]
       (dom/div #js {:className "scroll-track"}
        (dom/div #js {:className "scroll-bar"
@@ -55,42 +52,41 @@
                                            (/ scroll-top total-scroll-height)))
                                    "px")}})))))
 
-(defn scroll-content [content]
-  (fn [app owner]
-    (reify
-      om/IDidMount
-      (did-mount [this]
-        (let [elem (om/get-node owner)
-              scroll-chan (om/get-state owner :scroll-chan)]
-          (om/set-state! owner :handle-resize
-            #(put! scroll-chan
-               {:scroll-top (.-scrollTop elem)
-                :total-scroll-height (- (.-scrollHeight elem)
-                                       (.-clientHeight elem))})))
-        (.addEventListener js/window "resize" (om/get-state owner :handle-resize)))
+(defn scroll-content [app owner opts]
+  (reify
+    om/IDidMount
+    (did-mount [this]
+      (let [elem (om/get-node owner)
+            scroll-chan (om/get-state owner :scroll-chan)]
+        (om/set-state! owner :handle-resize
+          #(put! scroll-chan
+             {:scroll-top (.-scrollTop elem)
+              :total-scroll-height (- (.-scrollHeight elem)
+                                     (.-clientHeight elem))})))
+      (.addEventListener js/window "resize" (om/get-state owner :handle-resize)))
 
-      om/IWillUnmount
-      (will-unmount [_]
-        (.removeEventListener js/window "resize" (om/get-state owner :handle-resize)))
+    om/IWillUnmount
+    (will-unmount [_]
+      (.removeEventListener js/window "resize" (om/get-state owner :handle-resize)))
 
-      om/IRenderState
-      (render-state [this {:keys [scroll-chan]}]
-        (dom/div #js {:className "scroll-content"
-                      :onScroll (om/get-state owner :handle-resize)}
-          content)))))
+    om/IRenderState
+    (render-state [this {:keys [scroll-chan]}]
+      (apply dom/div #js {:className "scroll-content"
+                    :onScroll (om/get-state owner :handle-resize)}
+        (:children opts)))))
 
-(defn scroll-div [content]
-  (fn [app owner opts]
-    (reify
-      om/IInitState
-      (init-state [_]
-        {:scroll-chan (chan)})
+(defn scroll-div [app owner opts]
+  (reify
+    om/IInitState
+    (init-state [_]
+      {:scroll-chan (chan)})
 
-      om/IRenderState
-      (render-state [this {:keys [scroll-chan]}]
-        (dom/div #js {:className (str "scroll-div " (:className opts))}
-          (dom/div #js {:className "overflow-wrapper"}
-            (dom/div #js {:className "scroll-header"})
-            (om/build (scroll-content content) app {:init-state {:scroll-chan scroll-chan}})
-            (dom/div #js {:className "scroll-footer"}))
-          (om/build scroll-bar app {:init-state {:scroll-chan scroll-chan}}))))))
+    om/IRenderState
+    (render-state [this {:keys [scroll-chan]}]
+      (dom/div #js {:className (str "scroll-div " (:className opts))}
+        (dom/div #js {:className "overflow-wrapper"}
+          (dom/div #js {:className "scroll-header"})
+          (om/build scroll-content app {:init-state {:scroll-chan scroll-chan}
+                                        :opts opts})
+          (dom/div #js {:className "scroll-footer"}))
+        (om/build scroll-bar app {:init-state {:scroll-chan scroll-chan}})))))

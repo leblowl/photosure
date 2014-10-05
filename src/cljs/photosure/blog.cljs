@@ -7,8 +7,6 @@
             [hickory.core :as hikry]
             [photosure.scrolldiv :refer [scroll-div]]))
 
-(enable-console-print!)
-
 (def app-data
   (atom {:posts []}))
 
@@ -56,7 +54,8 @@
       (util/edn-xhr
        {:method :get
         :url "api/posts"
-        :on-complete #(om/update! app :posts %)}))
+        :on-complete (fn [_]
+                       (om/update! app :posts _))}))
 
     om/IRender
     (render [this]
@@ -66,9 +65,10 @@
 (defn blog [app owner]
   (om/component
     (dom/div #js {:id "blog-gallery-container"}
-      (om/build (scroll-div (om/build posts-view app))
+      (om/build scroll-div
                 app
-                {:opts {:className "blog-gallery"}}))))
+                {:opts {:className "blog-gallery"
+                        :children [(om/build posts-view app)]}}))))
 
 (defn render []
   (om/root blog

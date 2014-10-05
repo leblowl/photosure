@@ -37,8 +37,8 @@
 }
 
 .scroll-track {
-    //padding-top: 1em;
-    //padding-bottom: 1em; not working with height
+    padding-top: 1em;
+    padding-bottom: 1.5em;
     height: 100%;
     width: 7px;
 

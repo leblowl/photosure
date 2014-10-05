@@ -26,9 +26,16 @@
 
     om/IDidMount
     (did-mount [_]
-      (let [elem (om/get-node owner)]
+      (let [elem (om/get-node owner)
+            padding-top (js/parseInt
+                          (.getPropertyValue (.getComputedStyle js/window elem) "padding-top"))
+            padding-bottom (js/parseInt
+                             (.getPropertyValue (.getComputedStyle js/window elem) "padding-bottom"))]
+        (println (str padding-top " " padding-bottom))
         (om/set-state! owner :handle-resize #(om/set-state! owner :total-track-height
                                                (- (.-clientHeight elem)
+                                                  padding-top
+                                                  padding-bottom
                                                   (.-offsetHeight
                                                     (.-firstChild elem)))))
         ((om/get-state owner :handle-resize))

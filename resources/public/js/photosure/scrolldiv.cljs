@@ -42,7 +42,7 @@
     (will-unmount [this]
       (.removeEventListener js/window "resize" (om/get-state owner :handle-resize)))
 
-react make component that accepts children    om/IRenderState
+    om/IRenderState
     (render-state [this {:keys [total-track-height scroll-top total-scroll-height]}]
       (dom/div #js {:className "scroll-track"}
        (dom/div #js {:className "scroll-bar"

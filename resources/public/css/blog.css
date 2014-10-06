@@ -37,3 +37,49 @@
     max-width: 100%;
     max-height: 100%;
 }
+
+@keyframes spin {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+#loader{
+  position: absolute;
+  margin: auto;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  width: 500px;
+  height: 300px;
+    z-index: 5;
+}
+
+.circle {
+    width: 100px;
+    height: 100px;
+    border-radius: 50px;
+    display: inline-block;
+    transition: background .1s;
+}
+
+.red {
+    background: red;
+}
+
+.green {
+    background: blue;
+}
+
+.blue {
+    background: green;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}

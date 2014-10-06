@@ -9,12 +9,14 @@
                  [org.clojure/core.async "0.1.267.0-0d7780-alpha"]
                  [om "0.7.3"]
                  [secretary "1.2.1"]
-                 [hickory "0.5.4"]
                  [http-kit "2.1.18"]
                  [compojure "1.1.9"]
                  [ring "1.3.0"]
                  [ring-edn "0.1.0"]
-                 [clj-http "0.9.2"]]
+                 [ring-transit "0.1.2"]
+                 [com.cognitect/transit-cljs "0.8.188"]
+                 [clj-http "0.9.2"]
+                 [enlive "1.1.5"]]
   :main photosure.server
   :min-lein-version "2.0.0"
   :plugins [[lein-cljsbuild "1.0.3"]

@@ -4,14 +4,11 @@
             [om.dom :as dom :include-macros true]
             [photosure.util :as util]
             [goog.string :as gstr]
-            [hickory.core :as hikry]
-            [photosure.scrolldiv :refer [scroll-div]]))
+            [photosure.scrolldiv :refer [scroll-div]]
+            [cljs.core.async :refer [put! chan <!]]))
 
 (def app-data
   (atom {:posts []}))
-
-(defn parse-caption [caption]
-  (map hikry/as-hiccup (hikry/parse-fragment caption)))
 
 (defn text-view [caption owner]
   (om/component
@@ -35,7 +32,7 @@
     (dom/div #js {:id id :className "post"}
       (apply dom/div #js {:className "blog-photo"}
         (map (fn [photo]
-               (dom/img #js {:src (:url (:original_size photo))}))
+               (dom/img #js {:src photo}))
           photos))
       (om/build text-view caption))))
 
@@ -50,25 +47,58 @@
 (defn posts-view [app owner]
   (reify
     om/IWillMount
-    (will-mount [_]
-      (util/edn-xhr
-       {:method :get
-        :url "api/posts"
-        :on-complete (fn [_]
-                       (om/update! app :posts _))}))
+    (will-mount [_])
 
     om/IRender
     (render [this]
       (apply dom/div #js {:id "post-list"}
         (om/build-all post-view (:posts app))))))
 
+(defn spinner [app owner]
+  (reify
+    om/IInitState
+    (init-state [_]
+      {:time 0})
+
+    om/IWillMount
+    (will-mount [_]
+      (js/setInterval #(om/update-state! owner :time (fn [time] (inc time))) 300))
+
+    om/IRenderState
+    (render-state [this {:keys [time]}]
+      (dom/div #js {:id "loader"}
+        (dom/div #js {:id "one"
+                      :className (str "circle " (get ["red" "green" "blue"] (mod time 3)))})
+        (dom/div #js {:id "two"
+                      :className "circle"})
+        (dom/div #js {:id "three"
+                      :className "circle"})))))
+
 (defn blog [app owner]
-  (om/component
-    (dom/div #js {:id "blog-gallery-container"}
-      (om/build scroll-div
-                app
-                {:opts {:className "blog-gallery"
-                        :children [(om/build posts-view app)]}}))))
+  (reify
+    om/IInitState
+    (init-state [_]
+      {:loaded false})
+
+    om/IWillMount
+    (will-mount [_]
+      (util/edn-xhr
+       {:method :get
+        :url "api/posts"
+        :on-complete (fn [_]
+                       (om/set-state! owner :loaded true)
+                       (om/update! app :posts _)
+                       )}))
+
+    om/IRenderState
+    (render-state [this {:keys [loaded]}]
+      (dom/div #js {:id "blog-gallery-container"}
+       (when loaded
+         (om/build scroll-div
+           app
+           {:opts {:className "blog-gallery"
+                   :children [(om/build posts-view app)]}})
+         )))))
 
 (defn render []
   (om/root blog

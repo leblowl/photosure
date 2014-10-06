@@ -8,7 +8,8 @@
             [cljs.core.async :refer [put! chan <!]]))
 
 (def app-data
-  (atom {:posts []}))
+  (atom {:page 0
+         :posts []}))
 
 (defn text-view [caption owner]
   (om/component
@@ -74,6 +75,29 @@
       (apply dom/div #js {:id "post-list"}
         (om/build-all post-view (take iter posts) {:init-state {:load-chan load-chan}})))))
 
+(defn get-posts [app]
+  (util/edn-xhr
+    {:method :get
+     :url (str "api/posts/" (:page @app))
+     :on-complete (fn [_] (om/update! app :posts _))}))
+
+(defn posts-nav [app owner]
+  (reify
+    om/IRender
+    (render [_]
+      (dom/div #js {:className "posts-nav"}
+        (dom/div #js {:className "prev"
+                      :onClick (fn [_]
+                                 (om/transact! app :page #(dec %))
+                                 (get-posts app))})
+        (dom/div #js {:className "top"}
+          (dom/p #js {:className "page"} (+ (:page app) 1)))
+        (dom/div #js {:className "next"
+                      :onClick (fn [_]
+                                 (.log js/console "next")
+                                 (om/transact! app :page #(inc %))
+                                 (get-posts app))})))))
+
 (defn blog [app owner]
   (reify
     om/IInitState
@@ -85,7 +109,7 @@
     (will-mount [_]
       (util/edn-xhr
        {:method :get
-        :url "api/posts/0"
+        :url (str "api/posts/" (:page app))
         :on-complete (fn [_] (om/update! app :posts _))})
 
       (let [loaded-chan (om/get-state owner :loaded-chan)]
@@ -102,7 +126,8 @@
           app
           {:init-state {:class "blog-gallery"}
            :state {:class (str "blog-gallery" (when loaded " loaded"))}
-           :opts {:children [(om/build posts-view (:posts app) {:init-state {:loaded-chan loaded-chan}})]}})))))
+           :opts {:children [(om/build posts-view (:posts app) {:init-state {:loaded-chan loaded-chan}})
+                             (om/build posts-nav app)]}})))))
 
 (defn render []
   (om/root blog

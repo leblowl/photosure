@@ -106,3 +106,45 @@
   animation-timing-function: linear;
   // animation: spin 1s infinite linear;
 }
+
+.posts-nav {
+    height: auto;
+    width: 100%;
+    display: flex;
+    padding: 1em;
+}
+
+.posts-nav div {
+    width: 8%;
+    height: 0;
+    padding: 4% 0;
+    border-radius: 50%;
+    margin: auto;
+    box-sizing: content-box;
+}
+
+.top {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid black;
+    background-color: #0B0B0B;
+}
+
+.top p {
+   display: table-cell;
+   vertical-align: middle;
+   font-family: 'Lato',sans-serif;
+   color: #666;
+   font-size: 2vw;
+}
+
+.prev {
+    cursor: pointer;
+    border: 2px solid #464368;
+}
+
+.next {
+    cursor: pointer;
+    border: 2px solid #464368;
+}

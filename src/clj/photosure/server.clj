@@ -12,7 +12,10 @@
 
 (def api "http://api.tumblr.com/v2/blog/cpleblow.tumblr.com/posts?api_key=Tg1KPogMJGHntn64LnRYkTK0pAdlt5VdihWiDNEuNjrYH7TB20")
 
-(def post-data (get-in (client/get api {:as :json}) [:body :response :posts]))
+(defn posts [page]
+  (let [offset (str "&offset=" (* 20 (read-string page)))
+        req (str api offset)]
+    (get-in (client/get req {:as :json}) [:body :response :posts])))
 
 (defn trim-posts [posts]
   (map (fn [post]
@@ -23,21 +26,18 @@
            :else (println "other")))
     posts))
 
-(defn posts [req]
-  (response (trim-posts post-data)))
-
 (defn app [req]
   (file-response "public/photosure.html" {:root "resources"}))
 
 (defroutes routes
   (GET "/" [] app)
-  (GET "/api/posts" [] (wrap-transit-response posts))
+  (GET ["/api/posts/:page" :page #"[0-9]+"] [page] (trim-posts (posts page)))
   (resources "/")
   (not-found "<p>Page not found.</p>"))
 
 (def sapp
   (-> routes
-      wrap-transit-params))
+      wrap-transit-response))
 
 (defonce server (atom nil))
 

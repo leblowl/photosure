@@ -65,37 +65,14 @@
               (let [load (<! load-chan)]
                 (do
                   (om/update-state! owner :load-count #(inc %))
-                  ;(.log js/console (str "loaded " (om/get-state owner :load-count)))
                   (when (= (om/get-state owner :load-count) 20)
-                    (put! loaded-chan "all loaded")
-
-))
+                    (put! loaded-chan "all done!")))
                 (recur))))))
 
     om/IRenderState
     (render-state [this {:keys [iter load-chan]}]
       (apply dom/div #js {:id "post-list"}
         (om/build-all post-view (take iter posts) {:init-state {:load-chan load-chan}})))))
-
-(defn spinner [app owner]
-  (reify
-    om/IInitState
-    (init-state [_]
-      {:time 0})
-
-    om/IWillMount
-    (will-mount [_]
-      (js/setInterval #(om/update-state! owner :time (fn [time] (inc time))) 300))
-
-    om/IRenderState
-    (render-state [this {:keys [time]}]
-      (dom/div #js {:id "loader"}
-        (dom/div #js {:id "one"
-                      :className (str "circle " (get ["red" "green" "blue"] (mod time 3)))})
-        (dom/div #js {:id "two"
-                      :className "circle"})
-        (dom/div #js {:id "three"
-                      :className "circle"})))))
 
 (defn blog [app owner]
   (reify
@@ -108,16 +85,14 @@
     (will-mount [_]
       (util/edn-xhr
        {:method :get
-        :url "api/posts"
+        :url "api/posts/0"
         :on-complete (fn [_] (om/update! app :posts _))})
 
       (let [loaded-chan (om/get-state owner :loaded-chan)]
         (go (loop []
               (let [loaded (<! loaded-chan)]
                 (do
-                  (om/set-state! owner :loaded true)
-                  ;(.log js/console "all loaded")
-                  )
+                  (om/set-state! owner :loaded true))
                 (recur))))))
 
     om/IRenderState

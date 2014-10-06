@@ -32,27 +32,50 @@
     (dom/div #js {:id id :className "post"}
       (apply dom/div #js {:className "blog-photo"}
         (map (fn [photo]
-               (dom/img #js {:src photo}))
+               (dom/div nil "placeholder"))
           photos))
       (om/build text-view caption))))
 
 (defn post-view [{:keys [type] :as post} owner]
   (reify
+    om/IDidMount
+    (did-mount [_]
+      (put! (om/get-state owner :load-chan)
+        "done!"))
+
     om/IRender
     (render [this]
       (if (= type "photo")
         (om/build photo-post-view post)
         (om/build text-post-view post)))))
 
-(defn posts-view [app owner]
+(defn posts-view [posts owner]
   (reify
-    om/IWillMount
-    (will-mount [_])
+    om/IInitState
+    (init-state [_]
+      {:load-chan (chan)
+       :load-count 0
+       :iter 20})
 
-    om/IRender
-    (render [this]
+    om/IWillMount
+    (will-mount [_]
+      (let [load-chan (om/get-state owner :load-chan)
+            loaded-chan (om/get-state owner :loaded-chan)]
+        (go (loop []
+              (let [load (<! load-chan)]
+                (do
+                  (om/update-state! owner :load-count #(inc %))
+                  ;(.log js/console (str "loaded " (om/get-state owner :load-count)))
+                  (when (= (om/get-state owner :load-count) 20)
+                    (put! loaded-chan "all loaded")
+
+))
+                (recur))))))
+
+    om/IRenderState
+    (render-state [this {:keys [iter load-chan]}]
       (apply dom/div #js {:id "post-list"}
-        (om/build-all post-view (:posts app))))))
+        (om/build-all post-view (take iter posts) {:init-state {:load-chan load-chan}})))))
 
 (defn spinner [app owner]
   (reify
@@ -78,27 +101,33 @@
   (reify
     om/IInitState
     (init-state [_]
-      {:loaded false})
+      {:loaded false
+       :loaded-chan (chan)})
 
     om/IWillMount
     (will-mount [_]
       (util/edn-xhr
        {:method :get
         :url "api/posts"
-        :on-complete (fn [_]
-                       (om/set-state! owner :loaded true)
-                       (om/update! app :posts _)
-                       )}))
+        :on-complete (fn [_] (om/update! app :posts _))})
+
+      (let [loaded-chan (om/get-state owner :loaded-chan)]
+        (go (loop []
+              (let [loaded (<! loaded-chan)]
+                (do
+                  (om/set-state! owner :loaded true)
+                  ;(.log js/console "all loaded")
+                  )
+                (recur))))))
 
     om/IRenderState
-    (render-state [this {:keys [loaded]}]
+    (render-state [this {:keys [loaded loaded-chan]}]
       (dom/div #js {:id "blog-gallery-container"}
-       (when loaded
-         (om/build scroll-div
-           app
-           {:opts {:className "blog-gallery"
-                   :children [(om/build posts-view app)]}})
-         )))))
+        (om/build scroll-div
+          app
+          {:init-state {:class "blog-gallery"}
+           :state {:class (str "blog-gallery" (when loaded " loaded"))}
+           :opts {:children [(om/build posts-view (:posts app) {:init-state {:loaded-chan loaded-chan}})]}})))))
 
 (defn render []
   (om/root blog

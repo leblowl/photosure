@@ -11,6 +11,11 @@
   height: 100%;
   margin-left: auto;
   margin-right: auto;
+  opacity: 0;
+}
+
+.loaded {
+  opacity: 1;
 }
 
 #post-list {
@@ -80,6 +85,24 @@
     background: green;
 }
 
-*, *::before, *::after {
-  box-sizing: border-box;
+.load {
+  position: absolute;
+  margin: auto;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  width: 32px;
+  height: 32px;
+  margin: 5rem auto;
+  border-radius: 50%;
+  border: 6px solid transparent;
+  border-bottom: 6px solid #009933;
+  border-top: 6px solid #009933;
+  animation-duration: 1.5s;
+  animation-name: spin;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  // animation: spin 1s infinite linear;
 }

@@ -72,7 +72,7 @@
     om/IRenderState
     (render-state [this {:keys [scroll-chan]}]
       (apply dom/div #js {:className "scroll-content"
-                    :onScroll (om/get-state owner :handle-resize)}
+                          :onScroll (om/get-state owner :handle-resize)}
         (:children opts)))))
 
 (defn scroll-div [app owner opts]
@@ -82,8 +82,8 @@
       {:scroll-chan (chan)})
 
     om/IRenderState
-    (render-state [this {:keys [scroll-chan]}]
-      (dom/div #js {:className (str "scroll-div " (:className opts))}
+    (render-state [this {:keys [scroll-chan class]}]
+      (dom/div #js {:className (str "scroll-div " class)}
         (dom/div #js {:className "overflow-wrapper"}
           (dom/div #js {:className "scroll-header"})
           (om/build scroll-content app {:init-state {:scroll-chan scroll-chan}

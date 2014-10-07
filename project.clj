@@ -12,23 +12,35 @@
                  [http-kit "2.1.18"]
                  [compojure "1.1.9"]
                  [ring "1.3.0"]
-                 [ring-edn "0.1.0"]
                  [ring-transit "0.1.2"]
                  [com.cognitect/transit-cljs "0.8.188"]
                  [clj-http "0.9.2"]
-                 [enlive "1.1.5"]]
+                 [environ "1.0.0"]]
   :main photosure.server
   :min-lein-version "2.0.0"
   :plugins [[lein-cljsbuild "1.0.3"]
-            [lein-pdo "0.1.1"]]
+            [lein-pdo "0.1.1"]
+            [lein-environ "1.0.0"]]
 
-  :aliases {"up" ["pdo" "cljsbuild" "auto," "run" "24099"]}
+  :aliases {"all-dev" ["pdo" "cljsbuild" "auto," "run" "24099"]
+            "build-pro" ["pdo" "cljsbuild" "clean," "cljsbuild" "once" "release"]
+            "up-pro" ["pdo" "with-profile" "release" "run" "24099"]}
   :source-paths ["src/clj"]
   :resource-paths ["resources"]
 
+  :profiles {:dev {:env {:root "photosure-dev.html"}}
+             :release {:env {:root "photosure.html"}}}
+
   :cljsbuild {:builds [{:id "dev"
                         :source-paths ["src/cljs"]
-                        :compiler {:output-to "resources/public/js/client.js"
+                        :compiler {:output-to "resources/public/js/photosure-dev.js"
                                    :output-dir "resources/public/js"
                                    :optimizations :none
-				   :source-map true}}]})
+				   :source-map true}}
+                       {:id "release"
+                        :source-paths ["src/cljs"]
+                        :compiler {:output-to "resources/public/js/photosure.js"
+                                   :optimizations :advanced
+                                   :pretty-print false
+                                   :preamble ["react/react.min.js"]
+                                   :externs ["react/externs/react.js"]}}]})

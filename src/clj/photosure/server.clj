@@ -1,16 +1,18 @@
 (ns photosure.server
   (:gen-class :main true)
   (:require [org.httpkit.server :as srv]
-            [clj-http.client :as client])
+            [clj-http.client :as client]
+            [environ.core :refer [env]])
   (:use [compojure.route :only [files not-found resources]]
         [compojure.handler :only [site]]
         [compojure.core :only [defroutes GET POST DELETE ANY context]]
         [ring.util.response :only [file-response response]]
-        [ring.middleware.edn :refer [wrap-edn-params]]
         [ring.middleware.transit :refer [wrap-transit-response
                                          wrap-transit-params]]))
 
 (def api "http://api.tumblr.com/v2/blog/cpleblow.tumblr.com/posts?api_key=Tg1KPogMJGHntn64LnRYkTK0pAdlt5VdihWiDNEuNjrYH7TB20")
+
+(def root (env :root))
 
 (defn posts [page]
   (let [offset (str "&offset=" (* 20 (read-string page)))
@@ -28,7 +30,7 @@
     posts))
 
 (defn app [req]
-  (file-response "public/photosure.html" {:root "resources"}))
+  (file-response (str "public/" root) {:root "resources"}))
 
 (defroutes routes
   (GET "/" [] app)

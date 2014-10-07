@@ -15,6 +15,7 @@
 }
 
 .loaded {
+  transition: opacity .3s;
   opacity: 1;
 }
 

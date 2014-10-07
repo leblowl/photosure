@@ -44,6 +44,11 @@
       (put! (om/get-state owner :load-chan)
         "done!"))
 
+    om/IDidUpdate
+    (did-update [this prev-props prev-state]
+      (put! (om/get-state owner :load-chan)
+        "done!"))
+
     om/IRender
     (render [this]
       (if (= type "photo")
@@ -67,7 +72,9 @@
                 (do
                   (om/update-state! owner :load-count #(inc %))
                   (when (= (om/get-state owner :load-count) 20)
-                    (put! loaded-chan "all done!")))
+                    (put! loaded-chan "all done!")
+                    (om/set-state! owner :load-count 0)
+                    (.log js/console "loaded")))
                 (recur))))))
 
     om/IRenderState
@@ -75,59 +82,69 @@
       (apply dom/div #js {:id "post-list"}
         (om/build-all post-view (take iter posts) {:init-state {:load-chan load-chan}})))))
 
-(defn get-posts [app]
+(defn set-posts [app page]
   (util/edn-xhr
     {:method :get
-     :url (str "api/posts/" (:page @app))
+     :url (str "api/posts/" page)
      :on-complete (fn [_] (om/update! app :posts _))}))
 
 (defn posts-nav [app owner]
   (reify
-    om/IRender
-    (render [_]
+    om/IRenderState
+    (render-state [_ {:keys [nav-chan]}]
       (dom/div #js {:className "posts-nav"}
         (dom/div #js {:className "prev"
-                      :onClick (fn [_]
-                                 (om/transact! app :page #(dec %))
-                                 (get-posts app))})
+                      :onClick (fn [_] (put! nav-chan "prev"))})
         (dom/div #js {:className "top"}
           (dom/p #js {:className "page"} (+ (:page app) 1)))
         (dom/div #js {:className "next"
-                      :onClick (fn [_]
-                                 (.log js/console "next")
-                                 (om/transact! app :page #(inc %))
-                                 (get-posts app))})))))
+                      :onClick (fn [_] (put! nav-chan "next"))})))))
 
 (defn blog [app owner]
   (reify
     om/IInitState
     (init-state [_]
       {:loaded false
-       :loaded-chan (chan)})
+       :loaded-chan (chan)
+       :nav-chan (chan)})
 
     om/IWillMount
     (will-mount [_]
-      (util/edn-xhr
-       {:method :get
-        :url (str "api/posts/" (:page app))
-        :on-complete (fn [_] (om/update! app :posts _))})
+      (set-posts app (:page app))
 
       (let [loaded-chan (om/get-state owner :loaded-chan)]
         (go (loop []
               (let [loaded (<! loaded-chan)]
                 (do
                   (om/set-state! owner :loaded true))
+                (recur)))))
+
+      (let [nav-chan (om/get-state owner :nav-chan)]
+        (go (loop []
+              (let [cmd (<! nav-chan)]
+                (do
+                  (if (= cmd "prev")
+                    (do
+                      (om/set-state! owner :loaded false)
+                      (om/transact! app :page #(dec %))
+                      (set-posts app (:page @app)))
+                    (do
+                      (om/set-state! owner :loaded false)
+                      (om/transact! app :page #(inc %))
+                      (set-posts app (:page @app)))))
                 (recur))))))
 
     om/IRenderState
-    (render-state [this {:keys [loaded loaded-chan]}]
+    (render-state [this {:keys [loaded loaded-chan nav-chan scroll-top]}]
       (dom/div #js {:id "blog-gallery-container"}
         (om/build scroll-div
           app
-          {:init-state {:class "blog-gallery"}
-           :state {:class (str "blog-gallery" (when loaded " loaded"))}
+          {:init-state {:class "blog-gallery"
+                        :scroll-top 0}
+           :state {:class (str "blog-gallery" (when loaded " loaded"))
+                   :scroll-top 0}
            :opts {:children [(om/build posts-view (:posts app) {:init-state {:loaded-chan loaded-chan}})
-                             (om/build posts-nav app)]}})))))
+                             (om/build posts-nav app {:init-state {:nav-chan nav-chan}})]}})))))
 
 (defn render []
   (om/root blog

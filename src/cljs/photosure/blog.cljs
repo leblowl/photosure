@@ -29,13 +29,27 @@
 (defn photo-post-view [{id :id
                         photos :photos
                         caption :caption} owner]
-  (om/component
-    (dom/div #js {:id id :className "post"}
-      (apply dom/div #js {:className "blog-photo"}
-        (map (fn [photo]
-               (dom/div nil "placeholder"))
-          photos))
-      (om/build text-view caption))))
+  (reify
+    om/IInitState
+    (init-state [this]
+      {:loaded false})
+
+    om/IWillReceiveProps
+    (will-receive-props [this next-props]
+      (om/set-state! owner :loaded false))
+
+    om/IRenderState
+    (render-state [this {:keys [loaded]}]
+     (dom/div #js {:id id :className "post"}
+       (apply dom/div #js {:className (str "blog-photo")}
+         (dom/div #js {:id "blah"
+                       :className (str "loader "(if (not loaded) "on" "off"))})
+         (map (fn [photo]
+                (dom/img #js {:src photo
+                              :className (str "blog-photo-img" (when loaded " loaded"))
+                              :onLoad #(om/set-state! owner :loaded true)}))
+           photos))
+       (om/build text-view caption)))))
 
 (defn post-view [{:keys [type] :as post} owner]
   (reify

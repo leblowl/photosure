@@ -22,13 +22,8 @@
 (defroute "/bio" []
   (bio/render))
 
-(defroute "/blog/:page" [page]
-  (if (re-matches #"[0-9]+" page)
-    (blog/render (js/parseInt page))
-    (set! (.-location js/window) "/#/blog")))
-
 (defroute "/blog" []
-  (blog/render 0))
+  (blog/render))
 
 (defroute "/gallery" []
   (gallery/render))

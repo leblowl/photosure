@@ -54,17 +54,12 @@
 
 (defn scroll-content [app owner opts]
   (reify
-    om/IInitState
-    (init-state [_]
-      {:scroll-top 0})
-
     om/IDidMount
     (did-mount [this]
       (let [elem (om/get-node owner)
             scroll-chan (om/get-state owner :scroll-chan)]
         (om/set-state! owner :handle-resize
           (fn [_]
-            (om/set-state! owner :scroll-top (.-scrollTop elem))
             (put! scroll-chan
               {:scroll-top (.-scrollTop elem)
                :total-scroll-height (- (.-scrollHeight elem)
@@ -73,9 +68,9 @@
 
     om/IWillUpdate
     (will-update [this next-props next-state]
-      (if (not=
-            (.-scrollTop (om/get-node owner))
-            (:scroll-top next-state))
+      (do
+        ; warning: sets the scroll top a bunch of times
+        ; would be better to be able to save scroll state where doesn't trigger re-render & diff before set
         (set! (.-scrollTop (om/get-node owner)) (:scroll-top next-state))))
 
     om/IWillUnmount

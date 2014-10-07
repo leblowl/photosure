@@ -116,9 +116,10 @@
 }
 
 .posts-nav div {
-    width: 8%;
-    height: 0;
-    padding: 4% 0;
+    width: 4vw;
+    //padding: 4% 0;
+    height: 4vw;
+    //padding-bottom: 8%;
     border-radius: 50%;
     margin: auto;
     box-sizing: content-box;

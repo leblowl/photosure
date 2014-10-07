@@ -22,7 +22,7 @@
   :plugins [[lein-cljsbuild "1.0.3"]
             [lein-pdo "0.1.1"]]
 
-  :aliases {"up" ["pdo" "cljsbuild" "auto," "run" "3399"]}
+  :aliases {"up" ["pdo" "cljsbuild" "auto," "run" "24099"]}
   :source-paths ["src/clj"]
   :resource-paths ["resources"]
 

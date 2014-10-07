@@ -58,7 +58,7 @@
     (render [this]
       (dom/div #js {:className "navigation-container"}
                (dom/div #js {:className "banner-container"}
-                        (dom/p #js {:className "banner"} "C.P.Leblow Gallery"))
+                        (dom/p #js {:className "banner"} "cpleblow photography"))
                (apply dom/ul #js {:className "nav nav-tabs"}
                       (om/build-all navigation-item-view app))))))
 

@@ -5,7 +5,14 @@
             [photosure.scrolldiv :refer [scroll-div]]))
 
 (def app-state (atom {:selfie-src "images/me.jpg"
-                      :about "Hey my name is Charles Leblow, I like to take photos and this is my site. Welcome! Since we have some time to talk alone now, I will tell you all about my deepest darkest secrets of interal fire and ice alchemy of the sacred heart! Now here are the secrets: they are an array of 9 secrets, subdivided into 3 quadrants of 5 elliptical meshes, infinitely, outertwined into the fabric of life. One love, One life, One unity"
+                      :about "My name is Charles Leblow.<br><br>
+Photography has been a passion dating back to childhood.<br>
+I specialize in landscape and urban photography as well as family photography in informal settings or at your home. My work is done in 35mm format, primarily digital and also film, black and white, or custom editing options are available.<br>
+I am located in the San Francisco/Bay Area of California and am available for local hire for family events/portraits/informal photo shoots, small weddings, proms and parties, no job is too small.<br>
+Prints of my work are available only by special order. Please inquire for sizing, pricing, paper, and matting or framing options.<br>
+I could supply you with more written details about my skills as a photographer but I would prefer you judge me by my work, a sampling of which is available above in the Gallery, and not my writing skills.<br><br><br>
+
+cpleblow"
                       :shares
                       [{:name "facebook"
                         :entity "&#62220;"
@@ -51,7 +58,8 @@
              (om/build scroll-div
                        app
                        {:init-state {:class "about-container"}
-                        :opts {:children [(dom/p #js {:id "about"} about)]}})
+                        :opts {:children [(dom/p #js {:id "about"
+                                                      :dangerouslySetInnerHTML #js {:__html about}} nil)]}})
              (dom/div #js {:className "shares-container"}
                (om/build shares-view shares)))))))))
 

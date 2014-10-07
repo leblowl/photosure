@@ -116,8 +116,7 @@
   (reify
     om/IInitState
     (init-state [this]
-      {:text (+ page 1)
-       :className "page fadein"})
+      {:className "page fadein"})
 
     om/IRenderState
     (render-state [this {:keys [text className nav-chan]}]
@@ -145,11 +144,13 @@
     om/IRenderState
     (render-state [_ {:keys [nav-chan]}]
       (dom/div #js {:className "posts-nav"}
-        (dom/div #js {:className "prev"
+        (dom/div #js {:className (str "prev" (when (= (:page app) 0) " disabled"))
                       :onClick (fn [_] (put! nav-chan "prev"))}
           (dom/p #js {:className "icon"}
             (gstr/unescapeEntities "&#xe602")))
-        (om/build page-top-btn (:page app) {:init-state {:nav-chan nav-chan}})
+        (om/build page-top-btn (:page app) {:init-state {:nav-chan nav-chan
+                                                         :text (+ (:page app) 1)}
+                                            :state {:text (+ (:page app) 1)}})
         (dom/div #js {:className "next"
                       :onClick (fn [_] (put! nav-chan "next"))}
           (dom/p #js {:className "icon"}

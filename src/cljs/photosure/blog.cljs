@@ -112,6 +112,34 @@
      :url (str "api/posts/" page)
      :on-complete (fn [_] (om/update! app :posts _))}))
 
+(defn page-top-btn [page owner]
+  (reify
+    om/IInitState
+    (init-state [this]
+      {:text (+ page 1)
+       :className "page fadein"})
+
+    om/IRenderState
+    (render-state [this {:keys [text className nav-chan]}]
+      ; kind of sketchy to do mouseenter mouseleave like this with timeout
+      ; seems quick enough now to not cause problems
+      (dom/div #js {:className "top"
+                    :onMouseEnter (fn [_]
+                                    (om/set-state! owner :text (gstr/unescapeEntities "&#xe600"))
+                                    (om/set-state! owner :className "icon")
+                                    (js/setTimeout
+                                      (fn [] (om/set-state! owner :className "icon fadein"))
+                                      50))
+                    :onMouseLeave (fn [_]
+                                    (om/set-state! owner :text (+ page 1))
+                                    (om/set-state! owner :className "page")
+                                    (js/setTimeout
+                                      (fn [] (om/set-state! owner :className "page fadein"))
+                                      50))
+                    :onClick (fn [_] (put! nav-chan "top"))}
+        (dom/p #js {:id "change"
+                    :className className} text)))))
+
 (defn posts-nav [app owner]
   (reify
     om/IRenderState
@@ -121,8 +149,7 @@
                       :onClick (fn [_] (put! nav-chan "prev"))}
           (dom/p #js {:className "icon"}
             (gstr/unescapeEntities "&#xe602")))
-        (dom/div #js {:className "top"}
-          (dom/p #js {:className "page"} (+ (:page app) 1)))
+        (om/build page-top-btn (:page app) {:init-state {:nav-chan nav-chan}})
         (dom/div #js {:className "next"
                       :onClick (fn [_] (put! nav-chan "next"))}
           (dom/p #js {:className "icon"}
@@ -134,7 +161,8 @@
     (init-state [_]
       {:loaded false
        :loaded-chan (chan)
-       :nav-chan (chan)})
+       :nav-chan (chan)
+       :scroll-top 0})
 
     om/IWillMount
     (will-mount [_]
@@ -151,15 +179,17 @@
         (go (loop []
               (let [cmd (<! nav-chan)]
                 (do
-                  (if (= cmd "prev")
-                    (do
-                      (om/set-state! owner :loaded false)
-                      (om/transact! app :page #(dec %))
-                      (set-posts app (:page @app)))
-                    (do
-                      (om/set-state! owner :loaded false)
-                      (om/transact! app :page #(inc %))
-                      (set-posts app (:page @app)))))
+                  (cond
+                    (= cmd "prev") (do
+                                     (om/set-state! owner :loaded false)
+                                     (om/transact! app :page #(dec %))
+                                     (set-posts app (:page @app)))
+                    (= cmd "next") (do
+                                     (om/set-state! owner :loaded false)
+                                     (om/transact! app :page #(inc %))
+                                     (set-posts app (:page @app)))
+                    (= cmd "top") (do
+                                    (om/set-state! owner :scroll-top 0))))
                 (recur))))))
 
     om/IRenderState
@@ -170,7 +200,7 @@
           {:init-state {:class "blog-gallery"
                         :scroll-top 0}
            :state {:class (str "blog-gallery" (when loaded " loaded"))
-                   :scroll-top 0}
+                   :scroll-top scroll-top}
            :opts {:children [(om/build posts-view (:posts app) {:init-state {:loaded-chan loaded-chan}})
                              (om/build posts-nav app {:init-state {:nav-chan nav-chan}})]}})))))
 

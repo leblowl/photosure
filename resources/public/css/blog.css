@@ -60,15 +60,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
 }
 
-.posts-nav div .icon {
-    opacity: 0;
-    transition: opacity .3s;
-}
-
-.posts-nav div:hover .icon {
-    opacity: 1;
+.prev {
+    transition: border .3s;
 }
 
 .prev:hover {
@@ -76,9 +72,23 @@
     transition: border .5s;
 }
 
+.prev:hover .icon {
+    opacity: 1;
+    transition: opacity .3s;
+}
+
+.next {
+    transition: border .3s;
+}
+
 .next:hover {
     border: 2px solid black;
     transition: border .5s;
+}
+
+.next:hover .icon {
+    opacity: 1;
+    transition: opacity .3s;
 }
 
 .icon {
@@ -88,6 +98,8 @@
     font-size: 2.5vw;
     margin: 0;
     color: #666;
+
+    opacity: 0;
 }
 
 .top {
@@ -95,21 +107,25 @@
     background-color: #0B0B0B;
 }
 
-.top p {
+.page {
    display: table-cell;
    vertical-align: middle;
-   font-family: 'Lato',sans-serif;
+   font-family: 'Lato', 'icomoon', sans-serif;
    color: #666;
    font-size: 2vw;
+   opacity: 0;
+}
+
+.fadein {
+    transition: opacity .5s;
+    opacity: 1;
 }
 
 .prev {
-    cursor: pointer;
     border: 2px solid #464368;
 }
 
 .next {
-    cursor: pointer;
     border: 2px solid #464368;
 }
 

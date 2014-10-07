@@ -205,7 +205,8 @@
            :opts {:children [(om/build posts-view (:posts app) {:init-state {:loaded-chan loaded-chan}})
                              (om/build posts-nav app {:init-state {:nav-chan nav-chan}})]}})))))
 
-(defn render []
+(defn render [page]
+  (swap! app-data assoc :page page)
   (om/root blog
            app-data
            {:target (.getElementById js/document "dynamic-content")}))

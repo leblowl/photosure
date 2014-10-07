@@ -22,11 +22,19 @@
 (defroute "/bio" []
   (bio/render))
 
+(defroute "/blog/:page" [page]
+  (if (re-matches #"[0-9]+" page)
+    (blog/render (js/parseInt page))
+    (set! (.-location js/window) "/#/blog")))
+
 (defroute "/blog" []
-  (blog/render))
+  (blog/render 0))
 
 (defroute "/gallery" []
   (gallery/render))
+
+(defroute "*" []
+  (set! (.-location js/window) "/#/bio"))
 
 (defn refresh-navigation []
   (let [token (.getToken history)

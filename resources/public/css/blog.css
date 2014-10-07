@@ -38,6 +38,12 @@
     max-width: 100%;
 }
 
+@font-face {
+    font-family: 'icomoon';
+    src: url('/fonts/icomoon/icomoon.woff') format('woff'),
+         url('/fonts/icomoon/icomoon.ttf') format('truetype');
+}
+
 .posts-nav {
     height: auto;
     width: 100%;
@@ -50,13 +56,41 @@
     height: 4vw;
     border-radius: 50%;
     margin: auto;
-    box-sizing: content-box;
-}
 
-.top {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.posts-nav div .icon {
+    opacity: 0;
+    transition: opacity .3s;
+}
+
+.posts-nav div:hover .icon {
+    opacity: 1;
+}
+
+.prev:hover {
+    border: 2px solid black;
+    transition: border .5s;
+}
+
+.next:hover {
+    border: 2px solid black;
+    transition: border .5s;
+}
+
+.icon {
+    position: relative;
+    top: 3px;
+    font-family: 'Lato', 'icomoon', sans-serif;
+    font-size: 2.5vw;
+    margin: 0;
+    color: #666;
+}
+
+.top {
     border: 2px solid black;
     background-color: #0B0B0B;
 }

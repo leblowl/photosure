@@ -98,8 +98,7 @@
                   (om/update-state! owner :load-count #(inc %))
                   (when (= (om/get-state owner :load-count) 20)
                     (put! loaded-chan "all done!")
-                    (om/set-state! owner :load-count 0)
-                    (.log js/console "loaded")))
+                    (om/set-state! owner :load-count 0)))
                 (recur))))))
 
     om/IRenderState
@@ -119,11 +118,15 @@
     (render-state [_ {:keys [nav-chan]}]
       (dom/div #js {:className "posts-nav"}
         (dom/div #js {:className "prev"
-                      :onClick (fn [_] (put! nav-chan "prev"))})
+                      :onClick (fn [_] (put! nav-chan "prev"))}
+          (dom/p #js {:className "icon"}
+            (gstr/unescapeEntities "&#xe602")))
         (dom/div #js {:className "top"}
           (dom/p #js {:className "page"} (+ (:page app) 1)))
         (dom/div #js {:className "next"
-                      :onClick (fn [_] (put! nav-chan "next"))})))))
+                      :onClick (fn [_] (put! nav-chan "next"))}
+          (dom/p #js {:className "icon"}
+            (gstr/unescapeEntities "&#xe601")))))))
 
 (defn blog [app owner]
   (reify

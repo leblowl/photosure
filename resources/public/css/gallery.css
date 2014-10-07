@@ -32,13 +32,13 @@
   border-radius: 5px;
 }
 
-#photo-gallery div img {
+#photo-gallery .frame img {
     opacity: 0;
     transition: opacity 2s;
     -webkit-transition: opacity: 2s;
 }
 
-#photo-gallery.loaded div img {
+#photo-gallery.loaded .frame img {
     opacity: 1;
 }
 

@@ -96,7 +96,9 @@
           (om/build prev-btn app {:init-state {:slide-chan slide-chan}
                                   :state {:disabled anim-in-progress}}))
         (apply dom/div #js {:id "photo-gallery" :className (when (all-loaded?) "loaded")}
-               (om/build-all photo-view (:photos app) {:key :photo}))
+          (dom/div #js {:id "blah"
+                        :className (str "loader "(if (all-loaded?) "off" "on"))})
+          (om/build-all photo-view (:photos app) {:key :photo}))
         (dom/div #js {:id "right-pane"}
           (om/build next-btn app {:init-state {:slide-chan slide-chan}
                                   :state {:disabled anim-in-progress}}))))))

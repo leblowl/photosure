@@ -15,7 +15,18 @@
   (om/component
     (dom/div #js {:className "caption"
                   :dangerouslySetInnerHTML #js {:__html caption}}
-     nil)))
+      nil)))
+
+(defn answer-post-view [{id :id
+                         asking_name :asking_name
+                         asking_url :asking_url
+                         question :question
+                         answer :answer}]
+  (om/component
+    (dom/div #js {:id id :className "post"}
+      (dom/div nil (str asking_name " @ " asking_url ": ")
+        (dom/div #js {}))
+      )))
 
 (defn text-post-view [{id :id
                        title :title

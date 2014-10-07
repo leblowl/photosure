@@ -23,7 +23,8 @@
            (= (:type post) "text") (select-keys post [:id :type :title :body])
            (= (:type post) "photo") (assoc (select-keys post [:id :type :caption])
                                       :photos (map #(:url (:original_size %)) (:photos post)))
-           :else (println "other")))
+           (= (:type post) "answer") (select-keys post [:id :type :asking_name :asking_url :question :answer])
+           :else (println (:type post))))
     posts))
 
 (defn app [req]

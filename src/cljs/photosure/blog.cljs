@@ -17,17 +17,6 @@
                   :dangerouslySetInnerHTML #js {:__html caption}}
       nil)))
 
-(defn answer-post-view [{id :id
-                         asking_name :asking_name
-                         asking_url :asking_url
-                         question :question
-                         answer :answer}]
-  (om/component
-    (dom/div #js {:id id :className "post"}
-      (dom/div nil (str asking_name " @ " asking_url ": ")
-        (dom/div #js {}))
-      )))
-
 (defn text-post-view [{id :id
                        title :title
                        body :body} owner]
@@ -76,9 +65,9 @@
 
     om/IRender
     (render [this]
-      (if (= type "photo")
-        (om/build photo-post-view post)
-        (om/build text-post-view post)))))
+      (cond
+        (= type "photo") (om/build photo-post-view post)
+        (= type "text")  (om/build text-post-view post)))))
 
 (defn posts-view [posts owner]
   (reify

@@ -97,19 +97,6 @@ div {
     width: 100%;
 }
 
-@font-face {
-    font-family: 'Entypo';
-    src: url('/fonts/entypo/entypo.woff'); format('woff'),
-         url('/fonts/entypo/entypo.tff'); format('truetype');
-}
-
-
-@font-face {
-    font-family: 'Entypo Social';
-    src: url('/fonts/entypo_social/entypo-social.woff'); format('woff'),
-         url('/fonts/entypo_social/entypo-social.tff'); format('truetype');
-}
-
 .shares-container {
     height: 50%;
     padding-top: .1em;
@@ -146,13 +133,14 @@ div {
 }
 
 .share-link:hover {
+    transition: color .3s;
+    transition: border .4s;
+    color: black;
     background-color: #111;
-    border: 1px solid black;
+    border: 1px solid #464368;
 }
 
-.share-icon {
+.icon-share {
     margin: auto;
-    max-height: 90%;
-    width: auto;
-    box-sizing: border-box;
+    font-size: 3.3vmin;
 }

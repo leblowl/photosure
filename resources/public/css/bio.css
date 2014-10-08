@@ -15,9 +15,10 @@ div {
 }
 
 #bio {
-    width: 70%;
+    width: 80%;
     max-width: 999px;
-    height: 33%;
+    max-height: 333px;
+    height: 44%;
 
     position: absolute;
     top: 0;

@@ -1,11 +1,16 @@
 # photosure
 
-cpleblow gallery site using clojurescript + om
+cpleblow gallery site using clojure/clojurescript om/secretary + http-kit/ring/compojure + transit, and targeting only the latest versions of firefox and chrome.
+
+check it out @ cpleblowphotography.com
 
 ## Usage
 
-lein cljsbuild once
-firefox photosure.html
+dev: lein all-dev
+firefox localhost:24099
+
+production: lein build-pro, lein up-pro
+firefox localhost:24099
 
 ## License
 

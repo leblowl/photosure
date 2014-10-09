@@ -28,9 +28,6 @@
   :source-paths ["src/clj"]
   :resource-paths ["resources"]
 
-  :profiles {:dev {:env {:root "photosure-dev.html"}}
-             :release {:env {:root "photosure.html"}}}
-
   :cljsbuild {:builds [{:id "dev"
                         :source-paths ["src/cljs"]
                         :compiler {:output-to "resources/public/js/photosure-dev.js"

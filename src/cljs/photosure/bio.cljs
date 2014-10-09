@@ -4,7 +4,7 @@
             [goog.string :as gstr]
             [photosure.scrolldiv :refer [scroll-div]]))
 
-(def app-state (atom {:selfie-src "images/me.jpg"
+(def app-state (atom {:selfie-src "images/bio/me.jpg"
                       :about "My name is Charles Leblow.<br><br>
 Photography has been a passion dating back to childhood.<br>
 I specialize in landscape and urban photography as well as family photography in informal settings or at your home. My work is done in 35mm format, primarily digital and also film, black and white, or custom editing options are available.<br>

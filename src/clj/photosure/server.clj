@@ -10,13 +10,12 @@
         [ring.middleware.transit :refer [wrap-transit-response
                                          wrap-transit-params]]))
 
-(def api "http://api.tumblr.com/v2/blog/cpleblow.tumblr.com/posts?api_key=Tg1KPogMJGHntn64LnRYkTK0pAdlt5VdihWiDNEuNjrYH7TB20")
-
 (def root (env :root))
+(def tumblr-api (str "http://api.tumblr.com/v2/blog/cpleblow.tumblr.com/posts?api_key=" (env :tumblr-key)))
 
 (defn posts [page]
   (let [offset (str "&offset=" (* 20 (read-string page)))
-        req (str api offset)]
+        req (str tumblr-api offset)]
     (get-in (client/get req {:as :json}) [:body :response :posts])))
 
 (defn trim-posts [posts]

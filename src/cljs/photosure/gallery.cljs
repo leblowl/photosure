@@ -45,19 +45,17 @@
   (reify
     om/IRenderState
     (render-state [this {:keys [slide-chan disabled]}]
-      (dom/div #js {:id "prev-btn"
-                    :className (str "btn" (when disabled " disabled"))
+      (dom/div #js {:className (str "btn" (when disabled " disabled"))
                     :onClick (fn [e] (put! slide-chan "prev"))}
-        (dom/p #js {:id "prev-arrow"} (gstr/unescapeEntities "&#10092;"))))))
+        (dom/p #js {:className "arrow"} (gstr/unescapeEntities "&#xe604;"))))))
 
 (defn next-btn [app owner]
   (reify
     om/IRenderState
     (render-state [this {:keys [slide-chan disabled]}]
-      (dom/div #js {:id "next-btn"
-                    :className (str "btn" (when disabled " disabled"))
+      (dom/div #js {:className (str "btn" (when disabled " disabled"))
                     :onClick (fn [e] (put! slide-chan "next"))}
-        (dom/p #js {:id "next-arrow"} (gstr/unescapeEntities "&#10093;"))))))
+        (dom/p #js {:className "arrow"} (gstr/unescapeEntities "&#xe605;"))))))
 
 (defn gallery [app owner]
   (reify

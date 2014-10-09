@@ -15,12 +15,12 @@ I could supply you with more written details about my skills as a photographer b
 cpleblow"
                       :shares
                       [{:name "facebook"
-                        :entity "&#xe604;"
+                        :entity "&#xe606;"
                         :svg "images/facebook.svg"
                         :href "https://www.facebook.com/cpleblow"}
 
                        {:name "tumblr"
-                        :entity "&#xe605;"
+                        :entity "&#xe607;"
                         :svg "images/tumblr.svg"
                         :href "http://cpleblow.tumblr.com/"}
 

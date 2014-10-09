@@ -102,8 +102,7 @@
     pointer-events: none;
 }
 
-/* creds to Kushagra Agarwal @ cssdeck */
-#prev-btn {
+.btn {
     display: inline-block;
     position: relative;
     margin: auto;
@@ -113,35 +112,13 @@
     cursor: pointer;
 }
 
-#prev-arrow {
+.arrow {
     margin: 0;
-    font-size: 500%;
-    font-family: 'FreeSerif';
+    font-family: 'icomoon', sans-serif;
+    font-size: 333%;
     color: #333;
 }
 
-#prev-arrow:hover {
-  color: #FFF;
-}
-
-/* creds to Kushagra Agarwal @ cssdeck */
-#next-btn {
-    display: inline-block;
-    position: relative;
-    margin: auto;
-    top: 50%;
-    transform: translateY(-50%);
-    -webkit-transform: translateY(-50%);
-    cursor: pointer;
-}
-
-#next-arrow {
-    margin: 0;
-    font-size: 500%;
-    font-family: 'FreeSerif';
-    color: #333;
-}
-
-#next-arrow:hover {
+.arrow:hover {
   color: #FFF;
 }

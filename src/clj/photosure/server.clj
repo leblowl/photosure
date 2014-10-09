@@ -13,6 +13,11 @@
 (def root (env :root))
 (def tumblr-api (str "http://api.tumblr.com/v2/blog/cpleblow.tumblr.com/posts?api_key=" (env :tumblr-key)))
 
+(defn gallery-imgs [req]
+  (sort (drop 1 (for [file (file-seq
+                       (clojure.java.io/file "resources/public/images/gallery"))]
+             (.getName file)))))
+
 (defn posts [page]
   (let [offset (str "&offset=" (* 20 (read-string page)))
         req (str tumblr-api offset)]
@@ -34,6 +39,7 @@
 (defroutes routes
   (GET "/" [] app)
   (GET ["/api/posts/:page" :page #"[0-9]+"] [page] (trim-posts (posts page)))
+  (GET "/api/cms/gallery/img" [] gallery-imgs)
   (resources "/")
   (not-found "<p>Page not found.</p>"))
 

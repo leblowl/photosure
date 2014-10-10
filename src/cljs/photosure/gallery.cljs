@@ -75,16 +75,15 @@
 
       (let [slide-chan (om/get-state owner :slide-chan)]
         (go (loop []
-              (let [len (count (:photos @app))
-                    cmd (<! slide-chan)]
+              (let [cmd (<! slide-chan)]
                 (do
                   (if (= cmd "next")
                     (do (om/update! app [:photos (get (:curr @app) 2) :pos] [])
                         (om/transact! app :curr
-                                      (fn [_] (apply vector (map #(mod (dec %) len) _)))))
+                                      (fn [_] (apply vector (map #(mod (dec %) (count (:photos @app))) _)))))
                     (do  (om/update! app [:photos (get (:curr @app) 0) :pos] [])
                          (om/transact! app :curr
-                                       (fn [_] (apply vector (map #(mod (inc %) len) _))))))
+                                       (fn [_] (apply vector (map #(mod (inc %) (count (:photos @app))) _))))))
 
                   (om/set-state! owner :anim-in-progress true)
                   (om/update! app [:photos (get (:curr @app) 0) :pos] ["left"])

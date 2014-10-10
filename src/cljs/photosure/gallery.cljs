@@ -15,7 +15,12 @@
 
 (def app-state
   (atom
-    {:photos []
+   {:photos [(photo "images/gallery/a.jpg" ["left"])
+             (photo "images/gallery/b.jpg" ["center"])
+             (photo "images/gallery/cpleblow3.jpg" [])
+             (photo "images/gallery/cpleblow4.jpg" [])
+             (photo "images/gallery/cpleblow5.jpg" [])
+             (photo "images/gallery/cpleblow6.jpg" [])]
      :curr [0 1 2]}))
 
 (defn img-loaded [photo]
@@ -62,28 +67,18 @@
 
     om/IWillMount
     (will-mount [_]
-      (util/edn-xhr
-       {:method :get
-        :url "api/cms/gallery/img"
-        :on-complete (fn [_]
-                       (let [photos (apply vector
-                                           (map #(photo (str "images/gallery/" %) []) _))]
-                         (om/update! app :photos photos))
-                       (om/update! app [:photos 0 :pos] ["left"])
-                       (om/update! app [:photos 1 :pos] ["center"])
-                       (om/update! app [:photos 2 :pos] ["right"]))})
-
-      (let [slide-chan (om/get-state owner :slide-chan)]
+      (let [len (count (:photos app))
+            slide-chan (om/get-state owner :slide-chan)]
         (go (loop []
               (let [cmd (<! slide-chan)]
                 (do
                   (if (= cmd "next")
                     (do (om/update! app [:photos (get (:curr @app) 2) :pos] [])
                         (om/transact! app :curr
-                                      (fn [_] (apply vector (map #(mod (dec %) (count (:photos @app))) _)))))
+                                      (fn [_] (apply vector (map #(mod (dec %) len) _)))))
                     (do  (om/update! app [:photos (get (:curr @app) 0) :pos] [])
                          (om/transact! app :curr
-                                       (fn [_] (apply vector (map #(mod (inc %) (count (:photos @app))) _))))))
+                                       (fn [_] (apply vector (map #(mod (inc %) len) _))))))
 
                   (om/set-state! owner :anim-in-progress true)
                   (om/update! app [:photos (get (:curr @app) 0) :pos] ["left"])

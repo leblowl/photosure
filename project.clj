@@ -22,7 +22,7 @@
             [lein-pdo "0.1.1"]
             [lein-environ "1.0.0"]]
 
-  :aliases {"all-dev" ["pdo" "cljsbuild" "auto," "run" "24099"]
+  :aliases {"all-dev" ["pdo" "cljsbuild" "auto" "dev," "with-profile" "dev" "run" "24099"]
             "build-pro" ["pdo" "cljsbuild" "clean," "cljsbuild" "once" "release"]
             "up-pro" ["pdo" "with-profile" "release" "run" "24099"]}
   :source-paths ["src/clj"]

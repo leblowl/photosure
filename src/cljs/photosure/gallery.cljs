@@ -17,7 +17,7 @@
   (atom
    {:photos [(photo "images/gallery/a.jpg" ["left"])
              (photo "images/gallery/b.jpg" ["center"])
-             (photo "images/gallery/cpleblow3.jpg" [])
+             (photo "images/gallery/cpleblow3.jpg" ["right"])
              (photo "images/gallery/cpleblow4.jpg" [])
              (photo "images/gallery/cpleblow5.jpg" [])
              (photo "images/gallery/cpleblow6.jpg" [])]
@@ -75,10 +75,10 @@
                   (if (= cmd "next")
                     (do (om/update! app [:photos (get (:curr @app) 2) :pos] [])
                         (om/transact! app :curr
-                                      (fn [_] (apply vector (map #(mod (dec %) len) _)))))
+                                      (fn [_] (apply vector (map #(mod (inc %) len) _)))))
                     (do  (om/update! app [:photos (get (:curr @app) 0) :pos] [])
                          (om/transact! app :curr
-                                       (fn [_] (apply vector (map #(mod (inc %) len) _))))))
+                                       (fn [_] (apply vector (map #(mod (dec %) len) _))))))
 
                   (om/set-state! owner :anim-in-progress true)
                   (om/update! app [:photos (get (:curr @app) 0) :pos] ["left"])

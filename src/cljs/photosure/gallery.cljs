@@ -21,7 +21,7 @@
              (photo "images/gallery/cpleblow4.jpg" [])
              (photo "images/gallery/cpleblow5.jpg" [])
              (photo "images/gallery/cpleblow6.jpg" [])]
-     :curr [0 1 2]}))
+    :curr [0 1 2]}))
 
 (defn img-loaded [photo]
   (om/update! photo [:loaded] true))
@@ -73,10 +73,10 @@
               (let [cmd (<! slide-chan)]
                 (do
                   (if (= cmd "next")
-                    (do (om/update! app [:photos (get (:curr @app) 2) :pos] [])
+                    (do (om/update! app [:photos (get (:curr @app) 0) :pos] [])
                         (om/transact! app :curr
                                       (fn [_] (apply vector (map #(mod (inc %) len) _)))))
-                    (do  (om/update! app [:photos (get (:curr @app) 0) :pos] [])
+                    (do  (om/update! app [:photos (get (:curr @app) 2) :pos] [])
                          (om/transact! app :curr
                                        (fn [_] (apply vector (map #(mod (dec %) len) _))))))
 

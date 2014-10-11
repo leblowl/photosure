@@ -15,23 +15,25 @@
 
 (def app-state
   (atom
-   {:photos [(photo "images/gallery/a.jpg" ["left"])
-             (photo "images/gallery/b.jpg" ["center"])
-             (photo "images/gallery/cpleblow3.jpg" ["right"])
-             (photo "images/gallery/cpleblow4.jpg" [])
-             (photo "images/gallery/cpleblow5.jpg" [])
-             (photo "images/gallery/cpleblow6.jpg" [])]
-    :curr [0 1 2]}))
+   {:photos []
+    :curr [0 1 2]
+    :all-loaded false}))
 
-(defn img-loaded [photo]
-  (om/update! photo [:loaded] true))
+(defn on-load [app photo]
+  (om/update! photo :loaded true)
+  (when (=
+         (count (:photos @app))
+         (count (get (group-by :loaded (:photos @app)) true)))
+    (om/update! app :all-loaded true)))
 
-(defn all-loaded? []
-  (let [total (count (:photos @app-state))
-        loaded (count (get (group-by :loaded (:photos @app-state)) true))]
-    (= 1 (/ total loaded))))
+(defn init-photos [paths]
+  (let [photos (apply vector (map #(photo (str "images/gallery/" %) []) paths))]
+    (swap! app-state #(assoc % :photos photos))
+    (swap! app-state #(assoc-in % [:photos 0 :pos] ["left"]))
+    (swap! app-state #(assoc-in % [:photos 1 :pos] ["center"]))
+    (swap! app-state #(assoc-in % [:photos 2 :pos] ["right"]))))
 
-(defn photo-view [photo owner]
+(defn photo-view [photo owner {:keys [on-load] :as opts}]
   (reify
     om/IRender
     (render [this]
@@ -40,7 +42,7 @@
                                                 (get (:pos photo) 0)))}
         (dom/img #js {:className (str "photo" (when (:loaded photo) " loaded"))
                       :src (:photo photo)
-                      :onLoad #(img-loaded photo)})))))
+                      :onLoad #(on-load photo)})))))
 
 (defn prev-btn [app owner]
   (reify
@@ -67,10 +69,10 @@
 
     om/IWillMount
     (will-mount [_]
-      (let [len (count (:photos app))
-            slide-chan (om/get-state owner :slide-chan)]
+      (let [slide-chan (om/get-state owner :slide-chan)]
         (go (loop []
-              (let [cmd (<! slide-chan)]
+              (let [cmd (<! slide-chan)
+                    len (count (:photos @app))]
                 (do
                   (if (= cmd "next")
                     (do (om/update! app [:photos (get (:curr @app) 0) :pos] [])
@@ -94,10 +96,9 @@
         (dom/div #js {:id "left-pane"}
           (om/build prev-btn app {:init-state {:slide-chan slide-chan}
                                   :state {:disabled anim-in-progress}}))
-        (apply dom/div #js {:id "photo-gallery" :className (when (all-loaded?) "loaded")}
-          (dom/div #js {:id "blah"
-                        :className (str "loader "(if (all-loaded?) "off" "on"))})
-          (om/build-all photo-view (:photos app) {:key :photo}))
+        (apply dom/div #js {:id "photo-gallery" :className (when (:all-loaded app) "loaded")}
+          (dom/div #js {:className (str "loader "(if (:all-loaded app) "off" "on"))})
+          (om/build-all photo-view (:photos app) {:opts {:on-load (partial on-load app)}}))
         (dom/div #js {:id "right-pane"}
           (om/build next-btn app {:init-state {:slide-chan slide-chan}
                                   :state {:disabled anim-in-progress}}))))))

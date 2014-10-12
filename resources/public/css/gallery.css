@@ -122,3 +122,7 @@
 .arrow:hover {
   color: #FFF;
 }
+
+.arrow:active {
+    color: #FFF;
+}

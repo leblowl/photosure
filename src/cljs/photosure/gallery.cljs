@@ -16,7 +16,7 @@
 (def app-state
   (atom
    {:photos []
-    :curr [0 1 2]
+    :curr []
     :all-loaded false}))
 
 (defn on-load [app photo]
@@ -29,9 +29,10 @@
 (defn init-photos [paths]
   (let [photos (apply vector (map #(photo (str "images/gallery/" %) []) paths))]
     (swap! app-state #(assoc % :photos photos))
-    (swap! app-state #(assoc-in % [:photos 0 :pos] ["left"]))
-    (swap! app-state #(assoc-in % [:photos 1 :pos] ["center"]))
-    (swap! app-state #(assoc-in % [:photos 2 :pos] ["right"]))))
+    (swap! app-state #(assoc % :curr [(- (count photos) 1) 0 1]))
+    (swap! app-state #(assoc-in % [:photos (get (:curr @app-state) 0) :pos] ["left"]))
+    (swap! app-state #(assoc-in % [:photos (get (:curr @app-state) 1) :pos] ["center"]))
+    (swap! app-state #(assoc-in % [:photos (get (:curr @app-state) 2) :pos] ["right"]))))
 
 (defn photo-view [photo owner {:keys [on-load] :as opts}]
   (reify

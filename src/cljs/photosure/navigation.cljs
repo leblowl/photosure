@@ -3,7 +3,7 @@
             [photosure.blog :as blog]
             [photosure.gallery :as gallery]
             [photosure.util :as util]
-            [secretary.core :as secretary :include-macros true :refer [defroute]]
+            [secretary.core :as secretary :refer-macros [defroute]]
             [goog.events :as events]
             [goog.history.EventType :as EventType]
             [om.core :as om :include-macros true]
@@ -26,8 +26,6 @@
 (defn on-navigate [event]
   (refresh-navigation)
   (secretary/dispatch! (if (nil? (.-token event)) "/" (.-token event))))
-
-
 
 (defn navigation-item-view [{:keys [id name path active]} owner]
   (reify
@@ -67,12 +65,12 @@
                (apply dom/ul #js {:className "nav nav-tabs"}
                       (om/build-all navigation-item-view app))))))
 
-
-(util/edn-xhr
- {:method :get
-  :url "api/cms/gallery/img"
-  :on-complete (fn [_]
-                 (gallery/init-photos _)
-                 (om/root navigation-view
-                          navigation-state
-                          {:target (. js/document (getElementById "static-header"))}))})
+(defn go! []
+  (util/edn-xhr
+    {:method :get
+     :url "api/cms/gallery/img"
+     :on-complete (fn [_]
+                    (gallery/init-photos _)
+                    (om/root navigation-view
+                      navigation-state
+                      {:target (. js/document (getElementById "static-header"))}))}))

@@ -1,17 +1,14 @@
 (ns photosure.server
-  (:gen-class :main true)
-  (:require [org.httpkit.server :as srv]
-            [clj-http.client :as client]
-            [environ.core :refer [env]])
-  (:use [compojure.route :only [files not-found resources]]
-        [compojure.handler :only [site]]
-        [compojure.core :only [defroutes GET POST DELETE ANY context]]
-        [ring.util.response :only [file-response response]]
-        [ring.middleware.transit :refer [wrap-transit-response
-                                         wrap-transit-params]]))
+  (:require [clj-http.client :as client]
+            [compojure.route :as route]
+            [compojure.handler       :refer [site]]
+            [compojure.core          :refer [defroutes GET]]
+            [ring.util.response      :refer [resource-response]]
+            [ring.middleware.transit :refer [wrap-transit-response
+                                             wrap-transit-params]]
+            [org.httpkit.server      :refer [run-server]]))
 
-(def root (env :root))
-(def tumblr-api (str "http://api.tumblr.com/v2/blog/cpleblow.tumblr.com/posts?api_key=" (env :tumblr-key)))
+(def tumblr-api (str "http://api.tumblr.com/v2/blog/cpleblow.tumblr.com/posts?api_key=" "api_key"))
 
 (defn gallery-imgs [req]
   (sort (drop 1 (for [file (file-seq
@@ -33,33 +30,20 @@
            :else (println (:type post))))
     posts))
 
-(defn app [req]
-  (file-response (str "public/" root) {:root "resources"}))
-
 (defroutes routes
-  (GET "/" [] app)
+  (GET "/" [] (resource-response "index.html" {:root "public"}))
   (GET ["/api/posts/:page" :page #"[0-9]+"] [page] (trim-posts (posts page)))
   (GET "/api/cms/gallery/img" [] gallery-imgs)
-  (resources "/")
-  (not-found "<p>Page not found.</p>"))
+  (route/resources "/" {:root "public"})
+  (route/not-found "Page not found."))
 
-(def sapp
-  (-> routes
-      wrap-transit-response))
+(defn run [handler & [port]]
+  (defonce ^:private server
+    (let [port (Integer. (or port 10333))]
+      (println "Starting web server on port " port ".")
+      (run-server handler {:port port}))))
 
-(defonce server (atom nil))
+(def handler (-> #'routes wrap-transit-response))
 
-(defn start [port]
-  (reset! server (srv/run-server #'sapp {:port port})))
-
-(defn stop []
-  (when-not (nil? @server)
-    (@server :timeout 100)
-    (reset! server nil)))
-
-(defn restart [port]
-  (stop)
-  (start port))
-
-(defn -main [& args]
-  (start (Integer. (first args))))
+(defn -main [& [port]]
+  (run handler port))

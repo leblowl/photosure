@@ -67,7 +67,6 @@
                (apply dom/ul #js {:className "nav nav-tabs"}
                       (om/build-all navigation-item-view app))))))
 
-
 (util/edn-xhr
  {:method :get
   :url "api/cms/gallery/img"

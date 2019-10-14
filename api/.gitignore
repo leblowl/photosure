@@ -7,6 +7,5 @@ pom.xml.asc
 *.class
 /.lein-*
 /.nrepl-port
-/resources/public/js
-/resources/public/images
+/rsrc/public/img
 /profiles.clj

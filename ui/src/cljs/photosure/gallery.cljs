@@ -7,8 +7,6 @@
             [goog.string :as gstr]
             [photosure.util :as util]))
 
-"I LOVE YOU"
-
 (defn photo [filepath pos] {:photo filepath
                             :pos pos
                             :loaded false})

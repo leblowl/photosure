@@ -1,5 +1,6 @@
 (ns photosure.navigation
   (:require [photosure.bio :as bio]
+            [cognitect.transit :as t]
             [photosure.blog :as blog]
             [photosure.gallery :as gallery]
             [photosure.util :as util]
@@ -11,6 +12,17 @@
   (:import goog.History))
 
 (def history (History.))
+
+(def app-state
+  (atom {:app {:config {:api {:host ""}}}}))
+
+(defn get-api-url-base
+  []
+  (get-in @app-state [:app :config :api :host]))
+
+(defn get-api-url
+  [path]
+  (str (get-api-url-base) path))
 
 (def navigation-state
   (atom [{:id "tab0" :name "bio" :path "/bio"}
@@ -26,8 +38,6 @@
 (defn on-navigate [event]
   (refresh-navigation)
   (secretary/dispatch! (if (nil? (.-token event)) "/" (.-token event))))
-
-
 
 (defn navigation-item-view [{:keys [id name path active]} owner]
   (reify
@@ -67,11 +77,32 @@
                (apply dom/ul #js {:className "nav nav-tabs"}
                       (om/build-all navigation-item-view app))))))
 
-(util/edn-xhr
- {:method :get
-  :url "api/cms/gallery/img"
-  :on-complete (fn [_]
-                 (gallery/init-photos _)
-                 (om/root navigation-view
-                          navigation-state
-                          {:target (. js/document (getElementById "static-header"))}))})
+(defn set-config!
+  [config]
+  (swap! app-state
+         (fn [m]
+           (assoc-in m [:app :config] config))))
+
+(defn load-config
+  [on-load]
+  (util/edn-xhr
+   {:method :get
+    :url "config"
+    :on-complete
+    (fn [config]
+      (set-config! config)
+      (on-load))}))
+
+(defn load-images
+  []
+  (util/edn-xhr
+   {:method :get
+    :url (get-api-url "/api/cms/gallery/img")
+    :on-complete (fn [_]
+                   (gallery/init-photos _)
+                   (om/root navigation-view
+                            navigation-state
+                            {:target (. js/document (getElementById "static-header"))}))}))
+
+(load-config
+  load-images)

@@ -19,7 +19,3 @@
     (. xhr
        (send url (meths method) (when data (tr/write (tr/writer :json) data))
              #js {"Content-Type" "application/transit+json"}))))
-
-(defn remove-nil-values
-  [m]
-  (into {} (remove (fn [[k v]] (= nil v)) m)))

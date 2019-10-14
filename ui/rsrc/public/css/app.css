@@ -1,7 +1,7 @@
 a {
-    outline: none;
-    text-decoration: none;
-    color:  #464368;
+  outline: none;
+  text-decoration: none;
+  color:  #464368;
 }
 
 a:hover {
@@ -14,26 +14,20 @@ body, html {
   height: 100%;
 }
 
-#underwear {
-    height: 100%;
-    margin: auto;
-    position: relative;
-}
-
-#static-header {
+#app-container {
+  height: 100%;
   width: 100%;
-  height: 77px;
-  background-color: #111;
 }
 
-#dynamic-content {
-    position: absolute;
-    top: 77px;
-    bottom: 0px;
+#app {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
 
-    width: 100%;
-    background-color: #111;
-    clear: both;
+#app-body {
+  flex: 1;
 }
 
 #blog-wrapper {

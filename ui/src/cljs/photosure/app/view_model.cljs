@@ -1,11 +1,13 @@
 (ns photosure.app.view-model
   (:require [accountant.core :as acc]
             [photosure.app.route :as rte]
+            [photosure.bio.view :as bio-v]
+            [photosure.bio.view-model :as bio-vm]
             [reagent.core :as r]
             [reagent.ratom :as rr]))
 
 (def app-view-handlers
-  {:bio       nil
+  {:bio       bio-v/bio-view
    :not-found #(do (acc/navigate! (rte/path-for :bio))
                    (acc/dispatch-current!)
                    nil)})
@@ -13,7 +15,7 @@
 (defn app-view-model
   [*model]
   (let [*app (rr/reaction (:app @*model))
-        *path (rr/reaction (:path (:route (:app @*model))))]
+        *path (rr/reaction (:path (:route @*app)))]
 
     (rr/reaction
       (let [view-id (:handler (rte/match-path @*path))
@@ -26,5 +28,5 @@
 
 (defn view-model
   [*model]
-  {:*route   (rr/reaction (:route @*model))
-   :*app     (app-view-model *model)})
+  {:*app (app-view-model *model)
+   :*bio (bio-vm/bio-view-model *model)})

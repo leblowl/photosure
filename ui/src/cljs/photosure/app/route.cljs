@@ -11,6 +11,7 @@
     "bio"       :bio
     "blog"      :blog
     "gallery"   :gallery
+    "config"    :config
     true        :not-found}])
 
 (defn match-path

@@ -50,6 +50,7 @@
   (GET "/" [] index)
   (GET ["/api/posts/:page" :page #"[0-9]+"] [page] (trim-posts (posts page)))
   (GET "/api/cms/gallery/img" [] gallery-imgs)
+  (route/resources "/")
   (resp/not-found "Not found."))
 
 (def app

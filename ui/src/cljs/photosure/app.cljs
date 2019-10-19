@@ -1,7 +1,6 @@
 (ns photosure.app
   (:require [accountant.core :as acc]
             [aide.core :as aide]
-            [aide.lifetime :as aide-lifetime]
             [aide-reagent.core :as aide-reagent]
             [photosure.app.model :as model]
             [photosure.app.event :as event]
@@ -35,6 +34,6 @@
         (aide-reagent/connect view-model app)
         (r/render elt))
 
-    (aide/emit app aide-lifetime/on-start)
+    (aide/emit app event/on-start)
 
     (assoc app :view-model view-model)))

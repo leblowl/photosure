@@ -5,22 +5,22 @@
        "<br><br>"
 
        "Photography has been a passion dating back to childhood."
-       "<br>"
+       "<br><br>"
 
        "I specialize in landscape and urban photography as well as"
        " family photography in informal settings or at your home."
        " My work is done in 35mm format, primarily digital and also"
        " film, black and white, or custom editing options are available."
-       "<br>"
+       "<br><br>"
 
        "I am located in the San Francisco/Bay Area of California and"
        " am available for local hire for family events/portraits/informal"
        " photo shoots, small weddings, proms and parties, no job is too small."
-       "<br>"
+       "<br><br>"
 
        "Prints of my work are available only by special order."
        " Please inquire for sizing, pricing, paper, and matting or framing options."
-       "<br>"
+       "<br><br>"
 
        "I could supply you with more written details about my skills as a"
        " photographer but I would prefer you judge me by my work,"

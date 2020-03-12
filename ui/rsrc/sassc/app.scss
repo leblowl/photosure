@@ -1,3 +1,8 @@
+// bg = background
+$color-bg-silver1: #efeff0;
+$color-bg-silver2: #cccccc;
+$color-orange1: #d95e40;
+
 a {
   outline: none;
   text-decoration: none;
@@ -127,72 +132,60 @@ body, html {
 	-moz-osx-font-smoothing: grayscale;
 }
 
-div {
+div, ul, ol {
     box-sizing: border-box;
-    -webkit-box-sizing: border-box;
 }
 
 #bio-container {
+    display: flex;
     width: 100%;
     height: 100%;
 
-    position: relative;
+    justify-content: center;
+    align-items: center;
 
-    background-color: #111;
+    background-color: $color-bg-silver2;
     box-sizing: border-box;
-    -webkit-box-sizing: border-box;
 }
 
 #bio {
     width: 80%;
     max-width: 999px;
-    max-height: 333px;
-    height: 44%;
 
-    position: absolute;
-    top: 0;
-    bottom: 25%;
-    left: 0;
-    right: 0;
-    margin: auto;
-
-    color: #666;
-    background-color: #0B0B0B;
+    background-color: $color-bg-silver1;
+    color: #111;
     border-radius: 5px;
-    border: 2px solid black;
-
-    box-sizing: border-box;
-    -webkit-box-sizing: border-box;
+    border: 1px solid #777;
 }
 
 #bio-liner {
+    display: flex;
     width: 100%;
     height: 100%;
-    border-left: .5em solid #464368;
+
+    flex-direction: row;
+    border-left: 1em solid #d95e40;
     border-radius: 5px;
-    padding: .5em;
 
     box-sizing: border-box;
-    -webkit-box-sizing: border-box;
 }
 
 #selfie {
     outline: 0;
-    max-height: 100%;
-    max-width: 100%;
-    position: relative;
-    float: left;
+    max-width: 30%;
 }
 
 #info-container {
-    height: 100%;
-    padding-left: .5em;
-    overflow: hidden;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
 }
 
 .about-container {
     height: 70%;
-    padding-right: 20px;
+    padding: 1em;
+    font-size: 16px;
+
 }
 
 .about-container .scroll-content {
@@ -226,15 +219,12 @@ div {
 
 .shares-container {
     height: 30%;
-    padding-top: .1em;
 }
 
 .shares {
-    width: 70%;
     height: 100%;
     margin: 0;
-    padding: 0;
-    padding-left: 20px;
+    padding: 1em;
     list-style-type: none;
 
     display: flex;
@@ -256,14 +246,14 @@ div {
     height: 100%;
     display: flex;
 
-    background-color: #111;
+    background-color: $color-bg-silver2;
     border: 1px solid black;
 }
 
 .share-link:hover {
     transition: color .3s;
     transition: border .4s;
-    color: black;
+    color: #d95e40;
     background-color: #111;
     border: 1px solid #464368;
 }
@@ -546,7 +536,8 @@ div {
   display: flex;
   flex-direction: row;
   align-items: center;
-  background: #efeff0;
+  background: $color-bg-silver1;
+  border-bottom: 1px solid #777;
 }
 
 .banner-container {
@@ -572,7 +563,7 @@ div {
 
 .nav li a {
   padding: .5em;
-  color: #d95e40;
+  color: $color-orange1;
   font-family: 'Poiret One';
   font-size: 200%;
 }

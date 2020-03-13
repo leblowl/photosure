@@ -35,7 +35,8 @@ lein repl
 ```
 
 ### Running the HTTP Server
-If you just want to run the HTTP server outside of the REPL:
+If you just want to compile ClojureScript and run the HTTP server outside of the REPL:
 ```
+lein cljsbuild once
 lein run
 ```

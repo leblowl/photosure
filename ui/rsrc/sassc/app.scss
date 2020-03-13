@@ -6,7 +6,6 @@ $color-orange1: #d95e40;
 a {
   outline: none;
   text-decoration: none;
-  color:  #464368;
 }
 
 a:hover {
@@ -132,7 +131,7 @@ body, html {
 	-moz-osx-font-smoothing: grayscale;
 }
 
-div, ul, ol {
+div, ul, ol, li, img, p, br, a {
     box-sizing: border-box;
 }
 
@@ -149,13 +148,12 @@ div, ul, ol {
 }
 
 #bio {
-    width: 80%;
+    width: 90%;
     max-width: 999px;
 
+    border-radius: 5px;
     background-color: $color-bg-silver1;
     color: #111;
-    border-radius: 5px;
-    // border: 1px solid #777;
 }
 
 #bio-liner {
@@ -166,25 +164,32 @@ div, ul, ol {
     flex-direction: row;
     border-left: 1em solid #d95e40;
     border-radius: 5px;
-
-    box-sizing: border-box;
+    background-color: rgba($color-bg-silver2, .9)
 }
 
 #selfie {
     outline: 0;
-    max-width: 30%;
+    height: 100%;
+    width: 100%;
+    min-height: 500px;
+    max-height: 700px;
+    flex-grow: 1;
+    margin: 2em;
+    border-radius: 5px;
 }
 
 #info-container {
     display: flex;
-    flex: 1;
     flex-direction: column;
+    background: $color-bg-silver1;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
 }
 
 .about-container {
-    height: 70%;
-    padding: 1em;
+    padding: 2em;
     font-size: 16px;
+    border-top-right-radius: 5px;
 
 }
 
@@ -219,12 +224,13 @@ div, ul, ol {
 
 .shares-container {
     height: 30%;
+    border-bottom-right-radius: 5px;
 }
 
 .shares {
     height: 100%;
     margin: 0;
-    padding: 1em;
+    padding: 2em;
     list-style-type: none;
 
     display: flex;
@@ -235,27 +241,25 @@ div, ul, ol {
 
 .share {
     width: 30%;
-    height: 50%;
-
 }
 
+a.share-link,
 .share-link {
-    display: block;
+    display: flex;
     margin: 0;
+    padding: 1em;
     width: 100%;
     height: 100%;
-    display: flex;
 
     background-color: $color-bg-silver2;
-    border: 1px solid black;
+    color: $color-orange1;
 }
 
 .share-link:hover {
     transition: color .3s;
     transition: border .4s;
-    color: #d95e40;
-    background-color: #111;
-    border: 1px solid #464368;
+    border: 1px solid #d95e40;
+    background-color: transparent;
 }
 
 .icon-share {

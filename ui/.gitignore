@@ -9,4 +9,6 @@ pom.xml.asc
 /.nrepl-port
 /rsrc/public/js
 /rsrc/public/images
+/rsrc/public/css/app.css
+/rsrc/public/css/app.css.map
 /profiles.clj

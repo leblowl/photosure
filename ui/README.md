@@ -34,7 +34,7 @@ lein repl
 => (cljs/stop)
 ```
 
-### Running the HTTP Server
+### Running
 If you just want to compile ClojureScript and run the HTTP server outside of the REPL:
 ```
 lein cljsbuild once

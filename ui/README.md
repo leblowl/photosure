@@ -5,17 +5,36 @@ Reagent, a React JS wrapper.
 
 ## Development
 
-### Compiling ClojureScript
+### Compiling Sass
+First, install Sass: https://github.com/sass/dart-sass
 ```
-lein cljsbuild once
+sass --watch rsrc/sassc/app.scss rsrc/public/css/app.css
 ```
 
-### Compiling Sass
+### REPL
+In a separate terminal:
 ```
-sassc -t compact ui/rsrc/sassc/app.scss ui/rsrc/public/css/app.css
-```
+lein repl
+
+;; Run ClojureScript compiler in the background
+=> (require '[cljsbuild.core :as cljs])
+=> (cljs/build-watch)
+
+;; Run the HTTP server
+=> (require '[photosure.app :as app])
+=> (app/start)
+
+;; Restart the HTTP server
+=> (app/restart)
+
+;; Stop the HTTP server
+=> (app/stop)
+
+;; Stop the ClojureScript compiler
+=> (cljs/stop)
 
 ### Running the HTTP Server
+If you just want to run the HTTP server outside of the REPL:
 ```
 lein run
 ```

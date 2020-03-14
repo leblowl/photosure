@@ -50,5 +50,5 @@
    {:resource-paths ["env/pro/rsrc"]
     :aot :all
     :omit-source true
-    :uberjar-name "photosure.jar"
+    :uberjar-name "photosure-ui.jar"
     :prep-tasks ["compile" ["cljsbuild" "once"]]}})

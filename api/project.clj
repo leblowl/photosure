@@ -22,4 +22,10 @@
   :plugins [[lein-environ "1.1.0"]]
 
   :source-paths ["src"]
-  :resource-paths ["rsrc"])
+  :resource-paths ["rsrc"]
+
+  :profiles
+  {:uberjar
+   {:aot :all
+    :omit-source true
+    :uberjar-name "photosure-api.jar"}})

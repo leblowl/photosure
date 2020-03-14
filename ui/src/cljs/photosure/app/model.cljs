@@ -15,8 +15,9 @@
 
 (def nav-model
   {:all {:bio     ["bio"     (rte/path-for :bio)]
-         :blog    ["blog"    (rte/path-for :blog)]
-         :gallery ["gallery" (rte/path-for :gallery)]}
+         :gallery ["gallery" (rte/path-for :gallery)]
+         :blog    ["blog"    rte/blog-route]}
+
    :active :bio})
 
 (def initial-model

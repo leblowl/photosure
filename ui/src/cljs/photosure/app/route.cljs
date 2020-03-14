@@ -9,10 +9,12 @@
   [app-root
    {""          :bio
     "bio"       :bio
-    "blog"      :blog
     "gallery"   :gallery
     "config"    :config
     true        :not-found}])
+
+(def blog-route
+  "https://cpleblow.tumblr.com/")
 
 (defn match-path
   ([path]

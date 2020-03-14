@@ -1,0 +1,13 @@
+[Unit]
+Description=Photosure UI Service
+
+[Service]
+WorkingDirectory=/var/photosure
+ExecStart=/usr/bin/java -Xms256m -Xmx256m -jar photosure-ui.jar
+User=photosure
+Type=simple
+Restart=on-failure
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

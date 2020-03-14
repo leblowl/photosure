@@ -1,0 +1,13 @@
+[Unit]
+Description=Photosure API Service
+
+[Service]
+WorkingDirectory=/var/photosure
+ExecStart=/usr/bin/java -Xms256m -Xmx256m -jar photosure-api.jar
+User=photosure
+Type=simple
+Restart=on-failure
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

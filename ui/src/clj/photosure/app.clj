@@ -7,11 +7,14 @@
             [compojure.route :as route]
             [compojure.core :refer [defroutes GET]]
             [ring.util.response :as resp]
+            [ring.middleware.content-type :refer [wrap-content-type]]
             [ring.middleware.transit :refer [wrap-transit-response]]))
 
 (defn main-page
   [req]
-  (resp/resource-response "photosure.html" {:root "public"}))
+  (->
+   (resp/resource-response "photosure.html" {:root "public"})
+   (resp/content-type "text/html")))
 
 (defn ui-config
   [req]
@@ -27,7 +30,8 @@
 
 (def app
   (-> routes
-      wrap-transit-response))
+      wrap-transit-response
+      wrap-content-type))
 
 (defonce server
   (atom nil))

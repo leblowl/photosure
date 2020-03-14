@@ -21,7 +21,6 @@
                  [ring "1.7.1"]
                  [ring-transit "0.1.6"]
                  [venantius/accountant "0.2.4"]]
-
   :main photosure.app
   :min-lein-version "2.5.0"
   :plugins [[lein-cljsbuild "1.1.7"]
@@ -45,4 +44,11 @@
 
   :profiles
   {:dev
-   {:resource-paths ["env/dev/rsrc"]}})
+   {:resource-paths ["env/dev/rsrc"]}
+
+   :uberjar
+   {:resource-paths ["env/pro/rsrc"]
+    :aot :all
+    :omit-source true
+    :uberjar-name "photosure.jar"
+    :prep-tasks ["compile" ["cljsbuild" "once"]]}})

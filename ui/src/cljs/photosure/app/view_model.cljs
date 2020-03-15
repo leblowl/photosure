@@ -3,11 +3,14 @@
             [photosure.app.route :as rte]
             [photosure.bio.view :as bio-v]
             [photosure.bio.view-model :as bio-vm]
+            [photosure.gallery.view-model :as gallery-vm]
+            [photosure.gallery.view :as gallery-v]
             [reagent.core :as r]
             [reagent.ratom :as rr]))
 
 (def app-view-handlers
   {:bio       bio-v/bio-view
+   :gallery   gallery-v/gallery-view
    :not-found #(do (acc/navigate! (rte/path-for :bio))
                    (acc/dispatch-current!)
                    nil)})
@@ -29,4 +32,5 @@
 (defn view-model
   [*model]
   {:*app (app-view-model *model)
-   :*bio (bio-vm/bio-view-model *model)})
+   :*bio (bio-vm/bio-view-model *model)
+   :*gallery (gallery-vm/gallery-view-model *model)})

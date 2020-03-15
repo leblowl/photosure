@@ -1,6 +1,7 @@
 (ns photosure.app.model
   (:require [photosure.app.route :as rte]
-            [photosure.bio.model :as bio-model]))
+            [photosure.bio.model :as bio-model]
+            [photosure.gallery.model :as gallery-model]))
 
 (def config-model
   {:api {:host ""}})
@@ -26,4 +27,5 @@
          :nav     nav-model
          :view-id nil
          :view    nil}
-   :bio bio-model/bio-model})
+   :bio bio-model/bio-model
+   :gallery gallery-model/gallery-model})

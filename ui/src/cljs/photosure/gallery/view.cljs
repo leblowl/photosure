@@ -8,8 +8,9 @@
    [:a {:class "category-link"
         :name name
         :href href}
-    [:img {:class "category-preview"
-           :src img-source}]]])
+    (when img-source
+      [:img {:class "category-preview"
+             :src img-source}])]])
 
 (defn categories-view
   [categories]

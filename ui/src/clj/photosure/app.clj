@@ -23,10 +23,9 @@
         (resp/response))))
 
 (defroutes routes
-  (GET "/" [] main-page)
   (GET "/config" [] ui-config)
   (route/resources "/")
-  (resp/not-found "Not found."))
+  main-page)
 
 (def app
   (-> routes

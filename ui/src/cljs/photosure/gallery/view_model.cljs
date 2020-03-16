@@ -3,8 +3,7 @@
 
 (defn qualify-category-img-source
   [api-host x]
-  (when (seq api-host)
-    (update x :img-source #(str api-host %))))
+  (update x :img-source #(when (seq api-host) (str api-host %))))
 
 (defn gallery-view-model
   [*model]

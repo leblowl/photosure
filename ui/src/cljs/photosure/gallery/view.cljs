@@ -10,13 +10,22 @@
         :href href}
     (when img-source
       [:img {:class "category-preview"
-             :src img-source}])]])
+             :src img-source}])
+    (when name
+      [:div {:class "category-name"}
+       name])]])
 
-(defn categories-view
+(defn category-list-view
   [categories]
-  [:ul {:class "categories"}
+  [:ul {:class "category-list"}
    (for [category categories]
      (category-view category))])
+
+(defn categories-view
+  [category-lists]
+  [:div {:class "categories"}
+   (for [category-list category-lists]
+     (category-list-view category-list))])
 
 (defn gallery-view
   [{:keys [*gallery]} emit]

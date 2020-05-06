@@ -1,6 +1,7 @@
 // bg = background
 $color-bg-silver1: #efeff0;
 $color-bg-silver2: #222222;
+$color-bg-silver3: #d4d4d4;
 $color-orange1: #d95e40;
 
 @font-face {
@@ -333,6 +334,12 @@ a.share-link,
 
 .categories {
     display: flex;
+    flex-direction: row;
+    padding: 1em;
+}
+
+.category-list {
+    display: flex;
     flex-direction: column;
     padding: 1em;
 }
@@ -341,9 +348,22 @@ a.share-link,
     padding: 1em;
 }
 
+.category-link {
+    display: flex;
+    flex-direction: column;
+}
+
 .category-preview {
     max-width: 500px;
+    min-width: 300px;
     max-height: 1000px;
-    width: auto;
+    width: 100%;
     height: auto;
+}
+
+.category-name {
+    background: $color-bg-silver3;
+    padding: 1em;
+    font-size: 20px;
+    font-family: 'Lato';
 }

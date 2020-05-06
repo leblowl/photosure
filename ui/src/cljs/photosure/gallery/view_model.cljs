@@ -13,4 +13,5 @@
     (rr/reaction
      (update @gallery
              :categories
-             #(mapv (partial qualify-category-img-source @api-host) %)))))
+             ;; TODO: Make the partition so that there are 4 groups
+             #(partition 2 2 [] (mapv (partial qualify-category-img-source @api-host) %))))))

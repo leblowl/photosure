@@ -2,6 +2,7 @@
   (:require [aide.core :as aide]
             [photosure.app.model :as model]
             [photosure.app.route :as rte]
+            [photosure.window.event :as window-e]
             [photosure.util :as util]))
 
 (defn get-route
@@ -31,5 +32,5 @@
 
 (aide/defevent on-start
   [app]
+  (aide/emit app window-e/add-window-resize-listener)
   (aide/emit app on-load-config))
--

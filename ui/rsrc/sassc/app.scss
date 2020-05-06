@@ -336,12 +336,19 @@ a.share-link,
     display: flex;
     flex-direction: row;
     padding: 1em;
+    justify-content: center;
 }
 
 .category-list {
     display: flex;
     flex-direction: column;
     padding: 1em;
+}
+
+.category-list.wide {
+    .category-preview {
+	max-width: 100%;
+    }
 }
 
 .category {
@@ -354,7 +361,7 @@ a.share-link,
 }
 
 .category-preview {
-    max-width: 500px;
+    max-width: 400px;
     min-width: 300px;
     max-height: 1000px;
     width: 100%;

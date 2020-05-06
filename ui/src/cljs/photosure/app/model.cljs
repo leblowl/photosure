@@ -1,5 +1,6 @@
 (ns photosure.app.model
   (:require [photosure.app.route :as rte]
+            [photosure.window.model :as window-model]
             [photosure.bio.model :as bio-model]
             [photosure.gallery.model :as gallery-model]))
 
@@ -27,5 +28,6 @@
          :nav     nav-model
          :view-id nil
          :view    nil}
+   :window window-model/window-model
    :bio bio-model/bio-model
    :gallery gallery-model/gallery-model})

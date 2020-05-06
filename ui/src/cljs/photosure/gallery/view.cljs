@@ -9,27 +9,31 @@
         :name name
         :href href}
     (when img-source
-      [:img {:class "category-preview"
-             :src img-source}])
-    (when name
-      [:div {:class "category-name"}
-       name])]])
+      (list
+       [:img {:class "category-preview"
+              :src img-source}]
+       [:div {:class "category-name"}
+        name]))]])
 
 (defn category-list-view
-  [categories]
-  [:ul {:class "category-list"}
-   (for [category categories]
-     (category-view category))])
+  ([categories]
+   (category-list-view categories nil))
+
+  ([categories opts]
+   [:ul {:class (str "category-list" (when (:wide opts) " wide"))}
+    (for [category categories]
+      (category-view category))]))
 
 (defn categories-view
-  [category-lists]
+  [num-columns category-lists]
   [:div {:class "categories"}
-   (for [category-list category-lists]
-     (category-list-view category-list))])
+   (let [opts (when (= num-columns 1) {:wide true})]
+     (for [category-list category-lists]
+       (category-list-view category-list opts)))])
 
 (defn gallery-view
   [{:keys [*gallery]} emit]
-  (let [{:keys [categories]} @*gallery]
+  (let [{:keys [num-columns categories]} @*gallery]
     [:div {:id "gallery-container"}
      [:div {:id "gallery"}
-      [categories-view categories]]]))
+      [categories-view num-columns categories]]]))

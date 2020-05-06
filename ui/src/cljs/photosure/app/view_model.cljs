@@ -1,6 +1,7 @@
 (ns photosure.app.view-model
   (:require [accountant.core :as acc]
             [photosure.app.route :as rte]
+            [photosure.window.view-model :as window-vm]
             [photosure.bio.view :as bio-v]
             [photosure.bio.view-model :as bio-vm]
             [photosure.gallery.view-model :as gallery-vm]
@@ -32,5 +33,6 @@
 (defn view-model
   [*model]
   {:*app (app-view-model *model)
+   :*window (window-vm/window-view-model *model)
    :*bio (bio-vm/bio-view-model *model)
    :*gallery (gallery-vm/gallery-view-model *model)})

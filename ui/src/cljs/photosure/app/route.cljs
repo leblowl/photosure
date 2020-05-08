@@ -10,6 +10,8 @@
    {""          :bio
     "bio"       :bio
     "gallery"   :gallery
+    "gallery/"  {"collections" :gallery
+                 ["collections/" :id] :collection}
     "config"    :config
     true        :not-found}])
 

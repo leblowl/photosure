@@ -32,8 +32,8 @@ a {
   display: block;
 }
 
-a:hover {
-  color: #333333;
+a, a:hover, a:visited, a:active {
+  color: inherit;
 }
 
 div, ul, ol, li, img, p, br, a {
@@ -358,6 +358,7 @@ a.share-link,
 .category-link {
     display: flex;
     flex-direction: column;
+    cursor: pointer;
 }
 
 .category-preview {

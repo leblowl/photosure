@@ -12,27 +12,30 @@
 (def app-view-handlers
   {:bio       bio-v/bio-view
    :gallery   gallery-v/gallery-view
+   :collection gallery-v/collection-view
    :not-found #(do (acc/navigate! (rte/path-for :bio))
                    (acc/dispatch-current!)
                    nil)})
 
 (defn app-view-model
-  [*model]
+  [vm *model]
   (let [*app (rr/reaction (:app @*model))
         *path (rr/reaction (:path (:route @*app)))]
 
-    (rr/reaction
-      (let [view-id (:handler (rte/match-path @*path))
-            view (get app-view-handlers view-id)]
+    (assoc vm :*app
+           (rr/reaction
+            (let [view-id (:handler (rte/match-path @*path))
+                  view (get app-view-handlers view-id)]
 
-        (-> @*app
-            (assoc-in [:nav :active] view-id)
-            (assoc :view-id view-id)
-            (assoc :view view))))))
+              (-> @*app
+                  (assoc-in [:nav :active] view-id)
+                  (assoc :view-id view-id)
+                  (assoc :view view)))))))
 
 (defn view-model
   [*model]
-  {:*app (app-view-model *model)
-   :*window (window-vm/window-view-model *model)
-   :*bio (bio-vm/bio-view-model *model)
-   :*gallery (gallery-vm/gallery-view-model *model)})
+  (-> {}
+      (app-view-model *model)
+      (window-vm/window-view-model *model)
+      (bio-vm/bio-view-model *model)
+      (gallery-vm/gallery-view-model *model)))

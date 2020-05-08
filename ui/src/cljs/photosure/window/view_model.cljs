@@ -2,5 +2,6 @@
   (:require [reagent.ratom :as rr]))
 
 (defn window-view-model
-  [*model]
-  (rr/reaction (:window @*model)))
+  [vm *model]
+  (assoc vm :*window
+         (rr/reaction (:window @*model))))

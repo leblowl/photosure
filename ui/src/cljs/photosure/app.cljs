@@ -26,7 +26,8 @@
   [elt]
   (let [*model (atom model/initial-model)
         view-model (vm/view-model (aide-reagent/atom->reaction *model))
-        app (aide/object {:*model *model})]
+        app (aide/object {:*model *model
+                          :view-model view-model})]
 
     (init-history! app)
 
@@ -34,6 +35,4 @@
         (aide-reagent/connect view-model app)
         (r/render elt))
 
-    (aide/emit app event/on-start)
-
-    (assoc app :view-model view-model)))
+    (aide/emit app event/on-start)))

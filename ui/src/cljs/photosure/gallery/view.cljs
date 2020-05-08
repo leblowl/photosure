@@ -37,3 +37,10 @@
     [:div {:id "gallery-container"}
      [:div {:id "gallery"}
       [categories-view num-columns categories]]]))
+
+(defn collection-view
+  [{:keys [*gallery]} emit]
+  (let [{:keys [num-columns photos]} @*gallery]
+    [:div {:id "gallery-container"}
+     [:div {:id "gallery"}
+      [categories-view num-columns photos]]]))

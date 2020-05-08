@@ -1,6 +1,9 @@
 (ns photosure.gallery.view-model
   (:require [reagent.ratom :as rr]))
 
+;; TODO: Remove this when we pull data from the server.
+;; Data provided by the server should come with fully
+;; qualified URLs.
 (defn make-url-absolute
   [api-host x]
   (when (seq api-host)

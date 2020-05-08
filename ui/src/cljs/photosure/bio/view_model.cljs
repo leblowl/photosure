@@ -8,6 +8,9 @@
 
     (assoc vm :*bio
            (rr/reaction
+            ;; TODO: Remove this when we pull data from the server.
+            ;; Data provided by the server should come with fully
+            ;; qualified URLs.
             (update @bio
                     :selfie-src
                     #(when (seq @api-host)

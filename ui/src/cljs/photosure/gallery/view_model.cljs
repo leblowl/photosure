@@ -19,22 +19,22 @@
 
 (defn gallery-view-model
   [vm *model]
-  (let [api-host (rr/reaction (get-in @*model [:app :config :api :host]))
-        route (rr/reaction (get-in @*model [:app :route]))
-        active-view (rr/reaction
-                     (get @(:*app vm) :active-view))
-        collection (rr/reaction
-                    (when (= @active-view :collection)
-                      (keyword (get-in @route [:params :id]))))
-        gallery (rr/reaction (get @*model :gallery))
-        window (rr/reaction (get-in @*model [:app :window]))]
+  (let [*api-host (rr/reaction (get-in @*model [:app :config :api :host]))
+        *route (rr/reaction (get-in @*model [:app :route]))
+        *active-view (rr/reaction
+                      (get @(:*app vm) :active-view))
+        *collection (rr/reaction
+                     (when (= @*active-view :collection)
+                       (keyword (get-in @*route [:params :id]))))
+        *gallery (rr/reaction (get @*model :gallery))
+        *window (rr/reaction (get-in @*model [:app :window]))]
 
     (assoc vm :*gallery
            (rr/reaction
-            (let [num-columns (get-num-columns @window)
-                  make-url-absolute (partial make-url-absolute @api-host)]
+            (let [num-columns (get-num-columns @*window)
+                  make-url-absolute (partial make-url-absolute @*api-host)]
 
-              (-> @gallery
+              (-> @*gallery
                   (assoc :num-columns num-columns)
 
                   (update :categories
@@ -47,7 +47,7 @@
                                     (partition column-size column-size [])))))
                   (update :photos
                           (fn [photos]
-                            (let [collection @collection
+                            (let [collection @*collection
                                   photos (get photos collection)
                                   num-photos (count photos)
                                   column-size (int (Math/ceil (/ num-photos num-columns)))]

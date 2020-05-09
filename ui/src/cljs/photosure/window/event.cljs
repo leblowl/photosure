@@ -11,5 +11,5 @@
   [app]
   (swap! (:*model app)
          #(-> %
-              (assoc-in [:window :width] (.-innerWidth js/window))
-              (assoc-in [:window :height] (.-innerHeight js/window)))))
+              (assoc-in [:app :window :width] (.-innerWidth js/window))
+              (assoc-in [:app :window :height] (.-innerHeight js/window)))))

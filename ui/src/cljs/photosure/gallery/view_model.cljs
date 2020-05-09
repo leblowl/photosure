@@ -27,7 +27,7 @@
                     (when (= @view-id :collection)
                       (keyword (get-in @route [:params :id]))))
         gallery (rr/reaction (get @*model :gallery))
-        window (rr/reaction (get @*model :window))]
+        window (rr/reaction (get-in @*model [:app :window]))]
 
     (assoc vm :*gallery
            (rr/reaction

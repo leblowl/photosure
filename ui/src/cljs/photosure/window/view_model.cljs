@@ -4,4 +4,4 @@
 (defn window-view-model
   [vm *model]
   (assoc vm :*window
-         (rr/reaction (:window @*model))))
+         (rr/reaction (get-in @*model [:app :window]))))

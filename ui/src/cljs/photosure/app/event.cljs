@@ -26,6 +26,10 @@
                   (assoc-in [:app :route] app-route)
                   (assoc-in [:app :active-view] view-id))))))
 
+(aide/defevent on-go-back
+  [app]
+  (.go (.-history js/window) -1))
+
 (defn set-config!
   [*model config]
   (swap! *model

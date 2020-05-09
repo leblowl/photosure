@@ -2,14 +2,13 @@
   (:require [goog.string :as gstr]))
 
 (defn share-view
-  [{:keys [name entity href]}]
+  [{:keys [name class href]}]
   ^{:key (str "share-" name)}
   [:li {:class "share"}
    [:a {:class "share-link"
         :name name
         :href href}
-    [:p {:class "icon-share"}
-      (gstr/unescapeEntities entity)]]])
+    [:div {:class (str "icon-share " class)}]]])
 
 (defn shares-view
   [shares]

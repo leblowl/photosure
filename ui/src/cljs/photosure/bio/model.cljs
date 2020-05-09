@@ -36,12 +36,15 @@
    :shares
    [{:name "facebook"
      :entity "&#xe606;"
+     :class "icon-facebook"
      :href "https://www.facebook.com/cpleblow"}
 
     {:name "tumblr"
      :entity "&#xe607;"
+     :class "icon-tumblr1"
      :href "http://cpleblow.tumblr.com/"}
 
     {:name "email"
      :entity "&#xe603;"
+     :class "icon-mail"
      :href "mailto:tableof_5@comcast.net?Subject=cpleblow Photography"}]})

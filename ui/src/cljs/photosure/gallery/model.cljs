@@ -72,6 +72,48 @@
       :img-source "/img/gallery/winter_tree_unknown.jpg"
       :href "/gallery/collections/winter/photos/winter_tree"
       }
+     {:collection :winter
+      :id :winter1
+      :order 0
+      :name "Winter Tree"
+      :img-source "/img/gallery/winter_2.jpg"
+      :href "/gallery/collections/winter/photos/winter_tree"
+      }
+     {:collection :winter
+      :id :winter1
+      :order 0
+      :name "Winter Tree"
+      :img-source "/img/gallery/winter_3.jpg"
+      :href "/gallery/collections/winter/photos/winter_tree"
+      }
+     {:collection :winter
+      :id :winter1
+      :order 0
+      :name "Winter Tree"
+      :img-source "/img/gallery/winter_4.jpg"
+      :href "/gallery/collections/winter/photos/winter_tree"
+      }
+     {:collection :winter
+      :id :winter1
+      :order 0
+      :name "Winter Tree"
+      :img-source "/img/gallery/winter_5.jpg"
+      :href "/gallery/collections/winter/photos/winter_tree"
+      }
+     {:collection :winter
+      :id :winter1
+      :order 0
+      :name "Winter Tree"
+      :img-source "/img/gallery/winter_6.jpg"
+      :href "/gallery/collections/winter/photos/winter_tree"
+      }
+     {:collection :winter
+      :id :winter1
+      :order 0
+      :name "Winter Tree"
+      :img-source "/img/gallery/winter_7.jpg"
+      :href "/gallery/collections/winter/photos/winter_tree"
+      }
      ]
 
     :streets
@@ -90,6 +132,48 @@
       :order 0
       :name "Desert Sunset"
       :img-source "/img/gallery/desert_1.jpg"
+      :href "/gallery/collections/deserts/photos/desert_sunset"
+      }
+     {:collection :deserts
+      :id :deserts1
+      :order 0
+      :name "Desert Sunset"
+      :img-source "/img/gallery/desert_2.jpg"
+      :href "/gallery/collections/deserts/photos/desert_sunset"
+      }
+     {:collection :deserts
+      :id :deserts1
+      :order 0
+      :name "Desert Sunset"
+      :img-source "/img/gallery/desert_3.jpg"
+      :href "/gallery/collections/deserts/photos/desert_sunset"
+      }
+     {:collection :deserts
+      :id :deserts1
+      :order 0
+      :name "Desert Sunset"
+      :img-source "/img/gallery/desert_4.jpg"
+      :href "/gallery/collections/deserts/photos/desert_sunset"
+      }
+     {:collection :deserts
+      :id :deserts1
+      :order 0
+      :name "Desert Sunset"
+      :img-source "/img/gallery/desert_5.jpg"
+      :href "/gallery/collections/deserts/photos/desert_sunset"
+      }
+     {:collection :deserts
+      :id :deserts1
+      :order 0
+      :name "Desert Sunset"
+      :img-source "/img/gallery/desert_6.jpg"
+      :href "/gallery/collections/deserts/photos/desert_sunset"
+      }
+     {:collection :deserts
+      :id :deserts1
+      :order 0
+      :name "Desert Sunset"
+      :img-source "/img/gallery/desert_7.jpg"
       :href "/gallery/collections/deserts/photos/desert_sunset"
       }
      ]

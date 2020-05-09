@@ -23,11 +23,10 @@
    :active :bio})
 
 (def initial-model
-  {:app {:config  config-model
-         :route   route-model
-         :window  window-model/window-model
-         :nav     nav-model
-         :view-id nil
-         :view    nil}
+  {:app {:config      config-model
+         :route       route-model
+         :window      window-model/window-model
+         :nav         nav-model
+         :active-view nil}
    :bio bio-model/bio-model
    :gallery gallery-model/gallery-model})

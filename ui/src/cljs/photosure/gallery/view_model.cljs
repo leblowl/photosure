@@ -21,10 +21,10 @@
   [vm *model]
   (let [api-host (rr/reaction (get-in @*model [:app :config :api :host]))
         route (rr/reaction (get-in @*model [:app :route]))
-        view-id (rr/reaction
-                 (get @(:*app vm) :view-id))
+        active-view (rr/reaction
+                     (get @(:*app vm) :active-view))
         collection (rr/reaction
-                    (when (= @view-id :collection)
+                    (when (= @active-view :collection)
                       (keyword (get-in @route [:params :id]))))
         gallery (rr/reaction (get @*model :gallery))
         window (rr/reaction (get-in @*model [:app :window]))]
@@ -42,10 +42,9 @@
                             (let [num-categories (count categories)
                                   column-size (int (Math/ceil (/ num-categories num-columns)))]
 
-                              (partition column-size
-                                         column-size
-                                         []
-                                         (mapv #(update % :img-source make-url-absolute) categories)))))
+                              (->>  categories
+                                    (mapv #(update % :img-source make-url-absolute))
+                                    (partition column-size column-size [])))))
                   (update :photos
                           (fn [photos]
                             (let [collection @collection
@@ -53,7 +52,6 @@
                                   num-photos (count photos)
                                   column-size (int (Math/ceil (/ num-photos num-columns)))]
 
-                              (partition column-size
-                                         column-size
-                                         []
-                                         (mapv #(update % :img-source make-url-absolute) photos)))))))))))
+                              (->>  photos
+                                    (mapv #(update % :img-source make-url-absolute))
+                                    (partition column-size column-size [])))))))))))

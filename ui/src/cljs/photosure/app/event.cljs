@@ -1,5 +1,6 @@
 (ns photosure.app.event
   (:require [aide.core :as aide]
+            [accountant.core :as acc]
             [photosure.app.model :as model]
             [photosure.app.route :as rte]
             [photosure.window.event :as window-e]
@@ -13,8 +14,17 @@
 
 (aide/defevent on-route-change
   [app path]
-  (let [app-route (get-route path)]
-    (swap! (:*model app) assoc-in [:app :route] app-route)))
+  (let [app-route (get-route path)
+        view-id (:handler (rte/match-path path))]
+
+    (if (= :not-found view-id)
+      (do (acc/navigate! (rte/path-for :bio))
+          (acc/dispatch-current!))
+
+      (swap! (:*model app)
+             #(-> %
+                  (assoc-in [:app :route] app-route)
+                  (assoc-in [:app :active-view] view-id))))))
 
 (defn set-config!
   [*model config]

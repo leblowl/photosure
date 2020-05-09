@@ -5,21 +5,23 @@
   [{:keys [name img-source href]}]
   ^{:key (str "category-" name)}
   [:li {:class "category"}
-   [:a {:class "category-link"
-        :name name
-        :href href}
-    (when img-source
-      (list
-       [:img {:class "category-preview"
-              :src img-source}]
-       [:div {:class "category-name"}
-        name]))]])
+   (when img-source
+     [:a {:class "category-link"
+          :name name
+          :href href}
+
+      [:img {:class "category-preview"
+             :src img-source}]
+      [:div {:class "category-name"}
+       name]])])
 
 (defn category-list-view
   ([categories]
    (category-list-view categories nil))
 
   ([categories opts]
+   ;; TODO: Find a smaller key
+   ^{:key categories}
    [:ul {:class (str "category-list" (when (:wide opts) " wide"))}
     (for [category categories]
       (category-view category))]))

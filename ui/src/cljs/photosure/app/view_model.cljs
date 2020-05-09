@@ -6,6 +6,13 @@
             [reagent.core :as r]
             [reagent.ratom :as rr]))
 
+(defn get-active-nav-item
+  [view-id]
+  (get {:bio :bio
+        :gallery :gallery
+        :collection :gallery}
+       view-id))
+
 (defn app-view-model
   [vm *model]
   (let [*app (rr/reaction (:app @*model))
@@ -13,7 +20,9 @@
 
     (assoc vm :*app
            (rr/reaction
-            (assoc-in @*app [:nav :active] @*active-view)))))
+            (assoc-in @*app
+                      [:nav :active]
+                      (get-active-nav-item @*active-view))))))
 
 (defn view-model
   [*model]

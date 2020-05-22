@@ -11,7 +11,9 @@
     "bio"       :bio
     "gallery"   :gallery
     "gallery/"  {"collections" :gallery
-                 ["collections/" :id] :collection}
+                 ["collections/" :id] :collection
+                 ["collections/" :id "/"] {"photos" :collection
+                                           ["photos/" :id] :photo}}
     "config"    :config
     true        :not-found}])
 

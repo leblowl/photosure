@@ -1,5 +1,6 @@
 (ns photosure.bio.view
-  (:require [goog.string :as gstr]))
+  (:require [goog.string :as gstr]
+            [photosure.nav.view :as nav]))
 
 (defn share-view
   [{:keys [name class href]}]
@@ -16,7 +17,7 @@
    (for [share shares]
      (share-view share))])
 
-(defn bio-view
+(defn -bio-view
   [{:keys [*bio]} emit]
   (let [{:keys [selfie-src about shares]} @*bio]
     [:div {:id "bio-container"}
@@ -29,3 +30,7 @@
                :dangerouslySetInnerHTML {:__html about}}]]
          [:div {:class "shares-container"}
           (shares-view shares)]]]]]))
+
+(defn bio-view
+  [vm emit]
+  (nav/nav-view -bio-view vm emit))

@@ -23,8 +23,8 @@
         *route (rr/reaction (get-in @*model [:app :route]))
         *active-view (rr/reaction
                       (get @(:*app vm) :active-view))
-        *collection (rr/reaction
-                     (when (= @*active-view :collection)
+        *element-id (rr/reaction
+                     (when (#{:collection :photo} @*active-view)
                        (keyword (get-in @*route [:params :id]))))
         *gallery (rr/reaction (get @*model :gallery))
         *window (rr/reaction (get-in @*model [:app :window]))]
@@ -45,13 +45,22 @@
                               (->>  categories
                                     (mapv #(update % :img-source make-url-absolute))
                                     (partition column-size column-size [])))))
+
                   (update :photos
                           (fn [photos]
-                            (let [collection @*collection
+                            (let [collection @*element-id
                                   photos (get photos collection)
                                   num-photos (count photos)
                                   column-size (int (Math/ceil (/ num-photos num-columns)))]
 
                               (->>  photos
                                     (mapv #(update % :img-source make-url-absolute))
-                                    (partition column-size column-size [])))))))))))
+                                    (partition column-size column-size [])))))
+
+                  (assoc :active-photo
+                         (let [photo-id @*element-id
+                               photos (flatten (vals (:photos @*gallery)))
+                               photo (first (filter #(= (:id %) photo-id) photos))]
+
+                           (-> photo
+                               (update :img-source make-url-absolute))))))))))

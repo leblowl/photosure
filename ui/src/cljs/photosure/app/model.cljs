@@ -16,7 +16,7 @@
   (new-route rte/app-root nil))
 
 (def nav-model
-  {:all {:bio     ["bio"     (rte/path-for :bio)]
+  {:all {:bio     ["about"   (rte/path-for :bio)]
          :gallery ["gallery" (rte/path-for :gallery)]
          :blog    ["blog"    rte/blog-route]}
 

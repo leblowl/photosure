@@ -34,12 +34,7 @@
   {:selfie-src "/img/bio/me.jpg"
    :about bio-html
    :shares
-   [{:name "facebook"
-     :entity "&#xe606;"
-     :class "icon-facebook"
-     :href "https://www.facebook.com/cpleblow"}
-
-    {:name "tumblr"
+   [{:name "tumblr"
      :entity "&#xe607;"
      :class "icon-tumblr1"
      :href "http://cpleblow.tumblr.com/"}

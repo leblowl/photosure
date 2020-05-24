@@ -3,5 +3,4 @@
 (def gallery-model
   {:num-columns nil
    :collections []
-   :photos {}
-   })
+   :photos {}})

@@ -24,6 +24,7 @@
         column-size (int (Math/ceil (/ num-collections num-columns)))]
 
     (->>  collections
+          (mapv #(assoc % :href (rte/path-for :collection {:id (:id %)})))
           (partition column-size column-size []))))
 
 (defn update-photos
@@ -33,6 +34,7 @@
         column-size (int (Math/ceil (/ num-photos num-columns)))]
 
     (->> photos
+         (mapv #(assoc % :href (rte/path-for :photo {:id (:id %)})))
          (partition column-size column-size []))))
 
 (defn update-active-photo

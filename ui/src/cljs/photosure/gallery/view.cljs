@@ -60,7 +60,7 @@
   [{:keys [*gallery]} emit]
 
   (let [{:keys [num-columns photos]} @*gallery
-        title (str/capitalize (name (:collection (ffirst photos))))]
+        title (some-> photos ffirst :collection name str/capitalize)]
 
     [:div {:id "gallery-container"}
      (nav/simple-nav

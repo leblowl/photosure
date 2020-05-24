@@ -26,6 +26,7 @@
 
   :profiles
   {:uberjar
-   {:aot :all
+   {:resource-paths ["env/pro/rsrc"]
+    :aot :all
     :omit-source true
     :uberjar-name "photosure-api.jar"}})

@@ -3,7 +3,8 @@
             [accountant.core :as acc]
             [photosure.app.model :as model]
             [photosure.app.route :as rte]
-            [photosure.window.event :as window-e]
+            [photosure.bio.event :as bio]
+            [photosure.window.event :as window]
             [photosure.util :as util]))
 
 (defn get-route
@@ -36,15 +37,25 @@
          (fn [m]
            (assoc-in m [:app :config] config))))
 
-(aide/defevent on-load-config
+(aide/defevent on-load-models
+  [app]
+  (let [host (get-in @(:*model app) [:app :config :api :host])]
+    (util/edn-xhr {:method :get
+                   :url (str host (rte/path-for rte/api-routes :get-bio nil))
+                   :on-complete
+                   (fn [data]
+                     (aide/emit app bio/on-set-bio data))})))
+
+(aide/defevent on-load-data
   [app]
   (util/edn-xhr {:method :get
                  :url (rte/path-for :config)
                  :on-complete
                  (fn [data]
-                   (set-config! (:*model app) data))}))
+                   (set-config! (:*model app) data)
+                   (aide/emit app on-load-models app))}))
 
 (aide/defevent on-start
   [app]
-  (aide/emit app window-e/add-window-resize-listener)
-  (aide/emit app on-load-config))
+  (aide/emit app window/add-window-resize-listener)
+  (aide/emit app on-load-data))

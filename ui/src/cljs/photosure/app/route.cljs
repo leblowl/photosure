@@ -20,6 +20,10 @@
 (def blog-route
   "https://cpleblow.tumblr.com/")
 
+(def api-routes
+  ["/"
+   {"api/cms/bio" :get-bio}])
+
 (defn match-path
   ([path]
    (match-path path nil))

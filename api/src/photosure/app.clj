@@ -1,7 +1,6 @@
 (ns photosure.app
   (:gen-class :main true)
-  (:require [clojure.java.io :as io]
-            [clojure.tools.logging :as log]
+  (:require [clojure.tools.logging :as log]
             [org.httpkit.server :as srv]
             [clj-http.client :as client]
             [environ.core :refer [env]]
@@ -9,21 +8,9 @@
             [compojure.core :refer [defroutes GET]]
             [jumblerg.middleware.cors :as middleware-cors]
             [ring.util.response :as resp]
-            [ring.middleware.transit :as middleware-transit]))
-
-(def tumblr-api
-  (str "http://api.tumblr.com/v2/blog/cpleblow.tumblr.com/posts?api_key="
-       (env :tumblr-key)))
-
-(defn gallery-imgs
-  [req]
-  (let [gallery-rsrc (io/file (io/resource "public/img/gallery"))]
-    (->> (file-seq gallery-rsrc)
-         (map #(.getName %))
-         (drop 1)
-         sort
-         vec
-         resp/response)))
+            [ring.middleware.transit :as middleware-transit]
+            [photosure.bio.control :as bio]
+            [photosure.gallery.control :as gallery]))
 
 (defn index
   [req]
@@ -31,7 +18,8 @@
 
 (defroutes routes
   (GET "/" [] index)
-  (GET "/api/cms/gallery/img" [] gallery-imgs)
+  (GET "/api/cms/gallery/img" [] gallery/gallery-imgs)
+  (GET "/api/cms/bio" [] bio/get-bio)
   (route/resources "/")
   (resp/not-found "Not found."))
 

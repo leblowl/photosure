@@ -74,8 +74,13 @@
   [{:keys [*gallery]} emit]
 
   (let [{:keys [active-photo]} @*gallery
-        {:keys [img-source collection-url]} active-photo
-        title ""]
+        {:keys [name note img-source
+                collection-url inquire-url]} active-photo
+
+        title [:div.sub-nav-title-bar
+               [:span name [:span.sep " - "] [:span.note note]]
+               [:a.btn.inquire {:href inquire-url}
+                "Inquire"]]]
 
     [:div {:class "photo-container"}
      (nav/simple-nav

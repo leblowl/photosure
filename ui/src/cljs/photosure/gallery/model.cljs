@@ -131,6 +131,7 @@
       :id :deserts1
       :order 0
       :name "Desert Sunset"
+      :note "Somewhere, Utah"
       :img-source "/img/gallery/desert_1.jpg"
       :href "/gallery/collections/deserts/photos/deserts1"
       }
@@ -138,6 +139,7 @@
       :id :deserts2
       :order 0
       :name "Desert Sunset"
+      :note "Somewhere, Utah"
       :img-source "/img/gallery/desert_2.jpg"
       :href "/gallery/collections/deserts/photos/deserts2"
       }
@@ -145,6 +147,7 @@
       :id :deserts3
       :order 0
       :name "Desert Sunset"
+      :note "Somewhere, Utah"
       :img-source "/img/gallery/desert_3.jpg"
       :href "/gallery/collections/deserts/photos/deserts3"
       }
@@ -152,6 +155,7 @@
       :id :deserts4
       :order 0
       :name "Desert Sunset"
+      :note "Somewhere, Utah"
       :img-source "/img/gallery/desert_4.jpg"
       :href "/gallery/collections/deserts/photos/deserts4"
       }
@@ -159,6 +163,7 @@
       :id :deserts5
       :order 0
       :name "Desert Sunset"
+      :note "Somewhere, Utah"
       :img-source "/img/gallery/desert_5.jpg"
       :href "/gallery/collections/deserts/photos/deserts5"
       }
@@ -166,6 +171,7 @@
       :id :deserts6
       :order 0
       :name "Desert Sunset"
+      :note "Somewhere, Utah"
       :img-source "/img/gallery/desert_6.jpg"
       :href "/gallery/collections/deserts/photos/deserts6"
       }
@@ -173,6 +179,7 @@
       :id :deserts7
       :order 0
       :name "Desert Sunset"
+      :note "Somewhere, Utah"
       :img-source "/img/gallery/desert_7.jpg"
       :href "/gallery/collections/deserts/photos/deserts7"
       }

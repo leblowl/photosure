@@ -303,6 +303,7 @@ a.share-link,
     width: 100%;
     display: flex;
     flex-direction: row;
+    align-items: center;
     color: $color-bg-silver3;
     font-size: 30px;
     padding: 1em;
@@ -311,6 +312,7 @@ a.share-link,
 .sub-nav-title {
     margin-left: 1em;
     margin-right: 1em;
+    height: 30px;
 }
 
 
@@ -374,6 +376,38 @@ a.share-link,
     width: 100%;
     height: 100%;
     background-color: #111;
+}
+
+.photo-container {
+    .sub-nav-title {
+	width: 100%;
+    }
+    .sub-nav-title-bar {
+	display: flex;
+	align-items: center;
+	width: 100%;
+	font-size: 20px;
+
+	.sep {
+	    padding-left: 1em;
+	    padding-right: 1em;
+	}
+
+	.note {
+	    padding-right: 1em;
+	    font-size: 18px;
+	}
+
+	.inquire {
+	    border: 1px solid $color-bg-silver1;
+	    border-radius: 4px;
+	    padding: .25em 1em;
+	    color: $color-bg-silver1;
+	    background: none;
+	    font-size: 16px;
+	    margin-left: auto;
+	}
+    }
 }
 
 .photo-column {

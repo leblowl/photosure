@@ -42,4 +42,4 @@
     {:name "email"
      :entity "&#xe603;"
      :class "icon-mail"
-     :href "mailto:tableof_5@comcast.net?Subject=cpleblow Photography"}]})
+     :href "mailto:tableof_5@comcast.net?Subject=cpleblow photography"}]})

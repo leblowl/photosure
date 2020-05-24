@@ -63,7 +63,11 @@
                                photos (flatten (vals (:photos @*gallery)))]
 
                            (when-let [photo (first (filter #(= (:id %) photo-id) photos))]
-                             (let [collection-url (rte/path-for :collection {:id (:collection photo)})]
+                             (let [collection-url (rte/path-for :collection {:id (:collection photo)})
+                                   inquire-url (str "mailto:tableof_5@comcast.net"
+                                                    "?Subject=cpleblow photography - "
+                                                    (:name photo))]
                                (-> photo
                                    (update :img-source make-url-absolute)
-                                   (assoc :collection-url collection-url))))))))))))
+                                   (assoc :collection-url collection-url)
+                                   (assoc :inquire-url inquire-url))))))))))))

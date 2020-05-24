@@ -18,6 +18,7 @@
 
 (defroutes routes
   (GET "/" [] index)
+  (GET "/api/cms/gallery" [] gallery/get-gallery)
   (GET "/api/cms/gallery/img" [] gallery/gallery-imgs)
   (GET "/api/cms/bio" [] bio/get-bio)
   (route/resources "/")

@@ -45,7 +45,7 @@
 (defn gallery-view
   [{:keys [*gallery]} emit]
 
-  (let [{:keys [num-columns categories]} @*gallery
+  (let [{:keys [num-columns collections]} @*gallery
         title "Collections"]
 
     [:div {:id "gallery-container"}
@@ -54,7 +54,7 @@
       {:on-go-back #(emit event/on-go-to (rte/path-for :bio))})
 
      [:div {:id "gallery"}
-      [categories-view num-columns categories]]]))
+      [categories-view num-columns collections]]]))
 
 (defn collection-view
   [{:keys [*gallery]} emit]
@@ -78,7 +78,8 @@
                 collection-url inquire-url]} active-photo
 
         title [:div.sub-nav-title-bar
-               [:span name [:span.sep " - "] [:span.note note]]
+               [:span name [:span.sep "..."]]
+               [:span.note note]
                [:a.btn.inquire {:href inquire-url}
                 "Inquire"]]]
 

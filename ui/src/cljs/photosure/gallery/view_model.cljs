@@ -18,6 +18,37 @@
     (< 900  (:width window)) 2
     :else 1))
 
+(defn update-collections
+  [collections num-columns]
+  (let [num-collections (count collections)
+        column-size (int (Math/ceil (/ num-collections num-columns)))]
+
+    (->>  collections
+          (partition column-size column-size []))))
+
+(defn update-photos
+  [photos collection num-columns]
+  (let [photos (get photos collection)
+        num-photos (count photos)
+        column-size (int (Math/ceil (/ num-photos num-columns)))]
+
+    (->> photos
+         (partition column-size column-size []))))
+
+(defn update-active-photo
+  [photos photo]
+  (let [photo-id photo
+        photos (flatten (vals photos))]
+
+    (when-let [photo (first (filter #(= (:id %) photo-id) photos))]
+      (let [collection-url (rte/path-for :collection {:id (:collection photo)})
+            inquire-url (str "mailto:tableof_5@comcast.net"
+                             "?Subject=cpleblow photography - "
+                             (:name photo))]
+        (-> photo
+            (assoc :collection-url collection-url)
+            (assoc :inquire-url inquire-url))))))
+
 (defn gallery-view-model
   [vm *model]
   (let [*api-host (rr/reaction (get-in @*model [:app :config :api :host]))
@@ -32,42 +63,13 @@
 
     (assoc vm :*gallery
            (rr/reaction
-            (let [num-columns (get-num-columns @*window)
-                  make-url-absolute (partial make-url-absolute @*api-host)]
+            (let [num-columns (get-num-columns @*window)]
 
               (-> @*gallery
                   (assoc :num-columns num-columns)
 
-                  (update :categories
-                          (fn [categories]
-                            (let [num-categories (count categories)
-                                  column-size (int (Math/ceil (/ num-categories num-columns)))]
+                  (update :collections #(update-collections % num-columns))
 
-                              (->>  categories
-                                    (mapv #(update % :img-source make-url-absolute))
-                                    (partition column-size column-size [])))))
+                  (update :photos #(update-photos % @*element-id num-columns))
 
-                  (update :photos
-                          (fn [photos]
-                            (let [collection @*element-id
-                                  photos (get photos collection)
-                                  num-photos (count photos)
-                                  column-size (int (Math/ceil (/ num-photos num-columns)))]
-
-                              (->>  photos
-                                    (mapv #(update % :img-source make-url-absolute))
-                                    (partition column-size column-size [])))))
-
-                  (assoc :active-photo
-                         (let [photo-id @*element-id
-                               photos (flatten (vals (:photos @*gallery)))]
-
-                           (when-let [photo (first (filter #(= (:id %) photo-id) photos))]
-                             (let [collection-url (rte/path-for :collection {:id (:collection photo)})
-                                   inquire-url (str "mailto:tableof_5@comcast.net"
-                                                    "?Subject=cpleblow photography - "
-                                                    (:name photo))]
-                               (-> photo
-                                   (update :img-source make-url-absolute)
-                                   (assoc :collection-url collection-url)
-                                   (assoc :inquire-url inquire-url))))))))))))
+                  (update :active-photo #(update-active-photo (:photos @*gallery) @*element-id))))))))

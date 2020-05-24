@@ -1,6 +1,8 @@
 (ns photosure.gallery.control
   (:require [clojure.java.io :as io]
-            [ring.util.response :as resp]))
+            [clojure.edn :as edn]
+            [ring.util.response :as resp]
+            [photosure.util :as util]))
 
 (defn gallery-imgs
   [req]
@@ -11,3 +13,24 @@
          sort
          vec
          resp/response)))
+
+(defn get-gallery
+  [req]
+  (let [base-url (util/get-req-base-url req)]
+    (with-open [r (io/reader (io/resource "data/gallery.edn"))]
+      (-> (edn/read (java.io.PushbackReader. r))
+          (update :collections
+                  (fn [collections]
+                    (map (fn [collection]
+                           (-> collection
+                               (update :img-source #(str base-url %))))
+                         collections)))
+
+          (update :photos
+                  (fn [photos]
+                    (map (fn [photo]
+                           (-> photo
+                               (update :img-source #(str base-url %))))
+                         photos)))
+
+          (resp/response)))))

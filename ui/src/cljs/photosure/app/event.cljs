@@ -4,6 +4,7 @@
             [photosure.app.model :as model]
             [photosure.app.route :as rte]
             [photosure.bio.event :as bio]
+            [photosure.gallery.event :as gallery]
             [photosure.window.event :as window]
             [photosure.util :as util]))
 
@@ -44,7 +45,13 @@
                    :url (str host (rte/path-for rte/api-routes :get-bio nil))
                    :on-complete
                    (fn [data]
-                     (aide/emit app bio/on-set-bio data))})))
+                     (aide/emit app bio/on-set-bio data))})
+
+    (util/edn-xhr {:method :get
+                   :url (str host (rte/path-for rte/api-routes :get-gallery nil))
+                   :on-complete
+                   (fn [data]
+                     (aide/emit app gallery/on-set-gallery data))})))
 
 (aide/defevent on-load-data
   [app]

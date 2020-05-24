@@ -24,12 +24,13 @@
      [:div {:id "bio"}
       [:div {:id "bio-liner"}
        [:img {:id "selfie" :src selfie-src}]
-        [:div {:id "info-container"}
-         [:div {:class "about-container"}
-          [:p {:id "about"
-               :dangerouslySetInnerHTML {:__html about}}]]
-         [:div {:class "shares-container"}
-          (shares-view shares)]]]]]))
+       [:div {:id "info-container"}
+        [:div {:class "about-container"}
+         [:p {:id "about"
+              :dangerouslySetInnerHTML {:__html about}}]]
+        [:div {:class "shares-container"}
+         (shares-view shares)]]]]
+     #_[:div.copyright "© 2020 cpleblow photography"]]))
 
 (defn bio-view
   [vm emit]

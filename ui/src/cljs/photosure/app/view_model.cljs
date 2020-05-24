@@ -4,25 +4,35 @@
             [photosure.bio.view-model :as bio-vm]
             [photosure.gallery.view-model :as gallery-vm]
             [reagent.core :as r]
-            [reagent.ratom :as rr]))
+            [reagent.ratom :as rr]
+            [clojure.string :as str]))
 
 (defn get-active-nav-item
-  [view-id]
-  (get {:bio :bio
-        :gallery :gallery
-        :collection :gallery}
-       view-id))
+  [view-id view-params]
+  (cond
+    (= view-id :bio) :bio
+    (= view-id :gallery) :gallery
+    (= view-id :collection) (keyword (:id view-params))))
 
 (defn app-view-model
   [vm *model]
   (let [*app (rr/reaction (:app @*model))
-        *active-view (rr/reaction (:active-view @*app))]
+        *active-view (rr/reaction (:active-view @*app))
+        *active-view-params (rr/reaction (:params (:route @*app)))
+        *collections (rr/reaction (:collections (:gallery @*model)))]
+
 
     (assoc vm :*app
            (rr/reaction
-            (assoc-in @*app
-                      [:nav :active]
-                      (get-active-nav-item @*active-view))))))
+            (-> @*app
+                (assoc-in [:nav :all :gallery :children]
+                          (->> @*collections
+                               (mapv #(vector (:id %)
+                                              (hash-map :label (str/lower-case (:name %))
+                                                        :href (rte/path-for :collection {:id (:id %)}))))
+                               (into {})))
+                (assoc-in [:nav :active]
+                          (get-active-nav-item @*active-view @*active-view-params)))))))
 
 (defn view-model
   [*model]

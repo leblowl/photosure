@@ -1,8 +1,9 @@
 (ns photosure.app.model
   (:require [photosure.app.route :as rte]
-            [photosure.window.model :as window-model]
-            [photosure.bio.model :as bio-model]
-            [photosure.gallery.model :as gallery-model]))
+            [photosure.window.model :as window-m]
+            [photosure.nav.model :as nav-m]
+            [photosure.bio.model :as bio-m]
+            [photosure.gallery.model :as gallery-m]))
 
 (def config-model
   {:api {:host ""}})
@@ -15,18 +16,11 @@
 (def route-model
   (new-route rte/app-root nil))
 
-(def nav-model
-  {:all {:bio     ["about"   (rte/path-for :bio)]
-         :gallery ["gallery" (rte/path-for :gallery)]
-         :blog    ["blog"    rte/blog-route]}
-
-   :active :bio})
-
 (def initial-model
   {:app {:config      config-model
          :route       route-model
-         :window      window-model/window-model
-         :nav         nav-model
+         :window      window-m/window-model
+         :nav         nav-m/nav-model
          :active-view nil}
-   :bio bio-model/bio-model
-   :gallery gallery-model/gallery-model})
+   :bio bio-m/bio-model
+   :gallery gallery-m/gallery-model})

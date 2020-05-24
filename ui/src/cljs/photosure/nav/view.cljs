@@ -3,9 +3,21 @@
 (defn nav-item
   [{:keys [id label href active]}]
   ^{:key id}
-  [:li {:id id :class (when active "active")}
+  [:div {:id id :class (str "nav-item" (when active " active"))}
    [:a {:href href}
     label]])
+
+(defn nav-items
+  [items active]
+  [:ul {:class "nav-items"}
+    (for [[item-id {:keys [label href children]}] items]
+      [:li
+       (nav-item {:id (str "tab-" (name item-id))
+                  :label label
+                  :href href
+                  :active (= item-id active)})
+       (when (seq children)
+         (nav-items children active))])])
 
 (defn nav
   [{:keys [all active]}]
@@ -13,12 +25,8 @@
    [:div {:class "banner-container"}
     [:p {:class "banner"}
      "cpleblow photography"]]
-   [:ul {:class "nav nav-tabs"}
-    (for [[item-id [label href]] all]
-      (nav-item {:id (str "tab-" (name item-id))
-                 :label label
-                 :href href
-                 :active (= item-id active)}))]])
+   [:div {:class "nav"}
+    (nav-items all active)]])
 
 (defn nav-view
   [view vm emit]
@@ -29,7 +37,7 @@
 
 (defn simple-nav
   ([title]
-   (nav title nil))
+   (simple-nav title nil))
 
   ([title {:keys [on-go-back]}]
    [:div {:class "sub-nav"}

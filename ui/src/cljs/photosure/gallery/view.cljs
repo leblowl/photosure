@@ -42,21 +42,23 @@
       (for [category-list category-lists]
         (category-list-view category-list opts)))]))
 
-(defn gallery-view
+(defn -gallery-view
   [{:keys [*gallery]} emit]
 
   (let [{:keys [num-columns collections]} @*gallery
         title "Collections"]
 
     [:div {:id "gallery-container"}
-     (nav/simple-nav
-      title
-      {:on-go-back #(emit event/on-go-to (rte/path-for :bio))})
+     (nav/simple-nav title)
 
      [:div {:id "gallery"}
       [categories-view num-columns collections]]]))
 
-(defn collection-view
+(defn gallery-view
+  [vm emit]
+  (nav/nav-view -gallery-view vm emit))
+
+(defn -collection-view
   [{:keys [*gallery]} emit]
 
   (let [{:keys [num-columns photos]} @*gallery
@@ -69,6 +71,10 @@
 
      [:div {:id "gallery"}
       [categories-view num-columns photos {:no-title true}]]]))
+
+(defn collection-view
+  [vm emit]
+  (nav/nav-view -collection-view vm emit))
 
 (defn photo-view
   [{:keys [*gallery]} emit]

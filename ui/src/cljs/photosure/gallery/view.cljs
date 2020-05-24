@@ -2,7 +2,8 @@
   (:require [goog.string :as gstr]
             [clojure.string :as str]
             [photosure.app.event :as event]
-            [photosure.nav.view :as nav]))
+            [photosure.nav.view :as nav]
+            [photosure.app.route :as rte]))
 
 (defn category-view
   [{:keys [name img-source href]} {:keys [no-title]}]
@@ -48,7 +49,10 @@
         title "Collections"]
 
     [:div {:id "gallery-container"}
-     (nav/simple-nav title {:on-go-back #(emit event/on-go-back)})
+     (nav/simple-nav
+      title
+      {:on-go-back #(emit event/on-go-to (rte/path-for :bio))})
+
      [:div {:id "gallery"}
       [categories-view num-columns categories]]]))
 
@@ -59,7 +63,10 @@
         title (str/capitalize (name (:collection (ffirst photos))))]
 
     [:div {:id "gallery-container"}
-     (nav/simple-nav title {:on-go-back #(emit event/on-go-back)})
+     (nav/simple-nav
+      title
+      {:on-go-back #(emit event/on-go-to (rte/path-for :gallery))})
+
      [:div {:id "gallery"}
       [categories-view num-columns photos {:no-title true}]]]))
 
@@ -67,11 +74,14 @@
   [{:keys [*gallery]} emit]
 
   (let [{:keys [active-photo]} @*gallery
-        {:keys [img-source]} active-photo
+        {:keys [img-source collection-url]} active-photo
         title ""]
 
     [:div {:class "photo-container"}
-     (nav/simple-nav title {:on-go-back #(emit event/on-go-back)})
+     (nav/simple-nav
+      title
+      {:on-go-back #(emit event/on-go-to collection-url)})
+
      [:div {:class "photo-column"}
       (when img-source
         [:img {:class "photo"

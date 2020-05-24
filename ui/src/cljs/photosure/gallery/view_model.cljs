@@ -1,5 +1,6 @@
 (ns photosure.gallery.view-model
-  (:require [reagent.ratom :as rr]))
+  (:require [reagent.ratom :as rr]
+            [photosure.app.route :as rte]))
 
 ;; TODO: Remove this when we pull data from the server.
 ;; Data provided by the server should come with fully
@@ -59,8 +60,10 @@
 
                   (assoc :active-photo
                          (let [photo-id @*element-id
-                               photos (flatten (vals (:photos @*gallery)))
-                               photo (first (filter #(= (:id %) photo-id) photos))]
+                               photos (flatten (vals (:photos @*gallery)))]
 
-                           (-> photo
-                               (update :img-source make-url-absolute))))))))))
+                           (when-let [photo (first (filter #(= (:id %) photo-id) photos))]
+                             (let [collection-url (rte/path-for :collection {:id (:collection photo)})]
+                               (-> photo
+                                   (update :img-source make-url-absolute)
+                                   (assoc :collection-url collection-url))))))))))))

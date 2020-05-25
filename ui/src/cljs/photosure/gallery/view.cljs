@@ -107,8 +107,9 @@
         :href prev-photo-url}]
 
       (when img-source
-        [:img {:class "photo"
-               :src img-source}])
+        [:div {:class "photo-wrapper"}
+         [:img {:class "photo"
+                :src img-source}]])
 
       [:a.btn.next-btn
        {:class "icon-chevron-thin-right"

@@ -440,6 +440,7 @@ a.share-link,
     border-left: none;
     border-radius: 4px;
 }
+
 .photo-column .next-btn {
     font-size: 30px;
     color: #a4a4a4;
@@ -449,7 +450,21 @@ a.share-link,
     border-radius: 4px;
 }
 
+@media screen and (max-width: 800px) {
+    .photo-column .prev-btn {
+	display: none;
+    }
+    .photo-column .next-btn {
+	display: none;
+    }
+}
+
+.photo-wrapper {
+    margin: .5em;
+}
+
 .photo {
+    display: block;
     max-width: 100%;
     min-width: 300px;
     width: auto;

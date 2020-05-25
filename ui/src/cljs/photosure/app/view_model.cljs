@@ -12,7 +12,7 @@
   (cond
     (= view-id :bio) :bio
     (= view-id :gallery) :gallery
-    (= view-id :collection) (keyword (:id view-params))))
+    (= view-id :collection) (keyword (:collection-id view-params))))
 
 (defn app-view-model
   [vm *model]
@@ -29,7 +29,7 @@
                           (->> @*collections
                                (mapv #(vector (:id %)
                                               (hash-map :label (str/lower-case (:name %))
-                                                        :href (rte/path-for :collection {:id (:id %)}))))
+                                                        :href (rte/path-for :collection {:collection-id (:id %)}))))
                                (into {})))
                 (assoc-in [:nav :active]
                           (get-active-nav-item @*active-view @*active-view-params)))))))

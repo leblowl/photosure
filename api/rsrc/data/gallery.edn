@@ -60,37 +60,37 @@
    }
   {:collection :winter
    :id :winter2
-   :order 0
+   :order 1
    :name "Winter Tree"
    :img-source "/img/gallery/winter_2.jpg"
    }
   {:collection :winter
    :id :winter3
-   :order 0
+   :order 2
    :name "Winter Tree"
    :img-source "/img/gallery/winter_3.jpg"
    }
   {:collection :winter
    :id :winter4
-   :order 0
+   :order 3
    :name "Winter Tree"
    :img-source "/img/gallery/winter_4.jpg"
    }
   {:collection :winter
    :id :winter5
-   :order 0
+   :order 4
    :name "Winter Tree"
    :img-source "/img/gallery/winter_5.jpg"
    }
   {:collection :winter
    :id :winter6
-   :order 0
+   :order 5
    :name "Winter Tree"
    :img-source "/img/gallery/winter_6.jpg"
    }
   {:collection :winter
    :id :winter7
-   :order 0
+   :order 6
    :name "Winter Tree"
    :img-source "/img/gallery/winter_7.jpg"
    }
@@ -111,42 +111,42 @@
    }
   {:collection :deserts
    :id :deserts2
-   :order 0
+   :order 1
    :name "and I, just want to fall in love with you"
    :note "algodones dunes"
    :img-source "/img/gallery/desert_2.jpg"
    }
   {:collection :deserts
    :id :deserts3
-   :order 0
+   :order 2
    :name "Desert Sunset"
    :note "Somewhere, Utah"
    :img-source "/img/gallery/desert_3.jpg"
    }
   {:collection :deserts
    :id :deserts4
-   :order 0
+   :order 3
    :name "Desert Sunset"
    :note "Somewhere, Utah"
    :img-source "/img/gallery/desert_4.jpg"
    }
   {:collection :deserts
    :id :deserts5
-   :order 0
+   :order 4
    :name "Desert Sunset"
    :note "Somewhere, Utah"
    :img-source "/img/gallery/desert_5.jpg"
    }
   {:collection :deserts
    :id :deserts6
-   :order 0
+   :order 5
    :name "Desert Sunset"
    :note "Somewhere, Utah"
    :img-source "/img/gallery/desert_6.jpg"
    }
   {:collection :deserts
    :id :deserts7
-   :order 0
+   :order 6
    :name "Desert Sunset"
    :note "Somewhere, Utah"
    :img-source "/img/gallery/desert_7.jpg"

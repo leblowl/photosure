@@ -50,7 +50,7 @@
         title "Collections"]
 
     [:div {:id "gallery-container"}
-     (nav/simple-nav title)
+     (nav/simple-nav title emit {:menu true})
 
      [:div {:id "gallery"}
       [categories-view num-columns collections]]]))
@@ -68,7 +68,9 @@
     [:div {:id "gallery-container"}
      (nav/simple-nav
       title
-      {:on-go-back #(emit app-e/on-go-to (rte/path-for :gallery))})
+      emit
+      {:menu true
+       :on-go-back #(emit app-e/on-go-to (rte/path-for :gallery))})
 
      [:div {:id "gallery"}
       [categories-view num-columns collection-photos {:no-title true}]]]))
@@ -99,6 +101,7 @@
     [:div {:class "photo-container"}
      (nav/simple-nav
       title
+      emit
       {:on-go-back #(emit app-e/on-go-to collection-url)})
 
      [:div {:class "photo-column"}

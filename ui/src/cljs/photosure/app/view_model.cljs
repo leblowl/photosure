@@ -21,7 +21,6 @@
         *active-view-params (rr/reaction (:params (:route @*app)))
         *collections (rr/reaction (:collections (:gallery @*model)))]
 
-
     (assoc vm :*app
            (rr/reaction
             (-> @*app

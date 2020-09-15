@@ -1,4 +1,5 @@
-(ns photosure.nav.view)
+(ns photosure.nav.view
+  (:require [photosure.nav.event :as event]))
 
 (defn nav-item
   [{:keys [id label href active]}]
@@ -20,11 +21,13 @@
          (nav-items children active))])])
 
 (defn nav
-  [{:keys [all active]}]
-  [:div {:class "navigation-container"}
+  [{:keys [mobile-show all active]} emit]
+  [:div {:class (str "navigation-container" (when mobile-show " mobile-show"))}
    [:div {:class "banner-container"}
     [:p {:class "banner"}
-     "cpleblow photography"]]
+     "cpleblow photography"]
+    [:div.btn {:class "icon-menu"
+               :on-click #(emit event/on-menu)}]]
    [:div {:class "nav"}
     (nav-items all active)]])
 
@@ -32,16 +35,20 @@
   [view vm emit]
   (let [nav-model (:nav @(:*app vm))]
     [:div {:id "nav-page"}
-     [nav nav-model]
+     [nav nav-model emit]
      (view vm emit)]))
 
 (defn simple-nav
-  ([title]
-   (simple-nav title nil))
+  ([title emit]
+   (simple-nav title emit nil))
 
-  ([title {:keys [on-go-back]}]
+  ([title emit {:keys [menu on-go-back go-back-class]}]
    [:div {:class "sub-nav"}
     (when on-go-back
-      [:div.btn {:class "icon-arrow-with-circle-left"
+      [:div.btn {:class (or go-back-class "icon-arrow-with-circle-left")
                  :on-click on-go-back}])
-    [:div {:class "sub-nav-title"} title]]))
+    [:div {:class "sub-nav-title"} title]
+    (when menu
+      [:div.btn {:class "icon-menu"
+                 :on-click #(emit event/on-menu)}])
+    ]))

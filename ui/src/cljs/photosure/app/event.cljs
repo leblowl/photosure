@@ -26,7 +26,8 @@
       (swap! (:*model app)
              #(-> %
                   (assoc-in [:app :route] app-route)
-                  (assoc-in [:app :active-view] view-id))))))
+                  (assoc-in [:app :active-view] view-id)
+                  (assoc-in [:app :nav :mobile-show] false))))))
 
 (aide/defevent on-go-to
   [app href]

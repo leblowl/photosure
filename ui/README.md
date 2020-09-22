@@ -7,8 +7,9 @@ Reagent, a React JS wrapper.
 
 ### Compiling Sass
 First, install Sass: https://github.com/sass/dart-sass
+Then:
 ```
-sass --watch rsrc/sassc/app.scss rsrc/public/css/app.css
+lein sass-watch
 ```
 
 ### REPL

@@ -24,7 +24,8 @@
   :main photosure.app
   :min-lein-version "2.5.0"
   :plugins [[lein-cljsbuild "1.1.7"]
-            [lein-environ "1.1.0"]]
+            [lein-environ "1.1.0"]
+            [lein-shell "0.5.0"]]
 
   :source-paths ["src/clj"]
   :resource-paths ["rsrc" "target/cljsbuild"]
@@ -51,4 +52,6 @@
     :aot :all
     :omit-source true
     :uberjar-name "photosure-ui.jar"
-    :prep-tasks ["compile" ["cljsbuild" "once"]]}})
+    :prep-tasks ["compile" ["cljsbuild" "once"]]}}
+
+  :aliases {"sass-watch" ["shell" "sass" "--watch" "rsrc/sassc/app.scss" "rsrc/public/css/app.css"]})

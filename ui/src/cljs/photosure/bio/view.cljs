@@ -19,8 +19,12 @@
 
 (defn -bio-view
   [{:keys [*bio]} emit]
-  (let [{:keys [selfie-src about shares]} @*bio]
+  (let [{:keys [selfie-src about shares]} @*bio
+        title "About Me"]
+
     [:div {:id "bio-container"}
+     (nav/simple-nav title emit {:menu true})
+
      [:div {:id "bio"}
       [:div {:id "bio-liner"}
        [:img {:id "selfie" :src selfie-src}]

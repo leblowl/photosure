@@ -66,11 +66,7 @@
         title (some-> collection-photos ffirst :collection name str/capitalize)]
 
     [:div {:id "gallery-container"}
-     (nav/simple-nav
-      title
-      emit
-      {:menu true
-       :on-go-back #(emit app-e/on-go-to (rte/path-for :gallery))})
+     (nav/simple-nav title emit {:menu true})
 
      [:div {:id "gallery"}
       [categories-view num-columns collection-photos {:no-title true}]]]))

@@ -45,7 +45,9 @@
 
   :profiles
   {:dev
-   {:resource-paths ["env/dev/rsrc"]}
+   {:source-paths ["env/dev/src/clj"]
+    :resource-paths ["env/dev/rsrc"]
+    :repl-options {:init-ns photosure.repl}}
 
    :uberjar
    {:resource-paths ["env/pro/rsrc"]

@@ -12,3 +12,4 @@ pom.xml.asc
 /rsrc/public/css/app.css
 /rsrc/public/css/app.css.map
 /profiles.clj
+.env

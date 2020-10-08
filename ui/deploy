@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+set -e
+
+lein uberjar
+
+rsync -vv -e "ssh -i $SSH_KEY -p $PORT_NUMBER" ./env/pro/rsrc/systemd/photosure-ui.service $USERNAME@$HOST:/etc/systemd/system/photosure-ui.service
+
+rsync -vv -e "ssh -i $SSH_KEY -p $PORT_NUMBER" ./target/photosure-ui.jar $USERNAME@$HOST:/var/photosure/photosure-ui.jar
+
+ssh_command="ssh -v -i $SSH_KEY $USERNAME@$HOST -p $PORT_NUMBER"
+$ssh_command '
+  useradd photosure
+  chown photosure:photosure /var/photosure/photosure-ui.jar
+  systemctl daemon-reload
+  systemctl enable photosure-ui
+  systemctl restart photosure-ui
+  systemctl status photosure-ui
+'

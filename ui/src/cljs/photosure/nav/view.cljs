@@ -42,13 +42,9 @@
   ([title emit]
    (simple-nav title emit nil))
 
-  ([title emit {:keys [menu on-go-back go-back-class]}]
+  ([title emit {:keys [on-go-back go-back-class]}]
    [:div {:class "sub-nav"}
     (when on-go-back
       [:div.btn {:class (or go-back-class "icon-arrow-with-circle-left")
                  :on-click on-go-back}])
-    [:div {:class "sub-nav-title"} title]
-    (when menu
-      [:div.btn {:class "icon-menu"
-                 :on-click #(emit event/on-menu)}])
-    ]))
+    [:div {:class "sub-nav-title"} title]]))

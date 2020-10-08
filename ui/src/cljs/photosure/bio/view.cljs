@@ -23,7 +23,7 @@
         title "About Me"]
 
     [:div {:id "bio-container"}
-     (nav/simple-nav title emit {:menu true})
+     (nav/simple-nav title emit)
 
      [:div {:id "bio"}
       [:div {:id "bio-liner"}

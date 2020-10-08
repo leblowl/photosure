@@ -50,7 +50,7 @@
         title "Collections"]
 
     [:div {:id "gallery-container"}
-     (nav/simple-nav title emit {:menu true})
+     (nav/simple-nav title emit)
 
      [:div {:id "gallery"}
       [categories-view num-columns collections]]]))
@@ -66,7 +66,7 @@
         title (some-> collection-photos ffirst :collection name str/capitalize)]
 
     [:div {:id "gallery-container"}
-     (nav/simple-nav title emit {:menu true})
+     (nav/simple-nav title emit)
 
      [:div {:id "gallery"}
       [categories-view num-columns collection-photos {:no-title true}]]]))

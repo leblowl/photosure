@@ -5,12 +5,24 @@ $color-bg-silver1: #efeff0;
 $color-bg-silver2: #222222;
 $color-bg-silver3: #d4d4d4;
 $color-orange1: #d95e40;
+$width-mobile: 800px;
+$height-mobile: 800px;
 
 body, html {
   margin: 0;
   padding: 0;
+  width: 100%;
+  min-width: 100%;
+  max-width: 100%;
   height: 100%;
+  min-height: 100%;
+  max-height: 100%;
   font-family: 'Lato', sans-serif;
+}
+
+body {
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 a {
@@ -34,12 +46,12 @@ ul, ol {
 }
 
 #app-container {
-  height: 100%;
+  min-height: 100vh;
   width: 100%;
 }
 
 #app {
-  height: 100%;
+  min-height: 100vh;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -51,10 +63,19 @@ ul, ol {
 }
 
 #nav-page {
-  height: 100%;
+  min-height: 100vh;
   width: 100%;
   display: flex;
   flex-direction: row;
+  padding-left: 250px;
+  background-color: $color-bg-silver2;
+}
+
+@media screen and (max-width: $width-mobile), (max-height: $height-mobile) {
+    #nav-page {
+      padding: 0;
+      padding-top: 71px;
+    }
 }
 
 .loader {
@@ -135,13 +156,16 @@ ul, ol {
 }
 
 .navigation-container {
-  width: 300px;
-  height: 100%;
+  width: 250px;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   background: #1a1a1a;
   border-right: 1px solid #444;
+  position: fixed;
+  left: 0;
+  top: 0;
 }
 
 .banner-container {
@@ -184,54 +208,51 @@ ul, ol {
   color: $color-orange1;
 }
 
-.navigation-container.mobile-show {
-    display: flex !important;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    align-items: flex-end;
-    background: none;
-
+@media screen and (max-width: $width-mobile), (max-height: $height-mobile) {
+    .navigation-container {
+	width: 100vw;
+	height: auto;
+	background: rgba(#1a1a1a, .9);
+    }
     .banner-container {
+	padding: 1rem;
+	height: 71px;
+	width: 100vw;
 	display: flex;
-	padding-right: 0;
-	background: #1a1a1a;
-	width: 100%;
-
-	.banner {
-	    margin-right: 2rem;
-	}
-
-	.icon-menu {
-	    border: 1px solid white;
-	    border-radius: 3px;
-            color: #d4d4d4;
-            font-size: 30px;
-	    margin-right: 2rem;
-	    margin-left: auto;
-	    align-self: flex-start;
-	}
+	justify-content: space-between;
+	align-items: center;
+    }
+    .banner {
+	font-size: 140%;
+    }
+    .icon-menu {
+	color: #d4d4d4;
+	font-size: 30px;
+	margin-right: 1rem;
+	margin-left: 1rem;
+	align-self: flex-start;
     }
     .nav {
-	width: 100%;
-	height: 100%;
-	background: #1a1a1a;
+	display: none;
+	overflow-y: auto;
+    }
+}
+
+@media screen and (min-width: $width-mobile) and (min-height: $height-mobile) {
+    .navigation-container .icon-menu {
+	display: none;
+    }
+}
+
+.navigation-container.mobile-show {
+    .nav {
+	display: flex;
+	width: 100vw;
+	height: calc(100vh - 70px);
 	opacity: 95%;
     }
     .nav-items {
 	text-align: right;
-    }
-}
-
-@media screen and (max-width: 800px) {
-    .navigation-container {
-	display: none;
-    }
-}
-
-@media screen and (min-width: 800px) {
-    .navigation-container .icon-menu {
-	display: none;
     }
 }
 
@@ -240,22 +261,19 @@ ul, ol {
 #bio-container {
     display: flex;
     width: 100%;
-    height: 100%;
+    min-height: 100vh;
     flex-direction: column;
     align-items: center;
 
     background-color: $color-bg-silver2;
-    overflow-y: auto;
-    overflow-x: hidden;
 }
 
 #bio {
     width: 90%;
-    max-width: 999px;
+    max-width: 1200px;
     margin: 2rem;
 
     border-radius: 7px;
-    background-color: $color-bg-silver1;
     color: #111;
 }
 
@@ -264,9 +282,7 @@ ul, ol {
     flex-direction: row;
     align-items: flex-start;
 
-    border-left: .5em solid $color-orange1;
     border-radius: 5px;
-    background-color: rgba($color-bg-silver2, .9);
 }
 
 @media screen and (max-width: 900px) {
@@ -282,32 +298,44 @@ ul, ol {
     width: 100%;
     min-height: 300px;
     max-height: 700px;
+    max-width: 300px;
     flex-grow: 1;
     margin: 2em;
     border-radius: 2em;
     display: block;
 }
 
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 900px), (max-height: $height-mobile) {
     #selfie {
 	width: auto;
-	max-height: 350px;
+	min-height: 200px;
+	height: 50vw;
+	max-height: 300px;
+    }
+    #bio {
+	margin: 1rem;
     }
 }
 
 #info-container {
     display: flex;
     flex-direction: column;
-    color: $color-bg-silver1;
+    color: $color-bg-silver3;
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
 }
 
 .about-container {
     padding: 2em;
-    font-size: 18px;
+    font-size: 20px;
     border-top-right-radius: 5px;
 
+}
+
+@media screen and (max-width: $width-mobile) {
+    .about-container {
+	padding: 1em;
+    }
 }
 
 #about {
@@ -334,6 +362,12 @@ ul, ol {
 .share {
     width: 30%;
     margin-right: 1em;
+}
+
+@media screen and (max-width: 600px) {
+    .share {
+	width: 50%;
+    }
 }
 
 .share:last-child {
@@ -377,15 +411,9 @@ a.share-link,
     padding: 2rem;
 }
 
-.sub-nav .icon-menu {
-    border: 1px solid white;
-    border-radius: 3px;
-    margin-left: auto;
-}
-
-@media screen and (min-width: 800px) {
-    .sub-nav .icon-menu {
-	display: none;
+@media screen and (max-width: $width-mobile) {
+    .sub-nav {
+	padding: 1rem .5rem;
     }
 }
 
@@ -395,14 +423,13 @@ a.share-link,
     height: 30px;
 }
 
-
 #gallery-container {
     width: 100%;
-    height: 100%;
-    overflow-y: auto;
+    min-height: 100%;
 
     background-color: $color-bg-silver2;
-    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
 }
 
 .categories {
@@ -410,6 +437,12 @@ a.share-link,
     flex-direction: row;
     padding: 1em;
     justify-content: center;
+}
+
+@media screen and (max-width: $width-mobile) {
+    .categories {
+	padding: 0;
+    }
 }
 
 .category-list {
@@ -436,7 +469,6 @@ a.share-link,
 
 .category-preview {
     max-width: 400px;
-    min-width: 300px;
     width: 100%;
     height: auto;
 }
@@ -524,7 +556,7 @@ a.share-link,
     border-radius: 4px;
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: $width-mobile) {
     .photo-column .prev-btn {
 	display: none;
     }
@@ -543,8 +575,6 @@ a.share-link,
 .photo {
     display: block;
     max-width: 100%;
-    //min-width: 300px;
-    //min-height: 300px;
     width: auto;
     height: 100%;
     max-height: 85vh;

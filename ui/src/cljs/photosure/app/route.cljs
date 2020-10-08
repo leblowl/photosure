@@ -7,7 +7,7 @@
 
 (def app-routes
   [app-root
-   {""          :bio
+   {""          :gallery
     "bio"       :bio
     "gallery"   :gallery
     "gallery/"  {"collections" :gallery
@@ -22,7 +22,7 @@
 
 (def api-routes
   ["/"
-   {"api/cms/bio" :get-bio
+   {"api/cms/bio"     :get-bio
     "api/cms/gallery" :get-gallery}])
 
 (defn match-path

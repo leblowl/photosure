@@ -26,8 +26,8 @@
    [:div {:class "banner-container"}
     [:p {:class "banner"}
      "cpleblow photography"]
-    [:div.btn {:class "icon-menu"
-               :on-click #(emit event/on-menu)}]]
+    [:div.btn {:class (str "icon-menu" (when mobile-show " active"))
+               :on-click #(emit event/on-toggle-menu)}]]
    [:div {:class "nav"}
     (nav-items all active)]])
 

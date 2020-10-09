@@ -23,6 +23,11 @@ body, html {
 body {
     overflow-y: auto;
     overflow-x: hidden;
+    background-color: $color-bg-silver2;
+}
+
+body.modal-open {
+    overflow: hidden;
 }
 
 a {
@@ -201,7 +206,7 @@ ul, ol {
 }
 
 .nav a:hover {
-    color: #555;
+    color: #a4a4a4;
 }
 
 .nav .nav-item.active a {
@@ -233,9 +238,17 @@ ul, ol {
         margin-left: 1rem;
         align-self: flex-start;
     }
+    .icon-menu.active {
+        color: $color-orange1;
+    }
     .nav {
         display: none;
         overflow-y: auto;
+        overscroll-behavior: contain;
+        width: 100vw;
+        height: calc(100vh - 70px);
+        opacity: 95%;
+        margin: 0;
     }
 }
 
@@ -248,9 +261,6 @@ ul, ol {
 .navigation-container.mobile-show {
     .nav {
         display: flex;
-        width: 100vw;
-        height: calc(100vh - 70px);
-        opacity: 95%;
     }
     .nav-items {
         text-align: right;

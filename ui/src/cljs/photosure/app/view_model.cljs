@@ -24,12 +24,14 @@
     (assoc vm :*app
            (rr/reaction
             (-> @*app
+
                 (assoc-in [:nav :all :gallery :children]
                           (->> @*collections
                                (mapv #(vector (:id %)
                                               (hash-map :label (str/lower-case (:name %))
                                                         :href (rte/path-for :collection {:collection-id (:id %)}))))
                                (into {})))
+
                 (assoc-in [:nav :active]
                           (get-active-nav-item @*active-view @*active-view-params)))))))
 

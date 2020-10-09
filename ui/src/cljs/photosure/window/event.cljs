@@ -2,6 +2,16 @@
   (:require [aide.core :as aide]
             [photosure.window.model :as model]))
 
+(aide/defevent on-modal-open
+  [app]
+  (let [el  (.-body js/document)]
+    (.add (.-classList el) "modal-open")))
+
+(aide/defevent on-modal-closed
+  [app]
+  (let [el  (.-body js/document)]
+    (.remove (.-classList el) "modal-open")))
+
 (aide/defevent reset-window-scroll
   [app]
   (.scrollTo js/window 0 0))

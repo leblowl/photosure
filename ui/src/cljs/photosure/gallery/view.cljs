@@ -57,7 +57,10 @@
 
 (defn gallery-view
   [vm emit]
-  (nav/nav-view -gallery-view vm emit))
+  (emit app-e/on-page-load)
+  (fn gallery-view
+    [vm emit]
+    (nav/nav-view -gallery-view vm emit)))
 
 (defn -collection-view
   [{:keys [*gallery]} emit]
@@ -73,43 +76,49 @@
 
 (defn collection-view
   [vm emit]
-  (nav/nav-view -collection-view vm emit))
+  (emit app-e/on-page-load)
+  (fn collection-view
+    [vm emit]
+    (nav/nav-view -collection-view vm emit)))
 
 (defn photo-view
   [{:keys [*gallery]} emit]
 
-  (let [{:keys [active-photo
-                prev-photo-url
-                next-photo-url]} @*gallery
+  (fn photo-view
+    [{:keys [*gallery]} emit]
 
-        {:keys [name
-                note
-                img-source
-                collection-url
-                inquire-url]} active-photo
+    (let [{:keys [active-photo
+                  prev-photo-url
+                  next-photo-url]} @*gallery
 
-        title [:div.sub-nav-title-bar
-               [:span name [:span.sep "..."]]
-               [:span.note note]
-               [:a.btn.inquire {:href inquire-url}
-                "Inquire"]]]
+          {:keys [name
+                  note
+                  img-source
+                  collection-url
+                  inquire-url]} active-photo
 
-    [:div {:class "photo-container"}
-     (nav/simple-nav
-      title
-      emit
-      {:on-go-back #(emit app-e/on-go-to collection-url)})
+          title [:div.sub-nav-title-bar
+                 [:span name [:span.sep "..."]]
+                 [:span.note note]
+                 [:a.btn.inquire {:href inquire-url}
+                  "Inquire"]]]
 
-     [:div {:class "photo-column"}
-      [:a.btn.prev-btn
-       {:class "icon-chevron-thin-left"
-        :href prev-photo-url}]
+      [:div {:class "photo-container"}
+       (nav/simple-nav
+        title
+        emit
+        {:on-go-back #(emit app-e/on-go-to collection-url)})
 
-      (when img-source
-        [:div {:class "photo-wrapper"}
-         [:img {:class "photo"
-                :src img-source}]])
+       [:div {:class "photo-column"}
+        [:a.btn.prev-btn
+         {:class "icon-chevron-thin-left"
+          :href prev-photo-url}]
 
-      [:a.btn.next-btn
-       {:class "icon-chevron-thin-right"
-        :href next-photo-url}]]]))
+        (when img-source
+          [:div {:class "photo-wrapper"}
+           [:img {:class "photo"
+                  :src img-source}]])
+
+        [:a.btn.next-btn
+         {:class "icon-chevron-thin-right"
+          :href next-photo-url}]]])))

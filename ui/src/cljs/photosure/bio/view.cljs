@@ -1,5 +1,5 @@
 (ns photosure.bio.view
-  (:require [goog.string :as gstr]
+  (:require [photosure.app.event :as app-e]
             [photosure.nav.view :as nav]))
 
 (defn share-view
@@ -38,4 +38,7 @@
 
 (defn bio-view
   [vm emit]
-  (nav/nav-view -bio-view vm emit))
+  (emit app-e/on-page-load)
+  (fn bio-view
+    [vm emit]
+    (nav/nav-view -bio-view vm emit)))

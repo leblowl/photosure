@@ -29,6 +29,10 @@
                   (assoc-in [:app :active-view] view-id)
                   (assoc-in [:app :nav :mobile-show] false))))))
 
+(aide/defevent on-page-load
+  [app]
+  (aide/emit app window/reset-window-scroll))
+
 (aide/defevent on-go-to
   [app href]
   (acc/navigate! href))

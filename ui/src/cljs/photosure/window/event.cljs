@@ -2,6 +2,10 @@
   (:require [aide.core :as aide]
             [photosure.window.model :as model]))
 
+(aide/defevent reset-window-scroll
+  [app]
+  (.scrollTo js/window 0 0))
+
 (aide/defevent add-window-resize-listener
   [app]
   (aide/emit app on-window-resize)

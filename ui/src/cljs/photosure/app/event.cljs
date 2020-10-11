@@ -31,7 +31,8 @@
 
 (aide/defevent on-page-load
   [app]
-  (aide/emit app window/reset-window-scroll))
+  (aide/emit app window/reset-window-scroll)
+  (aide/emit app window/on-modal-closed))
 
 (aide/defevent on-go-to
   [app href]

@@ -585,8 +585,9 @@ a.share-link,
 
 .photo {
     display: block;
-    max-width: 100%;
+
     width: auto;
-    height: 100%;
+    max-width: 100%;
+    height: auto;
     max-height: 85vh;
 }

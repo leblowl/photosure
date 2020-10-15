@@ -14,6 +14,7 @@ lein sass-watch
 ```
 
 ### REPL
+
 In a separate terminal:
 ```
 lein repl

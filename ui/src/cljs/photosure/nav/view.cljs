@@ -45,6 +45,6 @@
   ([title emit {:keys [on-go-back go-back-class]}]
    [:div {:class "sub-nav"}
     (when on-go-back
-      [:div.btn {:class (or go-back-class "icon-arrow-with-circle-left")
+      [:div.btn {:class (str "back-btn " (or go-back-class "icon-arrow-with-circle-left"))
                  :on-click on-go-back}])
     [:div {:class "sub-nav-title"} title]]))

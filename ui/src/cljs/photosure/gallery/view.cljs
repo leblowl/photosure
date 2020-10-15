@@ -81,6 +81,31 @@
     [vm emit]
     (nav/nav-view -collection-view vm emit)))
 
+(defn mobile-photo-control-bar
+  [*gallery emit]
+
+  (let [{:keys [active-photo
+                prev-photo-url
+                next-photo-url]} @*gallery
+
+        {:keys [collection-url]} active-photo]
+
+    [:div {:class "mobile-photo-control"}
+     [:div.btn.back-btn
+      {:class "icon-x"
+       :on-click #(emit app-e/on-go-to collection-url)}]
+
+     [:a.btn.prev-btn
+      {:class "icon-chevron-thin-left"
+       :href prev-photo-url}]
+
+     [:a.btn.next-btn
+      {:class "icon-chevron-thin-right"
+       :href next-photo-url}]
+
+     [:div.btn.info-btn
+      {:class "icon-help-with-circle"}]]))
+
 (defn photo-view
   [{:keys [*gallery]} emit]
 
@@ -121,4 +146,6 @@
 
         [:a.btn.next-btn
          {:class "icon-chevron-thin-right"
-          :href next-photo-url}]]])))
+          :href next-photo-url}]
+
+        (mobile-photo-control-bar *gallery emit)]])))

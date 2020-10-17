@@ -38,10 +38,20 @@
      {:main "photosure.main"
       :asset-path "/js/out"
       :output-to "target/cljsbuild/public/js/app.js"
-      :output-dir "target/cljsbuild/public/js/out"
+      :output-dir "target/cljsbuild/public/js/out/dev"
       :source-map    true
       :optimizations :none
-      :pretty-print  true}}}}
+      :pretty-print  true}}
+
+    :pro
+    {:source-paths ["src/cljs"]
+     :compiler
+     {:main "photosure.main"
+      :asset-path "/js/out"
+      :output-to "target/cljsbuild/public/js/app.js"
+      :output-dir "target/cljsbuild/public/js/out/pro"
+      :optimizations :advanced
+      :pretty-print false}}}}
 
   :profiles
   {:dev
@@ -54,6 +64,6 @@
     :aot :all
     :omit-source true
     :uberjar-name "photosure-ui.jar"
-    :prep-tasks ["compile" ["cljsbuild" "once"]]}}
+    :prep-tasks ["compile" ["cljsbuild" "once" "pro"]]}}
 
   :aliases {"sass-watch" ["shell" "sass" "--watch" "rsrc/sassc/app.scss" "rsrc/public/css/app.css"]})

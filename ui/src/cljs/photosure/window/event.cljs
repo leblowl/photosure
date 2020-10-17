@@ -16,14 +16,14 @@
   [app]
   (.scrollTo js/window 0 0))
 
-(aide/defevent add-window-resize-listener
-  [app]
-  (aide/emit app on-window-resize)
-  (.addEventListener js/window "resize" #(aide/emit app on-window-resize)))
-
 (aide/defevent on-window-resize
   [app]
   (swap! (:*model app)
          #(-> %
               (assoc-in [:app :window :width] (.-innerWidth js/window))
               (assoc-in [:app :window :height] (.-innerHeight js/window)))))
+
+(aide/defevent add-window-resize-listener
+  [app]
+  (aide/emit app on-window-resize)
+  (.addEventListener js/window "resize" #(aide/emit app on-window-resize)))

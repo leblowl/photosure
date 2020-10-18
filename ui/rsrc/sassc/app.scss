@@ -51,13 +51,13 @@ ul, ol {
 }
 
 #app-container {
-    height: 100%;
     width: 100%;
+    min-height: 100%;
 }
 
 #app {
-    height: 100%;
     width: 100%;
+    min-height: 100%;
     display: flex;
     flex-direction: column;
     position: relative;
@@ -68,12 +68,13 @@ ul, ol {
 }
 
 #nav-page {
-    min-height: 100vh;
     width: 100%;
+    min-height: 100%;
     display: flex;
     flex-direction: row;
     padding-left: 250px;
     background-color: $color-bg-silver2;
+    align-items: flex-start;
 }
 
 @media screen and (max-width: $width-mobile), (max-height: $height-mobile) {

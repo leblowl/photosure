@@ -10,3 +10,8 @@
   (-> gallery
       (update :photos #(group-by :collection %))
       (->> (set-gallery! (:*model app)))))
+
+(aide/defevent on-photo-touch-start
+  [app]
+  (swap! (:*model app)
+         #(assoc-in % [:gallery :active-photo :last-touch-time] (str (.now js/Date)))))

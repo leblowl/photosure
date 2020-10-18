@@ -7,28 +7,27 @@
             [photosure.app.route :as rte]))
 
 (defn category-view
-  [{:keys [name img-source href]} {:keys [no-title]}]
+  [{:keys [id img-source href] :as category} {:keys [no-title]}]
 
-  ^{:key (str "category-" name)}
+  ^{:key (str "category-" (name id))}
   [:li {:class "category"}
    (when img-source
      [:a {:class "category-link"
-          :name name
+          :name (:name category)
           :href href}
 
       [:img {:class "category-preview"
              :src img-source}]
       (when (not no-title)
         [:div {:class "category-name"}
-         name])])])
+         (:name category)])])])
 
 (defn category-list-view
   ([categories]
    (category-list-view categories nil))
 
   ([categories opts]
-   ;; TODO: Find a smaller key
-   ^{:key categories}
+   ^{:key (first categories)}
    [:ul {:class (str "category-list" (when (:wide opts) " wide"))}
     (for [category categories]
       (category-view category opts))]))
@@ -88,9 +87,10 @@
                 prev-photo-url
                 next-photo-url]} @*gallery
 
-        {:keys [collection-url]} active-photo]
+        {:keys [collection-url
+                *show-control]} active-photo]
 
-    [:div {:class "mobile-photo-control"}
+    [:div {:class (str "mobile-photo-control" (when @*show-control " show"))}
      [:div.btn.back-btn
       {:class "icon-x"
        :on-click #(emit app-e/on-go-to collection-url)}]
@@ -101,13 +101,23 @@
 
      [:a.btn.next-btn
       {:class "icon-chevron-thin-right"
-       :href next-photo-url}]
+       :href next-photo-url}]]))
 
-     [:div.btn.info-btn
-      {:class "icon-help-with-circle"}]]))
+(defn mobile-photo-details
+  [{:keys [name
+           note
+           inquire-url]}]
+
+  [:div.mobile-photo-details
+   [:p.mobile-photo-name name [:span.sep "..."]]
+   [:p.mobile-photo-note note]
+   [:a.btn.inquire {:href inquire-url}
+    "Inquire"]])
 
 (defn photo-view
-  [{:keys [*gallery]} emit]
+  [{:keys [app *gallery *window]} emit]
+
+  (emit app-e/on-page-load)
 
   (fn photo-view
     [{:keys [*gallery]} emit]
@@ -135,12 +145,15 @@
         {:on-go-back #(emit app-e/on-go-to collection-url)})
 
        [:div {:class "photo-column"}
+        [mobile-photo-control-bar *gallery emit]
+
         [:a.btn.prev-btn
          {:class "icon-chevron-thin-left"
           :href prev-photo-url}]
 
         (when img-source
-          [:div {:class "photo-wrapper"}
+          [:div {:class "photo-wrapper"
+                 :on-touch-start #(emit event/on-photo-touch-start)}
            [:img {:class "photo"
                   :src img-source}]])
 
@@ -148,4 +161,4 @@
          {:class "icon-chevron-thin-right"
           :href next-photo-url}]
 
-        (mobile-photo-control-bar *gallery emit)]])))
+        (mobile-photo-details active-photo)]])))

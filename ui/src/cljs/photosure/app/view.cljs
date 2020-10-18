@@ -10,8 +10,7 @@
 
 (defn app-view
   [view-model emit]
-  (let [app @(:*app view-model)
-        active-view (:active-view app)]
+  (let [active-view @(get-in view-model [:app :*active-view])]
 
     [:div {:id "app"}
      (when-let [view (get app-views active-view)]

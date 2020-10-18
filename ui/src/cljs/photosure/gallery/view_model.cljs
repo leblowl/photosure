@@ -60,21 +60,43 @@
   [vm *model]
   (let [*api-host (rr/reaction (get-in @*model [:app :config :api :host]))
         *route (rr/reaction (get-in @*model [:app :route]))
-        *active-view (rr/reaction
-                      (get @(:*app vm) :active-view))
+        *active-view (get-in vm [:app :*active-view])
         *view-params (rr/reaction
                       (when (#{:collection :photo} @*active-view)
                         (:params @*route)))
+
+        *window (rr/reaction (get-in @*model [:app :window]))
+
         *gallery (rr/reaction (get @*model :gallery))
-        *window (rr/reaction (get-in @*model [:app :window]))]
+        *photos (rr/reaction (:photos @*gallery))
+        *active-photo (rr/reaction
+                       (let [{:keys [collection-id photo-id]} @*view-params]
+                         (get-active-photo @*photos
+                                           (keyword collection-id)
+                                           (keyword photo-id))))
+
+        *last-touch-time (rr/reaction
+                          (get-in @*gallery [:active-photo :last-touch-time]))
+
+
+        *photo-show-control (rr/make-reaction
+                             (let [*state (atom true)
+                                   *prev-active-photo (atom nil)]
+                               (fn []
+                                 (let [_ @*last-touch-time]
+                                   (when (= @*prev-active-photo nil)
+                                     (reset! *state true))
+                                   (when (= @*prev-active-photo @*active-photo)
+                                     (swap! *state not))
+                                   (reset! *prev-active-photo @*active-photo)
+                                   @*state))))]
 
     (assoc vm :*gallery
            (rr/reaction
             (let [num-columns (get-num-columns @*window)
                   photos (:photos @*gallery)
-                  {:keys [collection-id photo-id]} @*view-params
-                  collection-id (keyword collection-id)
-                  photo-id (keyword photo-id)]
+                  {:keys [collection-id]} @*view-params
+                  collection-id (keyword collection-id)]
 
               (-> @*gallery
                   (assoc :num-columns num-columns)
@@ -88,9 +110,10 @@
                                         num-columns))
 
                   (assoc :active-photo
-                         (get-active-photo photos
-                                           collection-id
-                                           photo-id))
+                         @*active-photo)
+
+                  (assoc-in [:active-photo :*show-control]
+                            *photo-show-control)
 
                   ((fn [gallery]
                      (let [active-photo (:active-photo gallery)

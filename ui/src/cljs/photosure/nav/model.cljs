@@ -2,8 +2,7 @@
   (:require [photosure.app.route :as rte]))
 
 (def nav-model
-  {:mobile-show false
-   :all {:bio     {:label  "about"
+  {:all {:bio     {:label  "about"
                    :href (rte/path-for :bio)}
 
          :gallery {:label "collections"
@@ -16,4 +15,5 @@
          :blog    {:label "blog"
                    :href rte/blog-route}}
 
-   :active :bio})
+   :active :bio
+   :mobile-show false})
